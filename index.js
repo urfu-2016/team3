@@ -8,7 +8,6 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const hbs = require('hbs');
 const hbsutils = require('hbs-utils')(hbs);
-
 const app = express();
 const port = process.env.PORT || 8080;
 
@@ -23,7 +22,6 @@ hbsutils.registerPartials(partialsDir);
 if (process.env.NODE_ENV === 'dev') {
     hbsutils.registerWatchedPartials(partialsDir);
 }
-
 app.use(logger('dev'));
 app.use(cookieParser());
 app.use(express.static(publicDir));
