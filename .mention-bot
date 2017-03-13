@@ -2,8 +2,7 @@
     "maxReviewers": 2,
     "numFilesToCheck": 10,
     "message": "Спасибо большое, @pullRequester! @reviewers, пожалуйста, сделайте ревью кода.",
-    "alwaysNotifyForPaths": [],
-    "fallbackNotifyForPaths": [
+    "alwaysNotifyForPaths": [
         {
             "name": "Gebon",
             "files": ["**/*", "*.*"],
@@ -30,6 +29,7 @@
             "skipTeamPrs": false
         }
     ],
+    "fallbackNotifyForPaths": [],
     "findPotentialReviewers": true,
     "fileBlacklist": ["*.md"],
     "userBlacklist": [],

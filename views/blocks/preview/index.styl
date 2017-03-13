@@ -1,0 +1,13 @@
+@import "./background/index.styl"
+
+.preview
+  background: #ff00ff
+  display block
+  min-height 200px
+
+  &__description
+    opacity 0
+    transition opacity .3s ease-in-out
+
+  &:hover &__description
+    opacity: 1
