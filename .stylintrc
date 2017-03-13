@@ -2,7 +2,7 @@
     "blocks": false,
     "brackets": "never",
     "colons": "always",
-    "colors": "always",
+    "colors": false,
     "commaSpace": "always",
     "commentSpace": "always",
     "cssLiteral": "never",
@@ -35,7 +35,7 @@
         "truncate": true
     },
     "semicolons": "never",
-    "sortOrder": "alphabetical",
+    "sortOrder": "content",
     "stackedProperties": "never",
     "trailingWhitespace": "never",
     "universal": false,

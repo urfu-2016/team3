@@ -7,11 +7,13 @@
   "main": "index.js",
   "scripts": {
     "start": "cross-env NODE_ENV=production node .",
-    "start:dev": "npm-run-all --parallel start:dev:*",
-    "start:dev:watch": "webpack --progress --color --watch",
-    "start:dev:server": "cross-env NODE_ENV=dev nodemon .",
+    "dev": "npm-run-all --parallel dev:*",
+    "dev:watch": "webpack --progress --color --watch",
+    "dev:server": "cross-env NODE_ENV=dev nodemon .",
     "build": "webpack",
-    "lint:stylus": "stylint ./views"
+    "lint:stylus": "stylint ./views",
+    "lint:js": "eslint . --fix",
+    "lint": "npm-run-all lint:*"
   },
   "dependencies": {
     "body-parser": "^1.17.1",
@@ -29,6 +31,7 @@
     "cross-env": "^3.2.3",
     "css-loader": "^0.27.1",
     "eslint": "^3.17.1",
+    "eslint-config-xo": "^0.17.0",
     "extract-text-webpack-plugin": "^2.1.0",
     "nodemon": "^1.11.0",
     "npm-run-all": "^4.0.2",
