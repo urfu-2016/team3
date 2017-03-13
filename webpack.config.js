@@ -1,7 +1,6 @@
 'use strict';
 
 const path = require('path');
-const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const postcssLoader = {
@@ -48,7 +47,6 @@ module.exports = {
     plugins: [
         new ExtractTextPlugin({
             filename: '[name].bundle.css'
-        }),
-        // new webpack.optimize.UglifyJsPlugin()
+        })
     ]
 };

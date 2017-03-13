@@ -1,0 +1,13 @@
+{
+  "parserOptions": {
+    "ecmaVersion": 6
+  },
+  "env": {
+    "node": true,
+    "es6": true
+  },
+  "extends": "xo",
+  "rules": {
+    "indent": [2, 4, {"SwitchCase": 1}]
+  }
+}
