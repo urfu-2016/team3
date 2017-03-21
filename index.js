@@ -19,15 +19,25 @@ const publicDir = path.join(__dirname, 'public');
 app.set('view engine', 'hbs');
 app.set('views', pagesDir);
 hbsutils.registerPartials(partialsDir);
-if (process.env.NODE_ENV === 'dev') {
-    hbsutils.registerWatchedPartials(partialsDir);
+
+let loggerType;
+
+switch (process.env.NODE_ENV) {
+    case 'dev':
+        app.use(express.static(publicDir));
+        loggerType = 'dev';
+        break;
+    case 'production':
+        loggerType = 'short';
+        break;
+    default:
+        loggerType = 'tiny';
 }
-app.use(logger('dev'));
+
+app.use(logger(loggerType));
 app.use(cookieParser());
-app.use(express.static(publicDir));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-
 app.use((err, req, res, next) => {
     /* eslint no-unused-vars: 0 */
     /* eslint max-params: [2, 4] */
@@ -36,6 +46,7 @@ app.use((err, req, res, next) => {
     next();
 });
 
+app.use(require('./middlewares/common-data'));
 require('./routes')(app);
 
 app.use((err, req, res, next) => {
