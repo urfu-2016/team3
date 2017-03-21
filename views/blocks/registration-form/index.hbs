@@ -1,0 +1,23 @@
+<form class="registration-form" action="{{ __url }}" method="post">
+    <div class="registration-form__heading">
+        <h1 class="registration-form__main-header">Sign up</h1>
+        <h2 class="registration-form__subheader">Hello and Welcome! Tell us a bit about you</h2>
+    </div>
+    <div class="registration-form__input-group registration-form__name">
+        <label class="registration-form__icon registration-form__icon-name" for="name"></label>
+        <input class="registration-form__input registration-form__name-input" type="text" name="name" id="name"
+            placeholder="Name">
+    </div>
+
+    <div class="registration-form__input-group registration-form__email">
+        <label class="registration-form__icon registration-form__icon-email" for="email"></label>
+        <input class="registration-form__input registration-form__email-input" type="email" name="email" id="email">
+    </div>
+
+    <div class="registration-form__input-group registration-form__password">
+        <label class="registration-form__icon registration-form__icon-password" for="password"></label>
+        <input class="registration-form__input registration-form__password-input" type="password" name="password" id="password">
+    </div>
+    <input class="registration-form__submit" type="submit" value="Register">
+</form>
+
