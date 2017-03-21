@@ -20,7 +20,8 @@ module.exports = {
 
     entry: {
         main: './main/pack.js',
-        registration: './registration/pack.js'
+        registration: './registration/pack.js',
+        login: './login/pack.js'
     },
 
     output: {
