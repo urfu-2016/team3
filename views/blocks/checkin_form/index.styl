@@ -1,0 +1,38 @@
+.checkin-form
+  width 100%
+  height 100%
+
+  &__div
+    height 100%
+    display flex
+    box-sizing border-box
+
+  &__div-image
+    display flex
+    width 100%
+    object-fit cover
+    box-sizing border-box
+
+  &__coordinates
+    position relative
+    bottom 170px
+    height 140px
+    background #000
+    width 70%
+    margin auto
+    padding-top 10px
+  &__coordinates-input
+    margin auto
+    padding 5px
+    width 90%
+    input
+      width calc(100% - 4px)
+      &::-webkit-input-placeholder
+        color #333
+      &:-moz-placeholder
+        color #333
+
+  &__coordinates-button
+    margin-top 20px
+    margin-left 5%
+    width 90%

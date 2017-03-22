@@ -19,7 +19,8 @@ module.exports = {
     context: path.join(__dirname, 'views', 'pages'),
 
     entry: {
-        main: './main/pack.js'
+        main: './main/pack.js',
+        checkin: './checkin/pack.js'
     },
 
     output: {
