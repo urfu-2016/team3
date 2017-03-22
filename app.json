@@ -4,7 +4,8 @@
     "postdeploy": "npm run build"
   },
   "env": {
-    "NODE_ENV": "dev"
+    "NODE_ENV": "dev",
+    "NPM_CONFIG_PRODUCTION": "false"
   },
   "formation": {
   },
