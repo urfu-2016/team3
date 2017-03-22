@@ -19,7 +19,9 @@ module.exports = {
     context: path.join(__dirname, 'views', 'pages'),
 
     entry: {
-        main: './main/pack.js'
+        main: './main/pack.js',
+        registration: './registration/pack.js',
+        login: './login/pack.js'
     },
 
     output: {
@@ -33,6 +35,10 @@ module.exports = {
                 test: /\.jsx?$/,
                 use: ['babel-loader'],
                 exclude: /node_modules/
+            },
+            {
+                test: /\.(png|jpg)$/,
+                loader: 'file-loader?name=[name].[ext]'
             },
             {
                 test: /\.styl$/,

@@ -1,0 +1,79 @@
+$iconDimension = 40px
+
+.login-form
+  display: flex
+  flex-flow: column
+  border: 2px solid $projectColor
+  border-radius: 10px
+  justify-content: space-around
+  height: 100%
+  overflow: hidden
+
+  &__heading,
+  &__submit
+    user-select: none
+
+  &__main-header,
+  &__subheader
+    margin: 0
+    padding: 10px 30px
+    cursor: default
+
+  &__main-header
+    background: $projectColor
+    color: #fff
+
+  &__subheader
+    font-size: .9em
+    color: #ccc
+
+  &__input-group
+    margin: 5px 30px
+    height: $iconDimension
+
+  &__icon
+    width: 20px
+    height: $iconDimension
+    float: left
+    position: relative
+    margin: 0 10px
+    cursor: pointer
+
+    &-name
+      background: url(icons.png) no-repeat -4px
+
+    &-email
+      background: url(icons.png) no-repeat -26px
+
+    &-password
+      background: url(icons.png) no-repeat -49px
+
+  &__input
+    margin-left: -($iconDimension)
+    box-sizing: border-box
+    width: 100%
+    border: #ccc solid 1px
+    height: 100%
+    padding-left: $iconDimension
+
+    &:-webkit-autofill {
+      box-shadow: 0 0 0 1000px white inset
+    }
+
+    &:focus
+      outline: none
+
+  &__submit
+    border: none
+    background: $projectColor
+    align-self: center
+    margin: 10px 0
+    color: #fff
+    width: 120px
+    height: 50px
+    border-radius: 5px
+    cursor: pointer
+    transition: background .3s ease-in-out
+
+    &:hover
+      background: lighten($projectColor, 30%)
