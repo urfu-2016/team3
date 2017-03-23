@@ -1,0 +1,18 @@
+$item-color = #586069
+$select-item-color = #fff
+
+.sort-panel
+  display flex
+  align-items flex-end
+  font-size .8rem
+
+  &__label
+    font-weight 600
+
+  &__item
+    margin-left 10px
+    cursor pointer
+    color $item-color
+
+    &[data-checked='true']
+      color $select-item-color

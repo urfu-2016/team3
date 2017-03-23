@@ -1,4 +1,11 @@
-<header>
-    {{> header/logo/index }}
-    {{> header/user/index }}
+<header class="header">
+    <div class="header__wrapper">
+        <a href="/" class="header__logo">{{ title }}</a>
+        <span class="material-icons header__details" data-details="close">expand_more</span>
+        <div class="header__user">
+            <a class="header__user-link" href="#">Войти</a>
+            <span class="header__user-separator">или</span>
+            <a class="header__user-link" href="#">Зарегистрироваться</a>
+        </div>
+    </div>
 </header>

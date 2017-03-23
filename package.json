@@ -1,27 +1,27 @@
 {
-  "name": "photo-quest",
-  "description": "Photo Quest",
+  "name": "photo-quests",
+  "description": "Сервис фотоквеста от команды Лавразия",
   "version": "1.0.0",
   "license": "MIT",
-  "author": "team3",
+  "author": "Лавразия",
   "main": "index.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=production node .",
+    "start": "node .",
     "build": "webpack",
 
     "dev": "npm-run-all --parallel dev:*",
     "dev:watch": "webpack --progress --color --watch",
-    "dev:server": "cross-env NODE_ENV=dev nodemon .",
+    "dev:server": "nodemon .",
 
     "lint": "npm-run-all lint:*",
     "lint:stylus": "stylint ./views",
-    "lint:js": "eslint . --fix",
+    "lint:js": "eslint .",
 
     "clean": "npm-run-all clean:*",
     "clean:public": "rimraf public",
     "clean:modules": "rimraf node_modules",
 
-    "deploy:surge": "npm run build && surge --project ./public --domain team3.surge.sh"
+    "deploy:surge": "surge --project ./public --domain team3.surge.sh"
   },
   "dependencies": {
     "body-parser": "^1.17.1",
@@ -30,7 +30,6 @@
     "hbs": "^4.0.1",
     "hbs-utils": "0.0.4",
     "mongoose": "^4.8.6",
-    "cross-env": "^3.2.3",
     "morgan": "^1.8.1"
   },
   "devDependencies": {

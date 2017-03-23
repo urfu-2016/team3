@@ -1,3 +1,7 @@
 'use strict';
 
-module.exports = (req, res) => res.render('main', {title: 'Team3'});
+const quests = require('../models/quest');
+
+module.exports = (req, res) => res.render('main', {
+    quests: quests
+});
