@@ -1,0 +1,36 @@
+.floating-menu-button
+  right 0
+  bottom 0
+  position fixed
+  display flex
+  justify-content center
+  align-items center
+  flex-direction column
+
+  &,
+  &-animation,
+  &__item
+    transition transform .3s
+
+  &-open
+    transform rotate(180deg)
+
+  &[data-visible='false']
+    transform translateY(100%)
+
+  &[data-visible='true']
+    transform translateY(0)
+
+  @media (min-width: 560px)
+    right 40px
+
+  &__item
+    text-decoration none
+
+    &[data-menu='close']
+      transform scale(0)
+      position absolute
+      bottom 16px
+      z-index -1
+
+@import '../floatingButton'

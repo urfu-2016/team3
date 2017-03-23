@@ -1,13 +1,15 @@
 'use strict';
 
 const path = require('path');
-
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const hbs = require('hbs');
-const hbsutils = require('hbs-utils')(hbs);
+const hbsUtils = require('hbs-utils')(hbs);
+const hbsHelpers = require('./utils/hbs-helpers');
+const error = require('./middlewares/error');
+
 const app = express();
 const port = process.env.PORT || 8080;
 
@@ -18,48 +20,27 @@ const publicDir = path.join(__dirname, 'public');
 
 app.set('view engine', 'hbs');
 app.set('views', pagesDir);
-hbsutils.registerPartials(partialsDir);
+hbsUtils.registerPartials(partialsDir);
+hbsHelpers(hbs);
 
-let loggerType;
-
-switch (process.env.NODE_ENV) {
-    case 'dev':
-        app.use(express.static(publicDir));
-        loggerType = 'dev';
-        break;
-    case 'production':
-        loggerType = 'short';
-        break;
-    default:
-        loggerType = 'tiny';
+if (process.env.NODE_ENV !== 'production') {
+    app.use(express.static(publicDir));
 }
 
-app.use(logger(loggerType));
+app.use(logger('dev'));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-app.use((err, req, res, next) => {
-    /* eslint no-unused-vars: 0 */
-    /* eslint max-params: [2, 4] */
-
-    console.error(err.stack);
-    next();
-});
-
+app.use(error.middleware(console.error));
 app.use(require('./middlewares/common-data'));
+
 require('./routes')(app);
 
-app.use((err, req, res, next) => {
-    /* eslint no-unused-vars: 0 */
-    /* eslint max-params: [2, 4] */
-
-    console.error(err.stack);
-    res.sendStatus(500);
-});
+app.use(error.server(console.error));
 
 app.listen(port, () => {
     console.info(`Server started on ${port}`);
-    if (process.env.NODE_ENV === 'dev') {
+    if (process.env.NODE_ENV !== 'production') {
         console.info(`Open http://localhost:${port}/ to view service`);
     }
 });

@@ -1,14 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <title>{{title}}</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="{{ staticBasePath }}/main.bundle.css">
 </head>
 <body>
     {{> header/index }}
-    {{> preview/index }}
+    <main class="main">
+        <section class="app-bar">
+            <div class="app-bar__left">
+                {{#array '["по новизне", "по рейтингу"]'}}
+                    {{> sortPanel/index __fields=this }}
+                {{/array}}
+            </div>
+            <div class="app-bar__right">
+                {{> searchForm/index }}
+            </div>
+        </section>
+        <section class="quests-list">
+            {{#each quests}}
+                <div data-date="{{this.date}}" data-like={{this.like}}>
+                    {{> questPreview/index quest=this }}
+                </div>
+            {{/each}}
+        </section>
+        {{#array '["add", "help"]'}}
+            {{> floatingMenuButton/index __items=this }}
+        {{/array}}
+    </main>
     <script src="{{ staticBasePath }}/main.bundle.js"></script>
 </body>
 </html>

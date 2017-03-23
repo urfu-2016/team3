@@ -1,6 +1,4 @@
-# Фотоквест
-
-[![Build Status](https://travis-ci.org/urfu-2016/team3.svg?branch=master)](https://travis-ci.org/urfu-2016/team3)
+# Фотоквест [![Build Status](https://travis-ci.org/urfu-2016/team3.svg?branch=master)](https://travis-ci.org/urfu-2016/team3)
 
 ### Команды
 
@@ -10,6 +8,8 @@
 | npm start | Запуск сервиса локально |
 | npm run lint | Запуск линтеров |
 | npm run dev | Запуск сервера в режиме разработки |
+| npm run deploy:surge | Деплой статики в *Surge* |
+| npm run clean | Удаление зависимостей |
 
 ### Папки
 

@@ -1,0 +1,10 @@
+<section class="floating-menu-button" data-visible="true">
+    {{#each __items}}
+        <a class="floating-menu-button__item" data-menu="close" href="#">
+            {{> floatingButton/indexMini __icon=this}}
+        </a>
+    {{/each}}
+    <div class="floating-menu-button__btn" data-menu="close">
+        {{> floatingButton/index __icon='menu'}}
+    </div>
+</section>
