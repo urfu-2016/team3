@@ -1,6 +1,7 @@
 'use strict';
 
 const path = require('path');
+const connectToDb = require('./models/connection');
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
@@ -27,6 +28,7 @@ if (process.env.NODE_ENV !== 'production') {
     app.use(express.static(publicDir));
 }
 
+connectToDb();
 app.use(logger('dev'));
 app.use(cookieParser());
 app.use(bodyParser.json());
