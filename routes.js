@@ -6,7 +6,7 @@ const photos = require('./controllers/photos');
 
 module.exports = app => {
     app.get('/', main.main);
-    app.get('/about', main.about)
+    app.get('/about', main.about);
     app
         .route('/quests')
         .get(quests.list)

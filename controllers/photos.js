@@ -16,7 +16,7 @@ exports.show = (res, req) => {
 function isCheckinSuccessful(photo, coordinates) {
     return Math.sqrt(
             Math.pow(photo.longitude - coordinates.longitude, 2) + Math.pow(photo.latitude - coordinates.latitude, 2)
-        ) < .005
+        ) < 0.005;
 }
 
 exports.checkin = (res, req) => {
@@ -25,8 +25,9 @@ exports.checkin = (res, req) => {
         return res.sendStatus(404);
     }
 
-    if (isCheckinSuccessful(photo, { longitude: req.body.longitude, latitude: req.body.longitude })) {
+    if (isCheckinSuccessful(photo, {longitude: req.body.longitude, latitude: req.body.longitude})) {
+        // eslint-disable-next-line
         // TODO make some useful stuff
     }
-    res.redirect(`/photos/${photo.id}`)
+    res.redirect(`/photos/${photo.id}`);
 };
