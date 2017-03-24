@@ -1,7 +1,9 @@
 'use strict';
 
-const quests = require('../models/data-quest');
+const quests = require('./quests');
 
-module.exports = (req, res) => res.render('main', {
-    quests: quests
-});
+exports.main = quests.list;
+
+exports.about = (res, req) => {
+    res.render('about');
+};
