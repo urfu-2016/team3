@@ -22,7 +22,7 @@
         </section>
         <section class="quests-list">
             {{#each quests}}
-                <div data-date="{{this.creationDate}}" data-like={{this.likesCount}}>
+                <div class="quests-list__item" data-date="{{this.creationDate}}" data-like={{this.likesCount}}>
                     {{> questPreview/index quest=this }}
                 </div>
             {{/each}}
