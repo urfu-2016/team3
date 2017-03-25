@@ -7,7 +7,7 @@ exports.show = (res, req) => {
     const photo = Photo.findById(id);
 
     if (photo) {
-        res.render('photo', Object.assign({photo: photo}, res.locals));
+        res.render('photo', {photo: photo});
     } else {
         res.sendStatus(404);
     }
