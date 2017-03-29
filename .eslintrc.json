@@ -3,12 +3,10 @@
     "ecmaVersion": 6
   },
   "env": {
-    "node": true,
-    "mocha": true,
     "es6": true,
-    "browser": true
+    "node": true
   },
-  "extends": "xo",
+  "extends": "xo/esnext",
   "rules": {
     "indent": [2, 4, {"SwitchCase": 1}]
   }

@@ -3,7 +3,7 @@
 const Quest = require('../models/quest');
 
 exports.list = (req, res) => {
-    const quests = Quest.findAll();
+    const quests = Quest.find({});
 
     res.render('main', {quests: quests});
 };

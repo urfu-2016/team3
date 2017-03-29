@@ -1,10 +1,10 @@
 'use strict';
 
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 const ObjectId = mongoose.Schema.Types.ObjectId;
 
-var photoSchema = new Schema({
+const photoSchema = new Schema({
     url: String,
     location: {longitude: {type: Number, index: true}, latitude: {type: Number, index: true}},
     description: String,

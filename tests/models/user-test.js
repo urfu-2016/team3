@@ -12,7 +12,7 @@ describe('model: user', () => {
             photoStatuses: []
         });
         assert.doesNotThrow(() => {
-            user.save(function (err) {
+            user.save(err => {
                 if (err) {
                     throw err;
                 }

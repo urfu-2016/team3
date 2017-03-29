@@ -1,10 +1,10 @@
 'use strict';
 
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 const ObjectId = mongoose.Schema.Types.ObjectId;
 
-var questSchema = new Schema({
+const questSchema = new Schema({
     authorId: {type: ObjectId, ref: 'User', index: true},
     creationDate: {type: Date, index: true},
     name: {type: String, index: true},
