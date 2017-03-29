@@ -10,13 +10,8 @@ exports.list = (req, res) => {
 exports.show = (req, res) => {
     const id = req.params.id;
     Quest.findById(id)
-        .then((err, quest) => {
-            if (err) {
-                res.sendStatus(404);
-            } else {
-                res.render('quest', {quest});
-            }
-        });
+        .then(quest => res.render('quest', {quest}))
+        .catch(() => res.sendStatus(404));
 };
 
 exports.create = (req, res) => {

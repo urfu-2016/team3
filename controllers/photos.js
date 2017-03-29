@@ -4,13 +4,9 @@ const Photo = require('../models/photo');
 
 exports.show = (req, res) => {
     const id = req.params.id;
-    const photo = Photo.findById(id);
-
-    if (photo) {
-        res.render('photo', {photo});
-    } else {
-        res.sendStatus(404);
-    }
+    Photo.findById(id)
+        .then(photo => res.render('photo', {photo}))
+        .catch(() => res.sendStatus(404));
 };
 
 function isCheckinSuccessful(photo, coordinates) {
@@ -20,13 +16,12 @@ function isCheckinSuccessful(photo, coordinates) {
 }
 
 exports.checkin = (req, res) => {
-    const photo = Photo.findById(req.body.id);
-    if (!photo) {
-        return res.sendStatus(404);
-    }
-
-    if (isCheckinSuccessful(photo, {longitude: req.body.longitude, latitude: req.body.longitude})) {
-        // TODO: make some useful stuff
-    }
-    res.redirect(`/photos/${photo.id}`);
+    Photo.findById(req.body.id)
+        .then(photo => {
+            if (isCheckinSuccessful(photo, {longitude: req.body.longitude, latitude: req.body.longitude})) {
+                // TODO: make some useful stuff
+            }
+            res.redirect(`/photos/${photo.id}`);
+        })
+        .catch(() => res.sendStatus(404));
 };
