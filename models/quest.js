@@ -21,7 +21,7 @@ const questSchema = new Schema({
     },
     description: {
         type: String,
-        minlength: 100,
+        minlength: 30,
         maxlength: 5000,
         required: true
     },

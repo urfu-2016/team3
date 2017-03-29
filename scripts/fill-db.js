@@ -37,7 +37,7 @@ Promise.all(removePromises)
                         authorId: user,
                         creationDate: new Date(1490776 + Math.floor(300000 * Math.random())),
                         name: `Quest ${i}`,
-                        description: 'Description here',
+                        description: 'Description here, must be more than 30 characters',
                         likesCount: Math.floor(50 * Math.random()),
                         passesCount: 2,
                         photoIds: []
