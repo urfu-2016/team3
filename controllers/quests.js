@@ -5,7 +5,7 @@ const Quest = require('../models/quest');
 exports.list = (req, res) => {
     const quests = Quest.find({});
 
-    res.render('main', {quests: quests});
+    res.render('main', {quests});
 };
 
 exports.show = (res, req) => {
@@ -13,7 +13,7 @@ exports.show = (res, req) => {
     const quest = Quest.findById(id);
 
     if (quest) {
-        res.render('quest', {quest: quest});
+        res.render('quest', {quest});
     } else {
         res.sendStatus(404);
     }
