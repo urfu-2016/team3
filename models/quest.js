@@ -1,28 +1,16 @@
-'use strict';
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+const ObjectId = mongoose.Schema.Types.ObjectId;
 
-module.exports = [
-    {
-        name: 'Test Quest 4',
-        intro: 'Краткое описание квеста',
-        like: 5,
-        date: new Date(2017, 2, 22, 9, 33)
-    },
-    {
-        name: 'Test Quest 3',
-        intro: 'Краткое описание квеста',
-        like: 3,
-        date: new Date(2017, 2, 20, 20, 20)
-    },
-    {
-        name: 'Test Quest 2',
-        intro: 'Краткое описание квеста',
-        like: 10,
-        date: new Date(2017, 2, 18, 16, 43)
-    },
-    {
-        name: 'Test Quest 1',
-        intro: 'Краткое описание квеста',
-        like: 1,
-        date: new Date(2017, 2, 11, 11, 0)
-    }
-];
+var questSchema = new Schema({
+    authorId: {type: ObjectId, ref: 'User', index: true},
+    creationDate: {type: Date, index: true},
+    name: {type: String, index: true},
+    description: String,
+    likesCount: {type: Number, index: true},
+    passesCount: {type: Number, index: true},
+    passedCount: {type: Number, index: true},
+    photoIds: [{type: ObjectId, ref: 'Photo'}]
+});
+
+module.exports = mongoose.model('Quest', questSchema);
