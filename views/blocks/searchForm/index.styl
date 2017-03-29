@@ -4,7 +4,7 @@ $search-form-color = #586069
 .search-form
   border-bottom 2px solid $search-form-color
   display inline-flex
-  align-items center
+  align-items stretch
   justify-content space-between
 
   &__label
@@ -17,12 +17,13 @@ $search-form-color = #586069
     padding 0 5px
 
     &:focus
-       outline 0
+      outline 0
 
   &__submit
     background transparent
     border 0
     color $search-form-color
+    cursor pointer
 
     &:focus
       outline 0
