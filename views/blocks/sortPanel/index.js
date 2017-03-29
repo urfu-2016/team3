@@ -11,8 +11,8 @@ module.exports = (parent, sortingRules) => {
         selectors[index].dataset.checked = 'true';
     };
 
-    const sortQuests = sortRule => {
-        const childrens = [...parent.children].sort(sortRule);
+    const sortContentBy = sortingRule => {
+        const childrens = [...parent.children].sort(sortingRule);
         parent.innerHTML = '';
         childrens.forEach(children => {
             parent.appendChild(children);
@@ -24,7 +24,7 @@ module.exports = (parent, sortingRules) => {
     selectors.forEach((selector, index) => {
         selector.addEventListener('click', () => {
             change(index);
-            sortQuests(sortingRules[index]);
+            sortContentBy(sortingRules[index]);
         });
     });
 };
