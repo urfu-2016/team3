@@ -3,28 +3,29 @@
 const Quest = require('../models/quest');
 
 exports.list = (req, res) => {
-    const quests = Quest.find({});
-
-    res.render('main', {quests});
+    Quest.find({})
+        .then(quests => res.render('main', {quests}));
 };
 
-exports.show = (res, req) => {
+exports.show = (req, res) => {
     const id = req.params.id;
-    const quest = Quest.findById(id);
-
-    if (quest) {
-        res.render('quest', {quest});
-    } else {
-        res.sendStatus(404);
-    }
+    Quest.findById(id)
+        .then((err, quest) => {
+            if (err) {
+                res.sendStatus(404);
+            } else {
+                res.render('quest', {quest});
+            }
+        });
 };
 
-exports.create = (res, req) => {
+exports.create = (req, res) => {
     if (req.method) {
-        const quest = new Quest(req.body);
-        quest.save();
-
-        return res.redirect(`/quests/${quest.id}`);
+        return new Quest(req.body)
+            .save((err, quest) => {
+                // TODO: handle error
+                res.redirect(`/quests/${quest.id}`);
+            });
     }
     res.render('createQuest');
 };

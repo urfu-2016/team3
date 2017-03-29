@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = (parent, sortRules) => {
+module.exports = (parent, sortingRules) => {
     const selectors = [...document.querySelectorAll('.sort-panel__item')];
 
     const change = index => {
@@ -11,7 +11,7 @@ module.exports = (parent, sortRules) => {
         selectors[index].dataset.checked = 'true';
     };
 
-    const filter = sortRule => {
+    const sortQuests = sortRule => {
         const childrens = [...parent.children].sort(sortRule);
         parent.innerHTML = '';
         childrens.forEach(children => {
@@ -24,7 +24,7 @@ module.exports = (parent, sortRules) => {
     selectors.forEach((selector, index) => {
         selector.addEventListener('click', () => {
             change(index);
-            filter(sortRules[index]);
+            sortQuests(sortingRules[index]);
         });
     });
 };

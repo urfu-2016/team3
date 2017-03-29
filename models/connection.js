@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+mongoose.Promise = global.Promise;
+
 module.exports = function () {
     let connectionString = 'mongodb://localhost/photo-quest';
     if (process.env.NODE_ENV === 'production') {

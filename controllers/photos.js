@@ -2,7 +2,7 @@
 
 const Photo = require('../models/photo');
 
-exports.show = (res, req) => {
+exports.show = (req, res) => {
     const id = req.params.id;
     const photo = Photo.findById(id);
 
@@ -19,15 +19,14 @@ function isCheckinSuccessful(photo, coordinates) {
         ) < 0.005;
 }
 
-exports.checkin = (res, req) => {
+exports.checkin = (req, res) => {
     const photo = Photo.findById(req.body.id);
     if (!photo) {
         return res.sendStatus(404);
     }
 
     if (isCheckinSuccessful(photo, {longitude: req.body.longitude, latitude: req.body.longitude})) {
-        // eslint-disable-next-line
-        // TODO make some useful stuff
+        // TODO: make some useful stuff
     }
     res.redirect(`/photos/${photo.id}`);
 };
