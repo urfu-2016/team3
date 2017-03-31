@@ -14,7 +14,7 @@ describe('model: quest', () => {
             photoIds: []
         });
         assert.doesNotThrow(() => {
-            quest.save(function (err) {
+            quest.save(err => {
                 if (err) {
                     throw err;
                 }

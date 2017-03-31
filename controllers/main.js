@@ -1,7 +1,10 @@
 'use strict';
 
-const quests = require('../models/data-quest');
+const quests = require('./quests');
 
-module.exports = (req, res) => res.render('main', {
-    quests: quests
-});
+exports.main = quests.list;
+
+exports.about = (res, req) => {
+    /* eslint no-unused-vars: 0 */
+    res.render('about');
+};

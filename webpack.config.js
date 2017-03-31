@@ -6,12 +6,10 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const postcssLoader = {
     loader: 'postcss-loader',
     options: {
-        plugins: function () {
-            return [
-                require('cssnano'),
-                require('autoprefixer')
-            ];
-        }
+        plugins: () => [
+            require('cssnano'),
+            require('autoprefixer')
+        ]
     }
 };
 

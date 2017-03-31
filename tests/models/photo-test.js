@@ -13,7 +13,7 @@ describe('model: photo', () => {
             failedTriesCount: 1
         });
         assert.doesNotThrow(() => {
-            photo.save(function (err) {
+            photo.save(err => {
                 if (err) {
                     throw err;
                 }

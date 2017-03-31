@@ -9,7 +9,7 @@ describe('model: userFollower', () => {
             followedUserId: new User({})
         });
         assert.doesNotThrow(() => {
-            userFollower.save(function (err) {
+            userFollower.save(err => {
                 if (err) {
                     throw err;
                 }

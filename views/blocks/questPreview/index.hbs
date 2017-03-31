@@ -7,16 +7,16 @@
             <img class="quest-preview__image" src="http://www.fresher.ru/images4/krasota-podvodnogo-mira/060.jpg" alt="">
         </div>
     </div>
-    <a href="{{ link }}" class="quest-preview__link"></a>
+    <a href="/quests/{{ quest.id }}" class="quest-preview__link"></a>
     <section class="quest-preview-description" data-visible="false">
         <header class="quest-preview-description__header">
             <h2 class="quest-preview-description__title">{{ quest.name }}</h2>
             <div class="quest-preview-description__like">
-                <span class="material-icons quest-preview-description__like-icon">favorite</span>{{ quest.like }}
+                <span class="material-icons quest-preview-description__like-icon">favorite</span>{{ quest.likesCount }}
             </div>
         </header>
         <article class="quest-preview-description__description">
-            <p>{{ quest.intro }}</p>
+            <p>{{ quest.description }}</p>
         </article>
     </section>
 </div>

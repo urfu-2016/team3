@@ -1,12 +1,9 @@
 const mongoose = require('mongoose');
 
-module.exports = function () {
-    let connectionString = 'mongodb://localhost/photo-quest';
-    if (process.env.NODE_ENV === 'production') {
-        connectionString = process.env.MONGODB_URI;
-    }
+mongoose.Promise = global.Promise;
 
-    mongoose.connect(connectionString, {}, err => {
+module.exports = function () {
+    mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/photo-quest', {}, err => {
         if (err) {
             console.error('CONNECTION ERROR!', err);
         } else {
