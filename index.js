@@ -26,6 +26,7 @@ hbsHelpers(hbs);
 
 if (process.env.NODE_ENV !== 'production') {
     app.use(express.static(publicDir));
+    hbsUtils.registerWatchedPartials(partialsDir);
 }
 
 connectToDb();

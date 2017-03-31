@@ -2,18 +2,18 @@
 
 const root = document.querySelector('.quests-list');
 
-const filterRules = [
+const sortingRules = [
     (first, second) => {
-        return new Date(first.dataset.date) < new Date(second.dataset.date);
+        return new Date(second.dataset.date) - new Date(first.dataset.date);
     },
     (first, second) => {
-        return Number(first.dataset.like) < Number(second.dataset.like);
+        return Number(second.dataset.like) - Number(first.dataset.like);
     }
 ];
 
 module.exports = (() => {
     require('../../blocks/header')();
     require('../../blocks/questPreview')();
-    require('../../blocks/sortPanel')(root, filterRules);
-    require('../../blocks/floatingMenuButton')();
+    require('../../blocks/sortPanel')(root, sortingRules);
+    require('../../blocks/floatingMenuButton')(['/quests/create', '/about']);
 })();

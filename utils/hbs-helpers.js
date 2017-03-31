@@ -2,7 +2,7 @@
 
 module.exports = hbs => {
     hbs.registerHelper('array', (data, options) => {
-        let a = JSON.parse(data);
+        const a = JSON.parse(data);
         return options.fn(a);
     });
 
