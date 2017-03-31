@@ -1,0 +1,10 @@
+<div class="create-quest">
+    <form class="create-quest__form" method="post">
+        <input type="text" placeholder="Название квеста" name="name" class="create-quest__name">
+        <textarea placeholder="Описание квеста" name="description" class="create-quest__description"></textarea>
+        <input type="submit" value="Создать" class="create-quest__submit">
+    </form>
+    <section class="create-quest__add-card-form-section">
+        {{> add_card_form/index }}
+    </section>
+</div>
