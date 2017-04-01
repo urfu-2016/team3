@@ -5,7 +5,7 @@ const Photo = require('../models/photo');
 exports.show = (req, res) => {
     const id = req.params.id;
     Photo.findById(id)
-        .then(photo => res.render('photo', {photo}))
+        .then(photo => res.render('photo', {photo, captcha: req.recaptcha}))
         .catch(() => res.sendStatus(404));
 };
 

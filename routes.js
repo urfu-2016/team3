@@ -3,6 +3,7 @@
 const main = require('./controllers/main');
 const quests = require('./controllers/quests');
 const photos = require('./controllers/photos');
+const recaptcha = require('express-recaptcha');
 
 module.exports = app => {
     app.get('/', main.main);
@@ -10,12 +11,11 @@ module.exports = app => {
     app
         .route('/quests')
         .get(quests.list)
-        .post(quests.create);
+        .post(recaptcha.middleware.verify, quests.create);
+    app.get('/quests/create', recaptcha.middleware.render, quests.create);
     app.get('/quests/:id', quests.show);
-    app.get('/quests/create', quests.create);
-
-    app.get('/photos/:id', photos.show);
-    app.post('/photos', photos.checkin);
+    app.post('/photos', recaptcha.middleware.verify, photos.checkin);
+    app.get('/photos/:id', recaptcha.middleware.render, photos.show);
 
     app.all('*', (req, res) => res.sendStatus(404));
 };

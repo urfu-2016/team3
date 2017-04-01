@@ -26,6 +26,7 @@
     "dotenv": "^4.0.0",
     "dotenv-expand": "^4.0.1",
     "express": "^4.15.2",
+    "express-recaptcha": "^2.1.0",
     "hbs": "^4.0.1",
     "hbs-utils": "0.0.4",
     "mongoose": "^4.8.6",
