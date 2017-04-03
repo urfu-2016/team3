@@ -13,3 +13,4 @@ deploy:
     provider: surge
     project: ./public/
     domain: team3.surge.sh
+services: mongodb

@@ -3,22 +3,18 @@ const User = require('../../models/user');
 const assert = require('assert');
 
 describe('model: quest', () => {
+    beforeEach(() => Quest.remove({}).exec());
+    after(() => Quest.remove({}).exec());
     it('save quest', () => {
         const quest = new Quest({
             authorId: new User({}),
-            creationDate: '24.03.17',
             name: 'First Quest',
-            description: 'small description',
-            likesCount: 5,
-            passesCount: 2,
-            photoIds: []
+            description: '012345678901234567890123456789'
         });
-        assert.doesNotThrow(() => {
-            quest.save(err => {
-                if (err) {
-                    throw err;
-                }
+
+        return quest.save()
+            .then(savedQuest => {
+                assert.equal(savedQuest.likesCount, quest.likesCount);
             });
-        });
     });
 });
