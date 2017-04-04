@@ -9,11 +9,16 @@ exports.show = (req, res) => {
         .catch(() => res.sendStatus(404));
 };
 
-function isCheckinSuccessful(photo, coordinates) {
-    return Math.sqrt(
-            Math.pow(photo.longitude - coordinates.longitude, 2) + Math.pow(photo.latitude - coordinates.latitude, 2)
-        ) < 0.005;
-}
+exports.image = (req, res) => {
+    if (req.method === 'POST') {
+        return;
+    }
+    Photo.findById(req.body.id)
+        .then(photo => {
+            res.send(photo.image);
+        })
+        .catch(() => res.sendStatus(404));
+};
 
 exports.checkin = (req, res) => {
     Photo.findById(req.body.id)
@@ -25,3 +30,9 @@ exports.checkin = (req, res) => {
         })
         .catch(() => res.sendStatus(404));
 };
+
+function isCheckinSuccessful(photo, coordinates) {
+    return Math.sqrt(
+            Math.pow(photo.longitude - coordinates.longitude, 2) + Math.pow(photo.latitude - coordinates.latitude, 2)
+        ) < 0.005;
+}

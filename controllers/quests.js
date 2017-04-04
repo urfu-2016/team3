@@ -16,6 +16,9 @@ exports.show = (req, res) => {
 
 exports.create = (req, res) => {
     if (req.method) {
+        const savePhoto = (err, photoData, next) => {
+
+        };
         return new Quest(req.body)
             .save((err, quest) => {
                 // TODO: handle error

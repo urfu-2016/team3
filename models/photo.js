@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const photoSchema = new Schema({
-    url: String,
+    image: {type: Buffer, contentType: String},
     location: {
         longitude: {
             type: Number,

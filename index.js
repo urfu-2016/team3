@@ -1,7 +1,7 @@
 'use strict';
 
 const path = require('path');
-const connectToDb = require('./models/connection');
+const connectToDb = require('./db/connection');
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
@@ -29,7 +29,6 @@ if (process.env.NODE_ENV !== 'production') {
     hbsUtils.registerWatchedPartials(partialsDir);
 }
 
-connectToDb();
 app.use(logger('dev'));
 app.use(cookieParser());
 app.use(bodyParser.json());
@@ -41,9 +40,13 @@ require('./routes')(app);
 
 app.use(error.server(console.error));
 
-app.listen(port, () => {
-    console.info(`Server started on ${port}`);
-    if (process.env.NODE_ENV !== 'production') {
-        console.info(`Open http://localhost:${port}/ to view service`);
-    }
-});
+connectToDb()
+    .then(() => {
+        app.listen(port, () => {
+            console.info(`Server started on ${port}`);
+            if (process.env.NODE_ENV !== 'production') {
+                console.info(`Open http://localhost:${port}/ to view service`);
+            }
+        })
+    })
+    .catch(err => console.error('Unable to connect to database. Application would not start'));
