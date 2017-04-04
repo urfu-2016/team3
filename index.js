@@ -11,7 +11,7 @@ const hbs = require('hbs');
 const hbsUtils = require('hbs-utils')(hbs);
 const recaptcha = require('express-recaptcha');
 
-require('./models/connection')();
+const connectToDb = require('./db/connection');
 const hbsHelpers = require('./utils/hbs-helpers');
 const error = require('./middlewares/error');
 const captchaSettings = require('./configs/captcha');
@@ -47,9 +47,13 @@ require('./routes')(app);
 
 app.use(error.server(console.error));
 
-app.listen(port, () => {
-    console.info(`Server started on ${port}`);
-    if (process.env.NODE_ENV !== 'production') {
-        console.info(`Open http://localhost:${port}/ to view service`);
-    }
-});
+connectToDb()
+    .then(() => {
+        app.listen(port, () => {
+            console.info(`Server started on ${port}`);
+            if (process.env.NODE_ENV !== 'production') {
+                console.info(`Open http://localhost:${port}/ to view service`);
+            }
+        })
+    })
+    .catch(err => console.error('Unable to connect to database. Application would not start'));
