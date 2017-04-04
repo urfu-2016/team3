@@ -3,7 +3,7 @@
 const Quest = require('../models/quest');
 const User = require('../models/user');
 const mongoose = require('mongoose');
-require('../db/connection')();
+require('../db/connect')();
 
 const removedHandler = err => {
     if (err) {
