@@ -1,7 +1,7 @@
 'use strict';
 
 const path = require('path');
-const connectToDb = require('./db/connection');
+const connectToDb = require('./db/connect');
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
