@@ -3,7 +3,7 @@
 /**
  * @name hbs-helper
  * @description Helper'ы для Handlebars
- * @version 2.0.1
+ * @version 2.0.4
  */
 
 const helpers = {};
@@ -35,6 +35,52 @@ helpers.array = (...items) => {
 };
 
 /**
+ * Получение элемента массива по индексу
+ *
+ * ```handlebars
+ * {{arrayIndex array index}}
+ * => array[index]
+ * ```
+ *
+ * @param array - массив
+ * @param index - позиция
+ * @return элемент массива на index'ной позиции
+ */
+helpers.arrayIndex = (array, index) => {
+    return array[index];
+};
+
+/**
+ * Получение первого элемента массива
+ *
+ * ```handlebars
+ * {{arrayFirst array}}
+ * => array[0]
+ * ```
+ *
+ * @param array - массив
+ * @return первый элемент массива
+ */
+helpers.arrayFirst = array => {
+    return array[0];
+};
+
+/**
+ * Получение последнего элемента массива
+ *
+ * ```handlebars
+ * {{arrayLast array}}
+ * => array[array.length - 1]
+ * ```
+ *
+ * @param array - массив
+ * @return последний элемент массива
+ */
+helpers.arrayLast = array => {
+    return array[array.length - 1];
+};
+
+/**
  * Логическое ИЛИ
  *
  * ```handlebars
@@ -47,10 +93,7 @@ helpers.array = (...items) => {
  */
 helpers.or = (...items) => {
     const options = items.pop();
-    let result = items.shift();
-    result = items.reduce((res, item) => {
-        return res || item;
-    }, result);
+    const result = items.reduce((res, item) => res || item, null);
     return 'fn' in options ? options.fn(result) : result;
 };
 
