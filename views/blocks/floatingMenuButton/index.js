@@ -2,9 +2,7 @@
 
 const name = 'floating-menu-button';
 
-module.exports = links => {
-    links = links || [];
-
+module.exports = () => {
     const buttonGroup = document.querySelector(`.${name}`);
     const menu = buttonGroup.querySelector(`.${name}__btn`);
     const menuIcon = menu.querySelector('.material-icons');
@@ -12,10 +10,6 @@ module.exports = links => {
     let start = pageYOffset;
 
     menuIcon.classList.add(`${name}-animation`);
-
-    menuItems.forEach((elem, index) => {
-        elem.href = links[index] || '#';
-    });
 
     const changeMenu = elem => {
         elem.dataset.menu = elem.dataset.menu === 'close' ? 'open' : 'close';

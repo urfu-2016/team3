@@ -8,7 +8,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const hbs = require('hbs');
 const hbsUtils = require('hbs-utils')(hbs);
-const hbsHelpers = require('./utils/hbs-helpers');
+const hbsHelpers = require('./libs/hbs-helpers');
 const error = require('./middlewares/error');
 
 const app = express();

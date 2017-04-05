@@ -1,31 +1,4 @@
-$primary-dark = #24292e
-$color-text-primary = #fff
-$color-text-secondary = #586069
-$box-shadow = 0 10px 20px rgba(0, 0, 0, .19), 0 6px 6px rgba(0, 0, 0, .23)
-
-html,
-body
-  height 100%
-  width 100%
-  margin 0
-  padding 0
-  font 16px Arial, suns-serif
-  background $primary-dark
-  color $color-text-primary
-
-body
-  max-width 1140px
-  min-height 100%
-  height auto
-  margin 0 auto
-
-@import '../../blocks/header'
-
-.main
-  padding 0 10px 20px
-
-  @media (min-width: 560px)
-    padding 0 40px 20px
+@import '../../blocks/index'
 
 .app-bar
   display flex
@@ -49,8 +22,9 @@ body
 
 .quests-list
   padding-bottom 30px
+
   &__item
-    margin 30px 0
+    margin 20px 0
 
 @import '../../blocks/questPreview'
 @import '../../blocks/floatingMenuButton'
