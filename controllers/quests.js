@@ -2,7 +2,6 @@
 
 const Quest = require('../models/quest');
 const Photo = require('../models/photo');
-const photosController = require('./photos');
 
 exports.list = (req, res) => {
     Quest.find({})
@@ -39,11 +38,11 @@ exports.create = (req, res) => {
                             {
                                 $push: {
                                     photoIds: {
-                                        $each: photos
+                                        $each: savedPhotos
                                     }
                                 }
                             });
-                        res.redirect(`/quests/${quest.id}`)
+                        res.redirect(`/quests/${quest.id}`);
                     })
                     .catch(() => res.sendStatus(500));
             });

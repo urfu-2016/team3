@@ -47,6 +47,6 @@ connectToDb()
             if (process.env.NODE_ENV !== 'production') {
                 console.info(`Open http://localhost:${port}/ to view service`);
             }
-        })
+        });
     })
-    .catch(err => console.error('Unable to connect to database. Application would not start'));
+    .catch(err => console.error('Unable to connect to database. Application would not start', err));

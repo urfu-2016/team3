@@ -1,6 +1,5 @@
 'use strict';
 
-const crypto = require('crypto');
 const multer = require('multer');
 
 module.exports = multer({
