@@ -10,9 +10,6 @@ exports.show = (req, res) => {
 };
 
 exports.image = (req, res) => {
-    if (req.method === 'POST') {
-        return;
-    }
     Photo.findById(req.body.id)
         .then(photo => {
             res.send(photo.image);
