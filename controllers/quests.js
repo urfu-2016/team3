@@ -34,7 +34,17 @@ exports.create = (req, res) => {
                     }).save());
                 }
                 Promise.all(photos)
-                    .then(() => res.redirect(`/quests/${quest.id}`))
+                    .then(savedPhotos => {
+                        Quest.findByIdAndUpdate(quest._id,
+                            {
+                                $push: {
+                                    photoIds: {
+                                        $each: photos
+                                    }
+                                }
+                            });
+                        res.redirect(`/quests/${quest.id}`)
+                    })
                     .catch(() => res.sendStatus(500));
             });
     }
