@@ -3,6 +3,7 @@
 const main = require('./controllers/main');
 const quests = require('./controllers/quests');
 const photos = require('./controllers/photos');
+const upload = require('./configs/multer');
 
 module.exports = app => {
     app.get('/', main.main);
@@ -10,7 +11,7 @@ module.exports = app => {
     app
         .route('/quests')
         .get(quests.list)
-        .post(quests.create);
+        .post(upload.array('photo-image'), quests.create);
     app.get('/quests/:id', quests.show);
     app.get('/quests/create', quests.create);
 

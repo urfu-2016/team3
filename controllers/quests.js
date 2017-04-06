@@ -1,6 +1,7 @@
 'use strict';
 
 const Quest = require('../models/quest');
+const Photo = require('../models/photo');
 
 exports.list = (req, res) => {
     Quest.find({})
@@ -19,7 +20,31 @@ exports.create = (req, res) => {
         return new Quest(req.body)
             .save((err, quest) => {
                 // TODO: handle error
-                res.redirect(`/quests/${quest.id}`);
+                const photos = [];
+                for (let i = 0; i < req.files.length; i++) {
+                    photos.push(new Photo({
+                        image: req.files[i].buffer,
+                        location: {
+                            longitude: req.body[`longitude-${i}`],
+                            latitude: req.body[`latitude-${i}`]
+                        },
+                        description: req.body[`description-${i}`],
+                        questId: quest._id
+                    }).save());
+                }
+                Promise.all(photos)
+                    .then(savedPhotos => {
+                        Quest.findByIdAndUpdate(quest._id,
+                            {
+                                $push: {
+                                    photoIds: {
+                                        $each: savedPhotos
+                                    }
+                                }
+                            });
+                        res.redirect(`/quests/${quest.id}`);
+                    })
+                    .catch(() => res.sendStatus(500));
             });
     }
     res.render('createQuest');
