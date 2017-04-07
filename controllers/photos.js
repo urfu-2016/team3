@@ -2,6 +2,7 @@
 
 const Photo = require('../models/photo');
 const Quest = require('../models/quest');
+const User = require('../models/user');
 
 exports.show = (req, res, next) => {
     const id = req.params.id;
@@ -73,6 +74,10 @@ exports.checkin = (req, res, next) => {
             User
                 .findByIdAndUpdate(
                     req.user._id,
+                    /* ESLint gives me an error, that following lines should be
+                     indented 4 spaces left. It's, ofc, mistake */
+
+                     /* eslint-disable indent */
                     {
                         $push: {
                             photoStatuses: {
@@ -84,7 +89,7 @@ exports.checkin = (req, res, next) => {
                     {safe: true, upsert: true, new: true}
                 )
                 .exec()
-                .then(user => res.redirect(`/photos/${photo.id}`))
+                .then(() => res.redirect(`/photos/${photo.id}`))
                 .catch(next);
         })
         .catch(next);
