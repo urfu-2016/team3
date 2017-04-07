@@ -13,11 +13,14 @@ exports.show = (req, res, next) => {
     Quest.findById(id)
         .populate('photos.photoId')
         .then(quest => {
-            if (quest) {
-                res.render('quest', {quest});
-            } else {
-                res.status(404).render('404');
+            if (!quest) {
+                return res.status(404).render('404');
             }
+            if (quest.published || quest.authorId === req.user._id) {
+                return res.render('quest', {quest});
+            }
+
+            return res.status(403).render('/');
         })
         .catch(next);
 };
