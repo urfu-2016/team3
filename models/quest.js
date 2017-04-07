@@ -25,6 +25,7 @@ const questSchema = new Schema({
         maxlength: 5000,
         required: true
     },
+    published: {type: Boolean, default: false},
     likesCount: {type: Number, index: true, default: 0},
     passesCount: {type: Number, index: true, default: 0},
     passedCount: {type: Number, index: true, default: 0},
