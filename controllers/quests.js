@@ -11,6 +11,7 @@ exports.list = (req, res, next) => {
 exports.show = (req, res, next) => {
     const id = req.params.id;
     Quest.findById(id)
+        .populate('photos.photoId')
         .then(quest => {
             if (quest) {
                 res.render('quest', {quest});
@@ -32,7 +33,7 @@ exports.create = (req, res) => {
 exports.publish = (req, res, next) => {
     Quest
         .findByIdAndUpdate(
-            req.body.id,
+            req.params.id,
             {$set: {published: true}},
             {safe: true, upsert: true, new: true}
         )

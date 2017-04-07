@@ -23,7 +23,7 @@ exports.show = (req, res, next) => {
 };
 
 exports.image = (req, res, next) => {
-    Photo.findById(req.body.id)
+    Photo.findById(req.params.id)
         .then(photo => {
             if (photo) {
                 res.send(photo.image);
@@ -61,7 +61,7 @@ exports.upload = (req, res, next) => {
 };
 
 exports.checkin = (req, res, next) => {
-    Photo.findById(req.body.id)
+    Photo.findById(req.params.id)
         .then(photo => {
             if (!photo) {
                 return res.status(404).render('404');
