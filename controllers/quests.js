@@ -2,7 +2,6 @@
 
 const Quest = require('../models/quest');
 const HttpStatus = require('http-status');
-const ObjectId = require('mongoose').Types.ObjectId;
 
 exports.list = (req, res, next) => {
     Quest.find({})
@@ -18,7 +17,7 @@ exports.show = (req, res, next) => {
             if (!quest) {
                 return res.status(HttpStatus.NOT_FOUND).render('404');
             }
-            if (true || quest.published || quest.authorId === req.user._id) {
+            if (quest.published || quest.authorId === req.user._id) {
                 return res.render('quest', {quest});
             }
 
