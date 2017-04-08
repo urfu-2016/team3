@@ -3,6 +3,7 @@
 const Photo = require('../models/photo');
 const Quest = require('../models/quest');
 const User = require('../models/user');
+const HttpStatus = require('http-status');
 
 exports.show = (req, res, next) => {
     const id = req.params.id;
@@ -15,7 +16,7 @@ exports.show = (req, res, next) => {
             if (photo) {
                 res.render('photo', {photo});
             } else {
-                res.status(404).render('404');
+                res.status(HttpStatus.NOT_FOUND).render('404');
             }
         })
         .catch(next);
@@ -28,7 +29,7 @@ exports.image = (req, res, next) => {
             if (photo) {
                 res.send(photo.image);
             } else {
-                res.sendStatus(404);
+                res.status(HttpStatus.NOT_FOUND).render('404');
             }
         })
         .catch(next);
@@ -64,7 +65,7 @@ exports.checkin = (req, res, next) => {
     Photo.findById(req.params.id)
         .then(photo => {
             if (!photo) {
-                return res.status(404).render('404');
+                return res.status(HttpStatus.NOT_FOUND).render('404');
             }
 
             const isCheckinSucceed = isCheckinSuccessful(photo, {

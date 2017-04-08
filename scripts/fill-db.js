@@ -14,8 +14,8 @@ const removedHandler = err => {
 
 require('../db/connect').then(() => {
     const removePromises = [
-        User.remove({}, removedHandler),
-        Quest.remove({}, removedHandler)
+        User.remove({}, removedHandler).exec(),
+        Quest.remove({}, removedHandler).exec()
     ];
 
     Promise.all(removePromises)

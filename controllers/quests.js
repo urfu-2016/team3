@@ -1,6 +1,8 @@
 'use strict';
 
 const Quest = require('../models/quest');
+const HttpStatus = require('http-status');
+const ObjectId = require('mongoose').Types.ObjectId;
 
 exports.list = (req, res, next) => {
     Quest.find({})
@@ -14,13 +16,13 @@ exports.show = (req, res, next) => {
         .populate('photos.photoId')
         .then(quest => {
             if (!quest) {
-                return res.status(404).render('404');
+                return res.status(HttpStatus.NOT_FOUND).render('404');
             }
-            if (quest.published || quest.authorId === req.user._id) {
+            if (true || quest.published || quest.authorId === req.user._id) {
                 return res.render('quest', {quest});
             }
 
-            return res.status(403).render('/');
+            return res.status(HttpStatus.FORBIDDEN).render('/');
         })
         .catch(next);
 };
