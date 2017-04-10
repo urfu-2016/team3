@@ -1,5 +1,7 @@
 'use strict';
 
+require('dotenv-expand')(require('dotenv').config());
+
 const path = require('path');
 const connectToDb = require('./models/connection');
 const express = require('express');
