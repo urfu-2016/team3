@@ -11,9 +11,9 @@ const sortingRules = [
     }
 ];
 
-module.exports = (() => {
+module.exports = () => {
     require('../../blocks/header')();
     require('../../blocks/questPreview')();
     require('../../blocks/sortPanel')(root, sortingRules);
-    require('../../blocks/floatingMenuButton')(['/quests/create', '/about']);
-})();
+    require('../../blocks/floatingMenuButton')();
+};
