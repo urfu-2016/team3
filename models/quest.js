@@ -5,11 +5,11 @@ const Schema = mongoose.Schema;
 const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const questSchema = new Schema({
-    authorId: {
+    author: {
         type: ObjectId,
         ref: 'User',
         index: true,
-        required: true
+        required: false
     },
     creationDate: {type: Date, index: true, default: Date.now},
     name: {
@@ -29,7 +29,7 @@ const questSchema = new Schema({
     likesCount: {type: Number, index: true, default: 0},
     passesCount: {type: Number, index: true, default: 0},
     passedCount: {type: Number, index: true, default: 0},
-    photoIds: [{type: ObjectId, ref: 'Photo'}]
+    photos: [{type: ObjectId, ref: 'Photo'}]
 });
 
 module.exports = mongoose.model('Quest', questSchema);

@@ -14,7 +14,10 @@ describe('model: quest', () => {
         const quest = new Quest({
             authorId: new User({}),
             name: 'First Quest',
-            description: '012345678901234567890123456789'
+            description: 'small description',
+            likesCount: 5,
+            passesCount: 2,
+            photos: []
         });
 
         return quest.save()

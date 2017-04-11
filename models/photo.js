@@ -19,7 +19,7 @@ const photoSchema = new Schema({
         }
     },
     description: {type: String, default: ''},
-    questId: {
+    quest: {
         type: ObjectId,
         ref: 'Quest',
         index: true,

@@ -38,7 +38,7 @@ exports.image = (req, res, next) => {
 exports.upload = (req, res, next) => {
     const questId = req.body.questId;
     new Photo({
-        questId,
+        quest: questId,
         description: req.body.description,
         location: {
             longitude: req.body.longitude,
@@ -51,11 +51,11 @@ exports.upload = (req, res, next) => {
             Quest
                 .findByIdAndUpdate(
                     questId,
-                    {$push: {photoIds: photo._id}},
+                    {$push: {photos: photo._id}},
                     {safe: true, upsert: true, new: true}
                 )
                 .exec()
-                .then(quest => res.render(`/quests/${quest.id}`))
+                .then(quest => res.redirect(`/quests/${quest.id}`))
                 .catch(next);
         })
         .catch(next);

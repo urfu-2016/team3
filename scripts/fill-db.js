@@ -12,7 +12,7 @@ const removedHandler = err => {
     }
 };
 
-require('../db/connect').then(() => {
+require('../db/connect')().then(() => {
     const removePromises = [
         User.remove({}, removedHandler).exec(),
         Quest.remove({}, removedHandler).exec()
@@ -34,13 +34,13 @@ require('../db/connect').then(() => {
                     const saves = [];
                     for (let i = 0; i < 20; i++) {
                         saves.push(new Quest({
-                            authorId: user,
+                            author: user,
                             creationDate: new Date(1490776 + Math.floor(300000 * Math.random())),
                             name: `Quest ${i}`,
                             description: 'Description here, must be more than 30 characters',
                             likesCount: Math.floor(50 * Math.random()),
                             passesCount: 2,
-                            photoIds: []
+                            photos: []
                         }).save());
                     }
 

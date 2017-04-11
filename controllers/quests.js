@@ -12,28 +12,20 @@ exports.list = (req, res, next) => {
 exports.show = (req, res, next) => {
     const id = req.params.id;
     Quest.findById(id)
-        .populate('photos.photoId')
+        .populate('photos')
         .then(quest => {
             if (!quest) {
                 return res.status(HttpStatus.NOT_FOUND).render('404');
             }
-            if (quest.published || quest.authorId === req.user._id) {
+            if (true || quest.published || (req.user && quest.author === req.user._id)) {
                 return res.render('quest', {quest});
             }
 
-            return res.status(HttpStatus.FORBIDDEN).render('/');
+            return res.sendStatus(HttpStatus.FORBIDDEN);
         })
         .catch(next);
 };
 
-<<<<<<< ee595b36ba16832199fde771afda71452200c1a2
-exports.create = (req, res) => {
-    if (req.method === 'POST') {
-        if (req.recaptcha.error) {
-            console.error('ReCaptcha error', req.recaptcha.error);
-            return res.redirect('/quests/create');
-        }
-=======
 exports.publish = (req, res, next) => {
     Quest
         .findByIdAndUpdate(
@@ -42,14 +34,21 @@ exports.publish = (req, res, next) => {
             {safe: true, upsert: true, new: true}
         )
         .exec()
-        .then(quest => res.render(`/quests/${quest.id}`))
+        .then(quest => res.redirect(`/quests/${quest.id}`))
         .catch(next);
 };
 
 exports.create = (req, res, next) => {
-    if (req.method) {
->>>>>>> Try to improve user workflow
-        return new Quest(req.body)
+    if (req.method === 'POST') {
+        if (req.recaptcha.error) {
+            console.error('ReCaptcha error', req.recaptcha.error);
+            return res.redirect('/quests/create');
+        }
+        return new Quest({
+            name: req.body.name,
+            description: req.body.description,
+            author: req.user
+        })
             .save()
             .then(quest => res.redirect(`/quests/${quest.id}`))
             .catch(next);
