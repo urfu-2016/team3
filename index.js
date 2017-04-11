@@ -3,7 +3,7 @@
 require('dotenv-expand')(require('dotenv').config());
 
 const path = require('path');
-const connectToDb = require('./models/connection');
+require('./models/connection')();
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
@@ -31,7 +31,6 @@ if (process.env.NODE_ENV !== 'production') {
     hbsUtils.registerWatchedPartials(partialsDir);
 }
 
-connectToDb();
 app.use(logger('dev'));
 app.use(cookieParser());
 app.use(bodyParser.json());

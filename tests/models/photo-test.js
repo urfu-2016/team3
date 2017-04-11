@@ -1,23 +1,27 @@
 const Photo = require('../../models/photo');
 const Quest = require('../../models/quest');
 const assert = require('assert');
+const mongoose = require('mongoose');
 
 describe('model: photo', () => {
+    beforeEach(() => Photo.remove({}).exec());
+    before(() => require('../../models/connection')());
+    after(() =>
+        Photo.remove({}).exec()
+            .then(() => mongoose.connection.close())
+            .catch(() => mongoose.connection.close()));
     it('save photo', () => {
         const photo = new Photo({
             url: 'http://....',
-            location: 'location',
-            description: 'big place',
-            questId: new Quest({}),
-            successfulTriesCount: 1,
-            failedTriesCount: 1
+            location: {
+                longitude: 1,
+                latitude: 1
+            },
+            questId: new Quest({})
         });
-        assert.doesNotThrow(() => {
-            photo.save(err => {
-                if (err) {
-                    throw err;
-                }
-            });
-        });
+
+        return photo.save()
+            .then(savedPhoto => assert.equal(savedPhoto.url, photo.url));
     });
 });
+
