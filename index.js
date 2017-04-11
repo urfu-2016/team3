@@ -3,7 +3,7 @@
 require('dotenv-expand')(require('dotenv').config());
 
 const path = require('path');
-require('./models/connection');
+require('./models/connection')();
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
