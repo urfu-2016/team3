@@ -3,15 +3,20 @@
 require('dotenv-expand')(require('dotenv').config());
 
 const path = require('path');
-require('./models/connection')();
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const hbs = require('hbs');
 const hbsUtils = require('hbs-utils')(hbs);
+const recaptcha = require('express-recaptcha');
+
+require('./models/connection')();
 const hbsHelpers = require('./utils/hbs-helpers');
 const error = require('./middlewares/error');
+const captchaSettings = require('./configs/captcha');
+
+recaptcha.init(captchaSettings.siteKey, captchaSettings.secretKey, {theme: 'dark'});
 
 const app = express();
 const port = process.env.PORT || 8080;

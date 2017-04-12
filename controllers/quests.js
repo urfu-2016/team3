@@ -15,12 +15,16 @@ exports.show = (req, res) => {
 };
 
 exports.create = (req, res) => {
-    if (req.method) {
+    if (req.method === 'POST') {
+        if (req.recaptcha.error) {
+            console.error('ReCaptcha error', req.recaptcha.error);
+            return res.redirect('/quests/create');
+        }
         return new Quest(req.body)
             .save((err, quest) => {
                 // TODO: handle error
                 res.redirect(`/quests/${quest.id}`);
             });
     }
-    res.render('createQuest');
+    res.render('createQuest', {captcha: req.recaptcha});
 };
