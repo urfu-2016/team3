@@ -8,10 +8,6 @@ const HttpStatus = require('http-status');
 exports.show = (req, res, next) => {
     const id = req.params.id;
     Photo.findById(id)
-<<<<<<< ee595b36ba16832199fde771afda71452200c1a2
-        .then(photo => res.render('photo', {photo, captcha: req.recaptcha}))
-        .catch(() => res.sendStatus(404));
-=======
         .then(photo => {
             if (photo) {
                 res.render('photo', {photo});
@@ -20,7 +16,6 @@ exports.show = (req, res, next) => {
             }
         })
         .catch(next);
->>>>>>> Try to improve user workflow
 };
 
 exports.image = (req, res, next) => {
@@ -82,7 +77,7 @@ exports.checkin = (req, res, next) => {
                     {
                         $push: {
                             photoStatuses: {
-                                photoId: photo._id,
+                                photo: photo._id,
                                 status: isCheckinSucceed
                             }
                         }

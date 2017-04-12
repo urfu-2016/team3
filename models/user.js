@@ -8,7 +8,7 @@ const userSchema = new Schema({
     email: {type: String, unique: true},
     passwordHash: {type: String, index: true},
     passedQuests: [{type: ObjectId, ref: 'Quest', unique: true}],
-    photoStatuses: [{photoId: {type: ObjectId, ref: 'Photo'}, status: Boolean}]
+    photoStatuses: [{photo: {type: ObjectId, ref: 'Photo'}, status: Boolean}]
 });
 
 module.exports = mongoose.model('User', userSchema);
