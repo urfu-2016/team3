@@ -14,12 +14,16 @@ const photoSchema = new Schema({
         longitude: {
             type: Number,
             index: true,
-            required: true
+            required: true,
+            min: -180,
+            max: 180
         },
         latitude: {
             type: Number,
             index: true,
-            required: true
+            required: true,
+            min: -90,
+            max: 90
         }
     },
     description: {type: String, default: ''},
