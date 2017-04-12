@@ -14,7 +14,7 @@ const recaptcha = require('express-recaptcha');
 require('./models/connection')();
 const hbsHelpers = require('./utils/hbs-helpers');
 const error = require('./middlewares/error');
-const captchaSettings = require('./configs/cpatcha');
+const captchaSettings = require('./configs/captcha');
 
 recaptcha.init(captchaSettings.siteKey, captchaSettings.secretKey, {theme: 'dark'});
 
