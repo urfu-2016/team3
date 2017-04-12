@@ -19,7 +19,7 @@ exports.show = (req, res, next) => {
             }
             /* Until real user support is enabled */
             /* eslint-disable no-constant-condition */
-            if (true || quest.published || (req.user && quest.author === req.user._id)) {
+            if (quest.published || (req.user && quest.author === req.user._id)) {
                 return res.render('quest', {quest});
             }
 
