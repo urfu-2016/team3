@@ -9,7 +9,7 @@ const questSchema = new Schema({
         type: ObjectId,
         ref: 'User',
         index: true,
-        required: false
+        required: true
     },
     creationDate: {type: Date, index: true, default: Date.now},
     name: {
