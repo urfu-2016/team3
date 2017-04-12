@@ -13,7 +13,7 @@ describe('model: quest', () => {
             author: new User({}),
             name: 'First Quest',
             description: 'small description with length more than 30 characters',
-            likesCount: 5,
+            likesCount: 5
         });
 
         return quest.save()
