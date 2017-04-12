@@ -6,9 +6,8 @@ const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const photoSchema = new Schema({
     image: {
-        type: Buffer,
-        contentType: String,
-        required: true
+        data: {type: Buffer, required: true},
+        contentType: {type: String, required: true}
     },
     location: {
         longitude: {

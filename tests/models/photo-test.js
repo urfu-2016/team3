@@ -9,7 +9,10 @@ describe('model: photo', () => {
     after(() => Photo.remove({}).exec(() => mongoose.connection.close()));
     it('save photo', () => {
         const photo = new Photo({
-            image: Buffer.from('Just some bytes', 'utf8'),
+            image: {
+                data: Buffer.from('Just some bytes', 'utf8'),
+                contentType: 'image/png'
+            },
             location: {
                 longitude: 1,
                 latitude: 1
@@ -18,7 +21,10 @@ describe('model: photo', () => {
         });
 
         return photo.save()
-            .then(savedPhoto => assert.equal(savedPhoto.url, photo.url));
+            .then(savedPhoto => {
+                assert.equal(savedPhoto.image.data.toString('utf8'), 'Just some bytes');
+                assert.equal(savedPhoto.location.latitude, 1);
+            });
     });
 });
 

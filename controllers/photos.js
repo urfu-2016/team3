@@ -10,11 +10,10 @@ exports.show = (req, res, next) => {
     const id = req.params.id;
     Photo.findById(id)
         .then(photo => {
-            if (photo) {
-                res.render('photo', {photo});
-            } else {
-                res.status(HttpStatus.NOT_FOUND).render('404');
+            if (!photo) {
+                return res.status(HttpStatus.NOT_FOUND).render('404');
             }
+            res.render('photo', {photo});
         })
         .catch(next);
 };
@@ -22,11 +21,10 @@ exports.show = (req, res, next) => {
 exports.image = (req, res, next) => {
     Photo.findById(req.params.id)
         .then(photo => {
-            if (photo) {
-                res.send(photo.image);
-            } else {
-                res.status(HttpStatus.NOT_FOUND).render('404');
+            if (!photo) {
+                return res.status(HttpStatus.NOT_FOUND).render('404');
             }
+            res.contentType(photo.image.contentType).send(photo.image.data);
         })
         .catch(next);
 };
@@ -40,7 +38,10 @@ exports.upload = (req, res, next) => {
             longitude: req.body.longitude,
             latitude: req.body.latitude
         },
-        image: req.file.buffer
+        image: {
+            data: req.file.buffer,
+            contentType: req.file.mimetype
+        }
     })
         .save()
         .then(photo => {
