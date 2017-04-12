@@ -32,13 +32,13 @@ const questSchema = new Schema({
     photos: [{type: ObjectId, ref: 'Photo'}],
     comments: [{
         comment: String,
-        authorId: {
+        author: {
             type: ObjectId,
             ref: 'User',
             index: true,
             required: true
         },
-        parentCommetId: {type: ObjectId, ref: 'User'}
+        parentComment: {type: ObjectId, ref: 'User'}
     }]
 });
 
