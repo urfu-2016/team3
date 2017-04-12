@@ -17,9 +17,7 @@ exports.show = (req, res, next) => {
             if (!quest) {
                 return res.status(HttpStatus.NOT_FOUND).render('404');
             }
-            /* Until real user support is enabled */
-            /* eslint-disable no-constant-condition */
-            if (quest.published || (req.user && quest.author === req.user._id)) {
+            if (quest.published || (req.user && (quest.author === req.user._id || req.user.isAdmin))) {
                 return res.render('quest', {quest});
             }
 
