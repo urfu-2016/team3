@@ -11,7 +11,7 @@ const hbs = require('hbs');
 const hbsUtils = require('hbs-utils')(hbs);
 const recaptcha = require('express-recaptcha');
 
-const connectToDb = require('./db/connection');
+const connectToDb = require('./db/connect');
 const hbsHelpers = require('./utils/hbs-helpers');
 const error = require('./middlewares/error');
 const captchaSettings = require('./configs/captcha');

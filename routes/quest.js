@@ -1,6 +1,7 @@
 'use strict';
 
 const quests = require('./../controllers/quests');
+const recaptcha = require('express-recaptcha');
 
 module.exports = app => {
     app.route('/quests')
