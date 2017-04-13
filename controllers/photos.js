@@ -30,9 +30,35 @@ exports.image = (req, res, next) => {
 };
 
 exports.upload = (req, res, next) => {
-    const questId = req.body.questId;
-    new Photo({
-        quest: questId,
+    Quest.findById(req.body.questId)
+        .exec()
+        .then(quest => {
+            if (!quest) {
+                throw new ReferenceError(`Quest with id: ${req.body.questId} not found`);
+            }
+            return quest;
+        })
+        .then(quest => new Photo(preparePhotoData(req))
+            .save()
+            .then(photo => ({quest, photo}))
+        )
+        .then(({quest, photo}) => {
+            quest.photos.push(photo._id);
+            return quest.save();
+        })
+        .then(quest => res.redirect(`/quests/${quest.id}`))
+        .catch(err => {
+            if (err instanceof ReferenceError) {
+                return res.status(HttpStatus.BAD_REQUEST)
+                    .send(err.message);
+            }
+            next(err);
+        });
+};
+
+function preparePhotoData(req) {
+    return {
+        quest: req.body.questId,
         description: req.body.description,
         location: {
             longitude: req.body.longitude,
@@ -42,55 +68,34 @@ exports.upload = (req, res, next) => {
             data: req.file.buffer,
             contentType: req.file.mimetype
         }
-    })
-        .save()
-        .then(photo => {
-            Quest
-                .findByIdAndUpdate(
-                    questId,
-                    {$push: {photos: photo._id}},
-                    {safe: true, upsert: true, new: true}
-                )
-                .exec()
-                .then(quest => res.redirect(`/quests/${quest.id}`))
-                .catch(next);
-        })
-        .catch(next);
-};
+    };
+}
 
 exports.checkin = (req, res, next) => {
     Photo.findById(req.params.id)
         .then(photo => {
             if (!photo) {
-                return res.status(HttpStatus.NOT_FOUND).render('404');
+                throw new ReferenceError(`Photo with id: ${req.params.id} not found`);
             }
 
-            const isCheckinSucceed = isCheckinSuccessful(photo.location, {
+            const status = isCheckinSuccessful(photo.location, {
                 longitude: req.body.longitude,
                 latitude: req.body.latitude
             });
-            User
-                .findByIdAndUpdate(
-                    req.user._id,
-                    /* ESLint gives me an error, that following lines should be
-                     indented 4 spaces left. It's, ofc, mistake */
-
-                     /* eslint-disable indent */
-                    {
-                        $push: {
-                            photoStatuses: {
-                                photo: photo._id,
-                                status: isCheckinSucceed
-                            }
-                        }
-                    },
-                    {safe: true, upsert: true, new: true}
-                )
-                .exec()
-                .then(() => res.redirect(`/photos/${photo.id}`))
-                .catch(next);
+            req.user.photoStatuses.push({
+                photo: photo._id,
+                status: status
+            });
+            return req.user.save()
+                .then(() => status);
         })
-        .catch(next);
+        .then(status => res.redirect(`/photos/${photo.id}?success=${status}`))
+        .catch(err => {
+            if (err instanceof ReferenceError) {
+                return res.status(HttpStatus.NOT_FOUND).render('404');
+            }
+            next(err);
+        });
 };
 
 const MAX_DISTANCE_BETWEEN_PLAYER_AND_PHOTO_IN_METERS = 500;
