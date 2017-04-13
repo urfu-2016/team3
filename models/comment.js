@@ -4,13 +4,13 @@ const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const commentSchema = new Schema({
     comment: String,
-    authorId: {
+    author: {
         type: ObjectId,
         ref: 'User',
         index: true,
         required: true
     },
-    parentCommetId: {
+    parentComment: {
         type: ObjectId,
         ref: 'Comment',
         required: false

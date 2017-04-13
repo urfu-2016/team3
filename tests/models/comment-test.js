@@ -13,11 +13,11 @@ describe('model: comment', () => {
     it('save comment', () => {
         const comment = new Comment({
             comment: 'Это комментарий!',
-            authorId: new User({})
+            author: new User({})
         });
 
         return comment.save()
-            .then(savedComment => assert.equal(savedComment.url, comment.url));
+            .then(savedComment => assert.equal(savedComment.comment, comment.comment));
     });
 });
 
