@@ -2,7 +2,6 @@
 
 const Photo = require('../models/photo');
 const Quest = require('../models/quest');
-const User = require('../models/user');
 const HttpStatus = require('http-status');
 const geolib = require('geolib');
 
@@ -78,18 +77,21 @@ exports.checkin = (req, res, next) => {
                 throw new ReferenceError(`Photo with id: ${req.params.id} not found`);
             }
 
+            return photo;
+        })
+        .then(photo => {
             const status = isCheckinSuccessful(photo.location, {
                 longitude: req.body.longitude,
                 latitude: req.body.latitude
             });
             req.user.photoStatuses.push({
                 photo: photo._id,
-                status: status
+                status
             });
             return req.user.save()
-                .then(() => status);
+                .then(() => ({photo, status}));
         })
-        .then(status => res.redirect(`/photos/${photo.id}?success=${status}`))
+        .then(({photo, status}) => res.redirect(`/photos/${photo.id}?success=${status}`))
         .catch(err => {
             if (err instanceof ReferenceError) {
                 return res.status(HttpStatus.NOT_FOUND).render('404');
