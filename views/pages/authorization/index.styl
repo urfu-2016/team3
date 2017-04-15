@@ -1,0 +1,36 @@
+@import '../../blocks/index'
+@import '../../blocks/header'
+
+.authorization
+  display flex
+  flex-grow 1
+  flex-direction column
+  justify-content center
+
+  &__container
+    display flex
+    justify-content center
+    height 100%
+
+    @media (min-width: 560px) and (min-height: 560px)
+      justify-content flex-end
+
+  &__form
+    background $primary-dark
+    box-shadow $box-shadow
+    display flex
+    flex-direction column
+    height 100%
+    position relative
+    padding 20px 40px
+    margin 20px 0
+
+  &__submit
+    display inline-flex
+    align-self flex-end
+
+@import '../../blocks/photocards'
+@import '../../blocks/edit_text'
+@import '../../blocks/button'
+
+

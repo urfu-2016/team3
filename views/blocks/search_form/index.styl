@@ -1,0 +1,30 @@
+$edit-text-color = #fff
+$search-form-color = #586069
+
+.search-form
+  border-bottom 2px solid $search-form-color
+  display inline-flex
+  align-items stretch
+  justify-content space-between
+
+  &__label
+    display none
+
+  &__editText
+    border 0
+    background transparent
+    color $edit-text-color
+    padding 0 5px
+
+    &:focus
+      outline 0
+
+  &__submit
+    background transparent
+    border 0
+    color $search-form-color
+    cursor pointer
+    font-size 1.5rem
+
+    &:focus
+      outline 0

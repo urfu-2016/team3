@@ -1,0 +1,23 @@
+<section class="quest-card" data-date="{{ _date }}" data-like={{ _likes }}>
+    <div class="quest-card__images">
+        <div class="quest-card__images-big">
+            <img class="quest-card__image" src="{{arrayFirst _images}}" alt="">
+        </div>
+        <div class="quest-card__images-small">
+            <img class="quest-card__image" src="{{arrayLast _images}}" alt="">
+        </div>
+    </div>
+    <a href="{{ _link }}" class="quest-card__link"></a>
+    <section class="quest-card__description" data-visible="false">
+        {{> description/short
+            _title=_title
+            _date=_date
+            _likes=_likes
+            _finish=_finish
+            _followers=_followers
+            _author_avatar=_author_avatar
+            _author_name=_author_name
+            _author_link=_author_link
+        }}
+    </section>
+</section>

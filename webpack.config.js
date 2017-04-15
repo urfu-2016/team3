@@ -19,7 +19,7 @@ module.exports = {
     entry: {
         main: './main/pack.js',
         quest: './quest/pack.js',
-        createQuest: './createQuest/pack.js'
+        authorization: './authorization/pack.js'
     },
 
     output: {
@@ -40,6 +40,24 @@ module.exports = {
                     fallback: 'style-loader',
                     use: ['css-loader', postcssLoader, 'stylus-loader']
                 })
+            },
+            {
+                test: /\.(jpg|png)$/,
+                use: [{
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name].[ext]'
+                    }
+                }]
+            },
+            {
+                test: /\.(woff2|woff|ttf)$/,
+                use: [{
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name].[ext]'
+                    }
+                }]
             }
         ]
     },

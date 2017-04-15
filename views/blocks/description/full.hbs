@@ -1,0 +1,32 @@
+<section class="description">
+    <header class="description__header">
+        <h1 class="description__title">{{{shy _title }}}</h1>
+    </header>
+    <article class="description__content">
+        {{{paragraph _description}}}
+        <section class="description__status">
+            <span class="description-status__item">
+                <span class="material-icons">directions_run</span>
+                <span class="description-status__item-followers">
+                    {{ _followers }}
+                </span>
+            </span>
+            <span class="description-status__item">
+                <span class="material-icons">flag</span>{{ _finish }}
+            </span>
+            <span class="description-status__item">
+                <span class="material-icons">favorite</span>
+                <span class="description-status__item-likes">
+                    {{ _likes }}
+                </span>
+            </span>
+        </section>
+    </article>
+    <footer class="description__footer">
+        <a class="description__author" href="{{ _author_link }}">
+            <img src="{{ _author_avatar }}" alt="{{ _author_name }}" class="description-author__avatar">
+            <span class="description-author__name">{{ _author_name }}</span>
+        </a>
+        <time class="description__time">{{ _date }}</time>
+    </footer>
+</section>

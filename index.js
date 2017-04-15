@@ -16,8 +16,6 @@ const hbsHelpers = require('./utils/hbs-helpers');
 const error = require('./middlewares/error');
 const captchaSettings = require('./configs/captcha');
 
-recaptcha.init(captchaSettings.siteKey, captchaSettings.secretKey, {theme: 'dark'});
-
 const app = express();
 const port = process.env.PORT || 8080;
 
@@ -31,7 +29,9 @@ app.set('views', pagesDir);
 hbsUtils.registerPartials(partialsDir);
 hbsHelpers(hbs);
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV === 'production') {
+    recaptcha.init(captchaSettings.siteKey, captchaSettings.secretKey, {theme: 'dark'});
+} else {
     app.use(express.static(publicDir));
     hbsUtils.registerWatchedPartials(partialsDir);
 }

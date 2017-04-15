@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ staticBasePath }}/authorization.bundle.css">
+</head>
+<body>
+    {{> header/index _title=title _user=user }}
+    <main class="main authorization">
+        {{> photocards/index _photo1='http://www.kofe-kofe.ru/img/more/162/162739.jpg'
+            _photo2='http://www.kofe-kofe.ru/img/more/162/162739.jpg'
+            _photo3='http://www.kofe-kofe.ru/img/more/162/162739.jpg'
+        }}
+        <section class="authorization__container">
+            <form class="authorization__form">
+                <h2 class="authorization__title">Регистрация</h2>
+                {{> edit_text/index _id='email' _name='email' _label='email' _type='email' _placeholder='E-mail'}}
+                {{> edit_text/index _id='username' _name='username' _label='person' _type='text' _placeholder='Ник'}}
+                {{> edit_text/index _id='password' _name='password' _label='vpn_key' _type='password' _placeholder='Пароль'}}
+                <div class="authorization__submit">
+                    {{> button/index _text='Зарегистрироваться'}}
+                </div>
+            </form>
+        </section>
+    </main>
+    <footer class="footer">
+        <span class="footer__copyright">&copy; Лавразия, 2017</span>
+    </footer>
+<script src="{{ staticBasePath }}/authorization.bundle.js" async="async"></script>
+</body>
+</html>
