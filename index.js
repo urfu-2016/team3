@@ -6,6 +6,7 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+
 const logger = require('morgan');
 const hbs = require('hbs');
 const hbsUtils = require('hbs-utils')(hbs);
@@ -15,6 +16,11 @@ const connectToDb = require('./db/connect');
 const hbsHelpers = require('./utils/hbs-helpers');
 const error = require('./middlewares/error');
 const captchaSettings = require('./configs/captcha');
+
+recaptcha.init(captchaSettings.siteKey, captchaSettings.secretKey, {theme: 'dark'});
+
+const session = require('express-session');
+const passport = require('./passport.config');
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -29,20 +35,18 @@ app.set('views', pagesDir);
 hbsUtils.registerPartials(partialsDir);
 hbsHelpers(hbs);
 
-if (process.env.NODE_ENV === 'production') {
-    recaptcha.init(captchaSettings.siteKey, captchaSettings.secretKey, {theme: 'dark'});
-} else {
-    app.use(express.static(publicDir));
-    hbsUtils.registerWatchedPartials(partialsDir);
-}
+app.use(express.static(publicDir));
+hbsUtils.registerWatchedPartials(partialsDir);
 
 app.use(logger('dev'));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(error.middleware(console.error));
+app.use(session({secret: process.env.SESSION_SECRET}));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(require('./middlewares/common-data'));
-
 require('./routes')(app);
 
 app.use(error.server(console.error));

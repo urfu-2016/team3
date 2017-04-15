@@ -7,4 +7,4 @@ const userFollowerSchema = new Schema({
     followedUser: {type: ObjectId, ref: 'User', index: true}
 });
 
-module.exports = mongoose.model('UserFolower', userFollowerSchema);
+module.exports = mongoose.model('UserFollower', userFollowerSchema);
