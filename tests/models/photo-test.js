@@ -5,23 +5,26 @@ const mongoose = require('mongoose');
 
 describe('model: photo', () => {
     beforeEach(() => Photo.remove({}).exec());
-    before(() => require('../../models/connection')());
-    after(() =>
-        Photo.remove({}).exec()
-            .then(() => mongoose.connection.close())
-            .catch(() => mongoose.connection.close()));
+    before(() => require('../../db/connect')());
+    after(() => Photo.remove({}).exec(() => mongoose.connection.close()));
     it('save photo', () => {
         const photo = new Photo({
-            url: 'http://....',
+            image: {
+                data: Buffer.from('Just some bytes', 'utf8'),
+                contentType: 'image/png'
+            },
             location: {
                 longitude: 1,
                 latitude: 1
             },
-            questId: new Quest({})
+            quest: new Quest({})
         });
 
         return photo.save()
-            .then(savedPhoto => assert.equal(savedPhoto.url, photo.url));
+            .then(savedPhoto => {
+                assert.equal(savedPhoto.image.data.toString('utf8'), 'Just some bytes');
+                assert.equal(savedPhoto.location.latitude, 1);
+            });
     });
 });
 

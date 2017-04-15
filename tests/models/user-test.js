@@ -4,11 +4,9 @@ const mongoose = require('mongoose');
 
 describe('model: user', () => {
     beforeEach(() => User.remove({}).exec());
-    before(() => require('../../models/connection')());
+    before(() => require('../../db/connect')());
     after(() =>
-        User.remove({}).exec()
-            .then(() => mongoose.connection.close())
-            .catch(() => mongoose.connection.close()));
+        User.remove({}).exec(() => mongoose.connection.close()));
     it('save user', () => {
         const user = new User({
             likedQuests: [],

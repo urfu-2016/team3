@@ -3,23 +3,16 @@
 const Quest = require('../models/quest');
 const User = require('../models/user');
 const mongoose = require('mongoose');
-require('../models/connection')();
 
-const removedHandler = err => {
-    if (err) {
-        console.error('Collection was not removed', err);
-    } else {
-        console.info('Removed');
-    }
-};
-
-const removePromises = [
-    User.remove({}, removedHandler),
-    Quest.remove({}, removedHandler)
-];
-
-Promise.all(removePromises)
+require('../db/connect')()
     .then(() => {
+        return Promise.all([
+            User.remove({}).exec(),
+            Quest.remove({}).exec()
+        ]);
+    })
+    .then(() => {
+        console.info('Collections successfully cleared');
         const user = new User({
             likedQuests: [],
             name: 'John Doe',
@@ -29,25 +22,31 @@ Promise.all(removePromises)
             photoStatuses: []
         });
 
-        user.save()
-            .then(() => {
-                const saves = [];
-                for (let i = 0; i < 20; i++) {
-                    saves.push(new Quest({
-                        authorId: user,
-                        creationDate: new Date(1490776 + Math.floor(300000 * Math.random())),
-                        name: `Quest ${i}`,
-                        description: 'Description here, must be more than 30 characters',
-                        likesCount: Math.floor(50 * Math.random()),
-                        passesCount: 2,
-                        photoIds: []
-                    }).save());
-                }
+        return user.save();
+    })
+    .then(user => {
+        console.info('User created');
+        const saves = [];
+        for (let i = 0; i < 20; i++) {
+            saves.push(new Quest({
+                author: user,
+                creationDate: new Date(1490776 + Math.floor(300000 * Math.random())),
+                name: `Quest ${i}`,
+                description: 'Description here, must be more than 30 characters',
+                likesCount: Math.floor(50 * Math.random()),
+                passesCount: 2,
+                photos: [],
+                published: true
+            }).save());
+        }
 
-                Promise.all(saves)
-                    .then(() => {
-                        console.log('Done');
-                        mongoose.connection.close();
-                    });
-            });
+        return Promise.all(saves);
+    })
+    .then(() => {
+        console.log('Quests created');
+        mongoose.connection.close();
+    })
+    .catch(err => {
+        console.error(err.message, err);
+        mongoose.connection.close();
     });

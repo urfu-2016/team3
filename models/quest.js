@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const questSchema = new Schema({
-    authorId: {
+    author: {
         type: ObjectId,
         ref: 'User',
         index: true,
@@ -25,10 +25,11 @@ const questSchema = new Schema({
         maxlength: 5000,
         required: true
     },
+    published: {type: Boolean, default: false},
     likesCount: {type: Number, index: true, default: 0},
     passesCount: {type: Number, index: true, default: 0},
     passedCount: {type: Number, index: true, default: 0},
-    photoIds: [{type: ObjectId, ref: 'Photo'}]
+    photos: [{type: ObjectId, ref: 'Photo'}]
 });
 
 module.exports = mongoose.model('Quest', questSchema);

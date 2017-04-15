@@ -5,21 +5,28 @@ const Schema = mongoose.Schema;
 const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const photoSchema = new Schema({
-    url: String,
+    image: {
+        data: {type: Buffer, required: true},
+        contentType: {type: String, required: true}
+    },
     location: {
         longitude: {
             type: Number,
             index: true,
-            required: true
+            required: true,
+            min: -180,
+            max: 180
         },
         latitude: {
             type: Number,
             index: true,
-            required: true
+            required: true,
+            min: -90,
+            max: 90
         }
     },
     description: {type: String, default: ''},
-    questId: {
+    quest: {
         type: ObjectId,
         ref: 'Quest',
         index: true,

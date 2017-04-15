@@ -17,7 +17,9 @@ module.exports = {
     context: path.join(__dirname, 'views', 'pages'),
 
     entry: {
-        main: './main/pack.js'
+        main: './main/pack.js',
+        quest: './quest/pack.js',
+        createQuest: './createQuest/pack.js'
     },
 
     output: {
