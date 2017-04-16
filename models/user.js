@@ -5,7 +5,10 @@ const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const userSchema = new Schema({
     likedQuests: [{type: ObjectId, ref: 'Quest', index: true}],
-    name: {type: String, index: true},
+    firstName: String,
+    secondName: String,
+    lastName: String,
+    nickname: {type: String, index: true},
     email: {
         type: String,
         index: {
@@ -13,7 +16,7 @@ const userSchema = new Schema({
             sparse: true
         }
     },
-    password: {type: String, index: true},
+    password: String,
     passedQuests: [{
         type: ObjectId,
         ref: 'Quest',

@@ -19,7 +19,7 @@ describe('model: quest', () => {
         return quest.save()
             .then(savedQuest => {
                 assert.equal(savedQuest.likesCount, 5);
-                assert.equal(savedQuest.name, 'First Quest');
+                assert.equal(savedQuest.nickname, 'First Quest');
             });
     });
 });

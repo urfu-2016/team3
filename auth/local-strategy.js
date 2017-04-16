@@ -5,7 +5,7 @@ const User = require('../models/user');
 
 module.exports = new LocalStrategy(
     (username, password, done) => {
-        User.findOne({name: username})
+        User.findOne({nickname: username})
             .then(user => {
                 if (!user) {
                     return done(null, false, {message: 'Incorrect username'});

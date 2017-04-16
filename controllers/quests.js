@@ -45,7 +45,7 @@ exports.create = (req, res, next) => {
             return res.redirect('/quests/create?captchaError=true');
         }
         return new Quest({
-            name: req.body.name,
+            nickname: req.body.nickname,
             description: req.body.description,
             author: req.user
         })

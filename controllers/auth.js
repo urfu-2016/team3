@@ -18,7 +18,7 @@ exports.loginLocal = passport.authenticate('local', {
 
 exports.registration = (req, res, next) => {
     new User({
-        name: req.body.username,
+        nickname: req.body.username,
         password: req.body.password,
         email: req.body.email
     }).save()
