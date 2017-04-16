@@ -30,16 +30,11 @@ const questSchema = new Schema({
     passesCount: {type: Number, index: true, default: 0},
     passedCount: {type: Number, index: true, default: 0},
     photos: [{type: ObjectId, ref: 'Photo'}],
-    comments: [{
-        comment: String,
-        author: {
+    comments: [
+        {
             type: ObjectId,
-            ref: 'User',
-            index: true,
-            required: true
-        },
-        parentComment: {type: ObjectId, ref: 'User'}
-    }]
+            ref: 'Comment'
+        }]
 });
 
 module.exports = mongoose.model('Quest', questSchema);
