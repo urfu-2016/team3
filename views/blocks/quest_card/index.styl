@@ -1,0 +1,67 @@
+.quest-card
+  margin 30px 0
+  width 100%
+  overflow hidden
+  position relative
+  box-shadow $box-shadow
+
+  &__images
+    width 100%
+    height 250px
+    display flex
+
+    &-big
+      width 100%
+
+      @media (min-width: 560px)
+        width 60%
+
+    &-small
+      width 40%
+      min-width 300px
+      display none
+
+      @media (min-width: 560px)
+        display block
+
+  &:nth-child(2n) &__images
+    flex-direction row-reverse
+
+  &__image
+    object-fit cover
+    width 100%
+    height 100%
+
+  &__link
+    position absolute
+    top 0
+    left 0
+    right 0
+    bottom 0
+
+  &__description
+    width 100%
+    min-width 300px
+    position absolute
+    bottom 0
+    transition transform .9s, background .9s
+    transform translateY(80px)
+    background $primary-dark
+
+    @media (min-width 560px)
+      width 40%
+
+    &[data-visible='true']
+      transform translateY(0)
+      background rgba($primary-dark, .8)
+
+  &:nth-child(2n) &__description
+    left 0
+
+  &:nth-child(2n + 1) &__description
+    right 0
+
+@media (min-width: 560px) and (min-height: 560px)
+  .quest-card:hover .quest-card__description
+    transform translateY(0)
+    background rgba($primary-dark, .8)

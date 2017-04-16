@@ -1,19 +1,13 @@
 'use strict';
 
-const root = document.querySelector('.quests-list');
+import header from '../../blocks/header';
+import floatingMenu from '../../blocks/floating_menu';
+import searchPanel from '../../blocks/sort_panel';
+import {description, sortingRules} from '../../blocks/quest_card';
 
-const sortingRules = [
-    (first, second) => {
-        return new Date(second.dataset.date) - new Date(first.dataset.date);
-    },
-    (first, second) => {
-        return Number(second.dataset.like) - Number(first.dataset.like);
-    }
-];
-
-module.exports = (() => {
-    require('../../blocks/header')();
-    require('../../blocks/questPreview')();
-    require('../../blocks/sortPanel')(root, sortingRules);
-    require('../../blocks/floatingMenuButton')(['/quests/create', '/about']);
-})();
+export default () => {
+    header();
+    description();
+    searchPanel(document.querySelector('.quests-list'), sortingRules);
+    floatingMenu();
+};

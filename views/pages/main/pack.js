@@ -1,3 +1,6 @@
+'use strict';
 
 require('./index.styl');
-require('./index');
+import app from './index';
+
+app();

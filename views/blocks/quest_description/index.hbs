@@ -1,0 +1,22 @@
+<section class="quest-description">
+    <img src="{{arrayFirst _images}}" class="quest-description__background">
+    <section class="quest-description__description">
+        {{> description/full
+            _title=_title
+            _date=_date
+            _likes=_likes
+            _finish=_finish
+            _followers=_followers
+            _description=_description
+            _author_avatar=_author_avatar
+            _author_name=_author_name
+            _author_link=_author_link
+        }}
+        {{#if _user.quest}}
+        {{else}}
+            <div class="quest-description__subscribe">
+                {{> floating_button/default _icon='add' }}
+            </div>
+        {{/if}}
+    </section>
+</section>

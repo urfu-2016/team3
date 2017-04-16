@@ -4,53 +4,31 @@
     <meta charset="UTF-8">
     <title>{{title}}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="{{ staticBasePath }}/quest.bundle.css">
 </head>
 <body>
-    {{> header/index }}
+    {{> header/index _title=title _user=user }}
     <main class="main">
-        <section class="app-bar">
-            <div class="app-bar__left"></div>
-            <div class="app-bar__right">
-                {{> searchForm/index inputId="search" actionLink="/search" }}
-            </div>
-        </section>
         <section class="quest">
-            <h1>{{ quest.name }}</h1>
-            <p>{{ quest.description }}</p>
-            <p>Likes: {{ quest.likesCount }}</p>
-            <p>Is published: {{ quest.published }}</p>
-
-            <section class="photos">
-                {{#each quest.photos}}
-                    <div>
-                        <p>Longitude: {{ this.location.longitude }}</p>
-                        <p>Latitude: {{ this.location.latitude }}</p>
-                        <p>{{ this.description }}</p>
-                        <img width="300px" src="/photos/{{ this._id }}/image">
-                    </div>
+            {{> quest_description/index
+                _title=quest.name
+                _date=quest.creationDate
+                _likes=quest.likesCount
+                _finish=quest.likesCount
+                _followers=quest.likesCount
+                _description=quest.description
+                _author_avatar=quest.author.avatar
+                _author_name=quest.author.name
+                _images=quest.images
+            }}
+            <h2 class="quest__title">Фотографии мест</h2>
+            <section class="quest__points">
+                {{#each quest.images}}
+                    {{> quest_point/index _status='none' _image=this}}
                 {{/each}}
             </section>
-
         </section>
-
-        <form action="/quests/{{ quest._id }}/publish" method="post">
-            <input type="submit" value="Publish">
-        </form>
-
-        <form action="/photos" method="post" enctype='multipart/form-data'>
-            <input name="longitude" type="number" step="0.00001">
-            <input name="latitude" type="number" step="0.00001">
-            <textarea name="description" placeholder="Quest description. 30 characters at least"></textarea>
-            <input type="hidden" value="{{ quest._id }}" name="questId">
-            <input type="file" name="image">
-            <input type="submit" value="Create">
-        </form>
-        {{#array '["add", "help"]'}}
-            {{> floatingMenuButton/index __items=this }}
-        {{/array}}
     </main>
-    <script src="{{ staticBasePath }}/quest.bundle.js"></script>
+    <script src="{{ staticBasePath }}/quest.bundle.js" async="async"></script>
 </body>
 </html>

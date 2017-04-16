@@ -4,34 +4,40 @@
     <meta charset="UTF-8">
     <title>{{title}}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="{{ staticBasePath }}/main.bundle.css">
-    <script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 <body>
-    {{> header/index }}
+    {{> header/index _title=title _user=user }}
     <main class="main">
         <section class="app-bar">
             <div class="app-bar__left">
-                {{#array '["по новизне", "по рейтингу"]'}}
-                    {{> sortPanel/index __fields=this }}
+                {{#array "по новизне" "по рейтингу"}}
+                    {{> sort_panel/index _fields=this }}
                 {{/array}}
             </div>
             <div class="app-bar__right">
-                {{> searchForm/index inputId="search" actionLink="/search" }}
+                {{> search_form/index _inputId="search" _actionLink="/search" }}
             </div>
         </section>
         <section class="quests-list">
             {{#each quests}}
-                <div class="quests-list__item" data-date="{{this.creationDate}}" data-like={{this.likesCount}}>
-                    {{> questPreview/index quest=this }}
-                </div>
+                {{> quest_card/index
+                    _title=this.name
+                    _date=this.creationDate
+                    _likes=this.likesCount
+                    _finish=this.likesCount
+                    _followers=this.likesCount
+                    _author_avatar=this.author.avatar
+                    _author_name=this.author.name
+                    _images=this.images
+                    _link='#'
+                }}
             {{/each}}
         </section>
-        {{#array '["add", "help"]'}}
-            {{> floatingMenuButton/index __items=this }}
+        {{#array '{"icon": "add", "link": "/quests/create"}' '{"icon":"?", "link": "/about"}'}}
+            {{> floating_menu/index _items=this }}
         {{/array}}
     </main>
-    <script src="{{ staticBasePath }}/main.bundle.js"></script>
+    <script src="{{ staticBasePath }}/main.bundle.js" async="async"></script>
 </body>
 </html>
