@@ -1,0 +1,9 @@
+<div class="create-quest">
+    <h2 class="create-quest__title">Шаг 1: создание квеста</h2>
+    <form class="create-quest__form" method="post">
+        {{> edit_text/index _id='name' _name='name' _label='inbox' _type='text' _placeholder='Название квеста'}}
+        {{> textarea/index _id='description'
+            _name='description' _label='border_color' _placeholder='Описание квеста' _rows='7'}}
+        <div class="create-quest__button">{{> button/index _text='Создать'}}</div>
+    </form>
+</div>
