@@ -14,7 +14,7 @@
     "dev:server": "nodemon .",
     "lint": "npm-run-all lint:*",
     "lint:stylus": "stylint ./views",
-    "lint:js": "eslint .",
+    "lint:js": "eslint . --fix",
     "clean": "npm-run-all clean:*",
     "clean:public": "rimraf public",
     "clean:modules": "rimraf node_modules",
