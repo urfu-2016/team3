@@ -35,7 +35,7 @@ const questSchema = new Schema({
         author: {
             type: ObjectId,
             ref: 'User',
-            required: false
+            required: true
         }
     }]
 });
