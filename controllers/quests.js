@@ -55,3 +55,14 @@ exports.create = (req, res, next) => {
     }
     res.render('createQuest', {captcha: req.recaptcha});
 };
+
+exports.createComment = (req, res, next) => {
+    return Quest.findById(req.params.id)
+        .then(quest => {
+            quest.comments.push({text: req.body.text, author: req.user});
+            return quest.save();
+        })
+        .then(quest => res.redirect(`/quests/${quest.id}`))
+        .catch(next);
+};
+

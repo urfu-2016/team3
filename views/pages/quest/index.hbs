@@ -29,6 +29,14 @@
             </section>
         </section>
     </main>
+    {{#each quest.comments}}
+        <p>{{this.text}}</p>
+        <p>{{this.author.name}}</p>
+    {{/each}}
+    <form action="/quests/{{ quest._id }}/comment" method="post">
+        <textarea name="text" placeholder="Quest description. 30 characters at least"></textarea>
+        <input type="submit" value="Create">
+    </form>
     <script src="{{ staticBasePath }}/quest.bundle.js" async="async"></script>
 </body>
 </html>

@@ -80,7 +80,7 @@ helpers.arrayFirst = array => {
  * @return последний элемент массива
  */
 helpers.arrayLast = array => {
-    return getArrayItem(array, array.length - 1);
+    return getArrayItem(array, 0);
 };
 
 /**
