@@ -19,14 +19,24 @@
                 _description=quest.description
                 _author_avatar=quest.author.avatar
                 _author_name=quest.author.name
-                _images=quest.images
+                _images=quest.photos
             }}
             <h2 class="quest__title">Фотографии мест</h2>
             <section class="quest__points">
-                {{#each quest.images}}
-                    {{> quest_point/index _status='none' _image=this}}
+                {{#each quest.photos}}
+                    {{#with (photoImageLink _id)}}
+                        {{> quest_point/index _status='none' _image=this}}
+                    {{/with}}
                 {{/each}}
             </section>
+            <form action="/photos" method="post" enctype="multipart/form-data">
+                <input name="longitude" type="number">
+                <input name="latitude" type="number">
+                <input name="image" type="file">
+                <input name="questId" type="hidden" value="{{ quest._id }}">
+                <input name="description" type="text">
+                <input type="submit" value="Upload">
+            </form>
         </section>
     </main>
     <script src="{{ staticBasePath }}/quest.bundle.js" async="async"></script>

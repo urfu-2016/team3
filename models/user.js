@@ -5,10 +5,7 @@ const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const userSchema = new Schema({
     likedQuests: [{type: ObjectId, ref: 'Quest', index: true}],
-    firstName: String,
-    secondName: String,
-    lastName: String,
-    nickname: {type: String, index: true},
+    name: {type: String, index: true},
     email: {
         type: String,
         index: {

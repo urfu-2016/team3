@@ -10,7 +10,7 @@ describe('model: user', () => {
     it('save user', () => {
         const user = new User({
             likedQuests: [],
-            nickname: 'Anton',
+            name: 'Anton',
             email: 'Anton@gmail.com',
             password: '3432423sdza',
             passedQuests: [],
@@ -18,6 +18,6 @@ describe('model: user', () => {
         });
 
         return user.save()
-            .then(savedUser => assert.equal(savedUser.nickname, user.nickname));
+            .then(savedUser => assert.equal(savedUser.name, user.name));
     });
 });

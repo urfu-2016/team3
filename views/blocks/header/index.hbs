@@ -3,9 +3,9 @@
     <div class="header__wrapper">
         <a href="/" class="header__logo">{{ title }}</a>
         <span class="material-icons header__details" data-details="close">expand_more</span>
-        {{# if username }}
+        {{# if _user }}
             <div class="header__user">
-                <span>Hello, {{ username }}</span>
+                <span>Hello, {{ _user.name }}</span>
                 <a class="header__user-link" href="/logout">Выйти</a>
             </div>
         {{else}}

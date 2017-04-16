@@ -35,7 +35,13 @@ helpers.array = (...items) => {
 };
 
 const getArrayItem = (array, index) => {
-    return array instanceof Array && index < array.length ? array[index] : null;
+    if (!(array instanceof Array)) {
+        return undefined;
+    }
+    if (index < 0) {
+        index = array.length + index;
+    }
+    return index < array.length ? array[index] : undefined;
 };
 
 /**
@@ -80,7 +86,7 @@ helpers.arrayFirst = array => {
  * @return последний элемент массива
  */
 helpers.arrayLast = array => {
-    return getArrayItem(array, array.length - 1);
+    return getArrayItem(array, -1);
 };
 
 /**
@@ -163,6 +169,36 @@ helpers.shy = text => {
     ].reduce((res, re) => {
         return res.replace(re, '$1&shy;$2');
     }, text);
+};
+
+/**
+ * Создание массива
+ *
+ * ```handlebars
+ * {{#array item1 item2 ...}}
+ *   {{#each this}}
+ *     ...
+ *   {{/each}}
+ * {{/array}}
+ * => [item1, item2, ...]
+ * ```
+ *
+ * @param items - список элементов
+ * @return блок с переданным в него созданным массивом
+ */
+helpers.concat = (...items) => {
+    items.pop();
+    return items.join('');
+};
+
+helpers.photoImageLink = (...items) => {
+    items.pop();
+    return `/photos/${items.pop()}/image`;
+};
+
+helpers.questLink = (...items) => {
+    items.pop();
+    return `/quests/${items.pop()}`;
 };
 
 /**

@@ -1,10 +1,18 @@
 <section class="quest-card" data-date="{{ _date }}" data-like={{ _likes }}>
     <div class="quest-card__images">
         <div class="quest-card__images-big">
-            <img class="quest-card__image" src="{{arrayFirst _images}}" alt="">
+            {{#with (arrayFirst _images)}}
+                {{#with (photoImageLink _id)}}
+                    <img class="quest-card__image" src="{{this}}" alt="">
+                {{/with}}
+            {{/with}}
         </div>
         <div class="quest-card__images-small">
-            <img class="quest-card__image" src="{{arrayLast _images}}" alt="">
+            {{#with (arrayLast _images)}}
+                {{#with (photoImageLink _id)}}
+                    <img class="quest-card__image" src="{{this}}" alt="">
+                {{/with}}
+            {{/with}}
         </div>
     </div>
     <a href="{{ _link }}" class="quest-card__link"></a>

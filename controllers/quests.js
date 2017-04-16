@@ -5,6 +5,7 @@ const HttpStatus = require('http-status');
 
 exports.list = (req, res, next) => {
     Quest.find({})
+        .populate('photos')
         .then(quests => res.render('main', {quests}))
         .catch(next);
 };
@@ -45,7 +46,7 @@ exports.create = (req, res, next) => {
             return res.redirect('/quests/create?captchaError=true');
         }
         return new Quest({
-            nickname: req.body.nickname,
+            name: req.body.name,
             description: req.body.description,
             author: req.user
         })

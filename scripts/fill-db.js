@@ -15,7 +15,7 @@ require('../db/connect')()
         console.info('Collections successfully cleared');
         const user = new User({
             likedQuests: [],
-            nickname: 'John Doe',
+            name: 'John Doe',
             email: 'example@mail.com',
             password: '3432423sdza',
             passedQuests: [],
@@ -41,6 +41,9 @@ require('../db/connect')()
         }
 
         return Promise.all(saves);
+    })
+    .then(quests => {
+
     })
     .then(() => {
         console.log('Quests created');
