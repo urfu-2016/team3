@@ -12,7 +12,7 @@ require('../db/connect')()
             User.remove({}).exec(),
             Quest.remove({}).exec(),
             Photo.remove({}).exec(),
-            UserFolower.remove({}).exec(),
+            UserFolower.remove({}).exec()
         ]);
     })
     .then(() => {
