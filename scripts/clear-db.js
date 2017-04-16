@@ -1,18 +1,19 @@
 'use strict';
 
-const Quest = require('../models/quest');
-const Photo = require('../models/photo');
-const UserFolower = require('../models/user_follower');
-const User = require('../models/user');
+process.chdir(__dirname);
+const fs = require('fs');
 const mongoose = require('mongoose');
+
+
+const models = fs.readdirSync('../models')
+    .map((file) => require(`../models/${file}`));
 
 require('../db/connect')()
     .then(() => {
         return Promise.all([
-            User.remove({}).exec(),
-            Quest.remove({}).exec(),
-            Photo.remove({}).exec(),
-            UserFolower.remove({}).exec()
+            models.map((model) => {
+                return model.remove({}).exec();
+            })
         ]);
     })
     .then(() => {
