@@ -39,6 +39,7 @@ app.use(express.static(publicDir));
 hbsUtils.registerWatchedPartials(partialsDir);
 
 app.use(logger('dev'));
+app.use(require('./middlewares/forceSsl'));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
