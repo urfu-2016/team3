@@ -8,8 +8,8 @@
 </head>
 <body>
     {{> header/index _title=title _user=user }}
-    <main class="main">
-        <section class="create-quest-section">
+    <main class="main page-create-quest">
+        <section class="page-create-quest__section">
             {{> create_quest/index }}
         </section>
         {{#array '{"icon": "add", "link": "/quests/create"}' '{"icon":"?", "link": "/about"}'}}

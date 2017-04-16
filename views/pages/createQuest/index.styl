@@ -1,20 +1,30 @@
 @import '../../blocks/index'
 @import '../../blocks/header'
 
-.main
+.page-create-quest
+  display flex
+  flex-grow 1
+  flex-direction column
+  justify-content center
+
   @media (max-width: 560px)
     padding 0
 
-.create-quest-section
-  max-width 600px
-  margin 10px auto
-  padding 20px
-  background transparent
-  box-shadow $box-shadow
-  border-radius 4px
+  &__section
+    box-sizing border-box
+    width 100%
+    margin 10px auto
+    padding 20px
+    background transparent
+    box-shadow $box-shadow
+    border-radius 4px
 
-  @media (min-width: 560px)
-    border solid 1px rgba(255, 255, 255, .3)
+    @media (min-width: 560px)
+      width 80%
+      border solid 1px rgba(255, 255, 255, .3)
+
+    @media (min-width: 700px)
+      width 60%
 
 @import '../../blocks/create_quest'
 @import '../../blocks/floating_menu'
