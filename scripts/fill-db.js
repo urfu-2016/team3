@@ -42,9 +42,6 @@ require('../db/connect')()
 
         return Promise.all(saves);
     })
-    .then(quests => {
-
-    })
     .then(() => {
         console.log('Quests created');
         mongoose.connection.close();

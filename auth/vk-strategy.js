@@ -12,9 +12,9 @@ function saveVkAccount(params, profile, done) {
         .then(user => done(null, user));
 }
 
-module.exports = (clientId, clientSecret) => new VKStrategy({
-    clientID: clientId,
-    clientSecret: clientSecret,
+module.exports = (clientID, clientSecret) => new VKStrategy({
+    clientID,
+    clientSecret,
     callbackURL: '/login/vk/callback'
 }, (accessToken, refreshToken, params, profile, done) => {
     /* eslint max-params: [2, 5] */

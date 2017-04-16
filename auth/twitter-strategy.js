@@ -12,8 +12,8 @@ function saveTwitterAccount(profile, done) {
 }
 
 module.exports = (consumerKey, consumerSecret) => new TwitterStrategy({
-    consumerKey: consumerKey,
-    consumerSecret: consumerSecret,
+    consumerKey,
+    consumerSecret,
     callbackURL: '/login/twitter/callback'
 }, (token, tokenSecret, profile, done) => {
     User.findOne({twitterID: profile.id})
