@@ -24,9 +24,7 @@
             <h2 class="quest__title">Фотографии мест</h2>
             <section class="quest__points">
                 {{#each quest.photos}}
-                    {{#with (photoImageLink _id)}}
-                        {{> quest_point/index _status='none' _image=this}}
-                    {{/with}}
+                    {{> quest_point/index _status='none' _image=(photoImageLink _id)}}
                 {{/each}}
             </section>
             <form action="/photos" method="post" enctype="multipart/form-data">

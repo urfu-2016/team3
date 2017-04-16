@@ -172,34 +172,28 @@ helpers.shy = text => {
 };
 
 /**
- * Создание массива
+ * Генерация ссылки на картинку фотографии по id
  *
  * ```handlebars
- * {{#array item1 item2 ...}}
- *   {{#each this}}
- *     ...
- *   {{/each}}
- * {{/array}}
- * => [item1, item2, ...]
+ * {{photoImageLine photo._id}}
  * ```
  *
- * @param items - список элементов
- * @return блок с переданным в него созданным массивом
+ * @param id - id фотографии
+ * @return String сгенерированный URL
  */
-helpers.concat = (...items) => {
-    items.pop();
-    return items.join('');
-};
+helpers.photoImageLink = id => `/photos/${id}/image`;
 
-helpers.photoImageLink = (...items) => {
-    items.pop();
-    return `/photos/${items.pop()}/image`;
-};
-
-helpers.questLink = (...items) => {
-    items.pop();
-    return `/quests/${items.pop()}`;
-};
+/**
+ * Генерация ссылки на квест по id
+ *
+ * ```handlebars
+ * {{questLink photo._id}}
+ * ```
+ *
+ * @param id - id квеста
+ * @return String сгенерированный URL
+ */
+helpers.questLink = id => `/quests/${id}`;
 
 /**
  * Добавляет Helper'ы расширяя стандартный функционал Handlebars
