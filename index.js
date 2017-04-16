@@ -20,7 +20,7 @@ const captchaSettings = require('./configs/captcha');
 recaptcha.init(captchaSettings.siteKey, captchaSettings.secretKey, {theme: 'dark'});
 
 const session = require('express-session');
-const passport = require('./passport.config');
+const passport = require('./configs/passport.js');
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -43,7 +43,7 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(error.middleware(console.error));
-app.use(session({secret: process.env.SESSION_SECRET}));
+app.use(session({resave: true, saveUninitialized: false, secret: process.env.SESSION_SECRET}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(require('./middlewares/common-data'));

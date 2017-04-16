@@ -6,9 +6,19 @@ const ObjectId = mongoose.Schema.Types.ObjectId;
 const userSchema = new Schema({
     likedQuests: [{type: ObjectId, ref: 'Quest', index: true}],
     name: {type: String, index: true},
-    email: {type: String, unique: true},
-    passwordHash: {type: String, index: true},
-    passedQuests: [{type: ObjectId, ref: 'Quest', unique: true}],
+    email: {
+        type: String,
+        index: {
+            unique: true,
+            sparse: true
+        }
+    },
+    password: {type: String, index: true},
+    passedQuests: [{
+        type: ObjectId,
+        ref: 'Quest',
+        unique: true
+    }],
     photoStatuses: [{
         photo: {
             type: ObjectId,
@@ -25,20 +35,22 @@ const userSchema = new Schema({
     twitterID: {type: String, index: true}
 });
 
-userSchema.statics.createPasswordHash = password => {
-    return crypto.createHash('sha256', process.env.HASH_SECRET)
+function createPasswordHash(password) {
+    return crypto.createHash('sha512', process.env.HASH_SECRET)
         .update(password)
         .digest('hex');
-};
+}
 
 userSchema.pre('save', function (next) {
-    this.passwordHash = userSchema.statics.createPasswordHash(this.passwordHash);
+    if (this.password) {
+        this.password = createPasswordHash(this.password);
+    }
     next();
 });
 
 userSchema.methods.checkPassword = function (password) {
-    const passHash = userSchema.statics.createPasswordHash(password);
-    return this.passwordHash === passHash;
+    const passHash = createPasswordHash(password);
+    return this.password === passHash;
 };
 
 module.exports = mongoose.model('User', userSchema);
