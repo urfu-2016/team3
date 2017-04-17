@@ -1,7 +1,10 @@
+'use strict';
+
 const mongoose = require('mongoose');
 const crypto = require('crypto');
 const Schema = mongoose.Schema;
 const ObjectId = mongoose.Schema.Types.ObjectId;
+const env = require('../configs/env');
 
 const userSchema = new Schema({
     likedQuests: [{type: ObjectId, ref: 'Quest', index: true}],
@@ -36,7 +39,7 @@ const userSchema = new Schema({
 });
 
 function createPasswordHash(password) {
-    return crypto.createHash('sha512', process.env.HASH_SECRET)
+    return crypto.createHash('sha512', env.HASH_SECRET)
         .update(password)
         .digest('hex');
 }

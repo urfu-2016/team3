@@ -15,15 +15,15 @@ const recaptcha = require('express-recaptcha');
 const connectToDb = require('./db/connect');
 const hbsHelpers = require('./utils/hbs-helpers');
 const error = require('./middlewares/error');
-const captchaSettings = require('./configs/captcha');
+const env = require('./configs/env');
 
-recaptcha.init(captchaSettings.siteKey, captchaSettings.secretKey, {theme: 'dark'});
+recaptcha.init(env.CAPTCHA_SITE_KEY, env.CAPTCHA_SECRET, {theme: 'dark'});
 
 const session = require('express-session');
 const passport = require('./configs/passport.js');
 
 const app = express();
-const port = process.env.PORT || 8080;
+const port = env.PORT;
 
 const viewsDir = path.join(__dirname, 'views');
 const partialsDir = path.join(viewsDir, 'blocks');
@@ -45,7 +45,7 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(error.middleware(console.error));
-app.use(session({resave: true, saveUninitialized: false, secret: process.env.SESSION_SECRET}));
+app.use(session({resave: true, saveUninitialized: false, secret: env.SESSION_SECRET}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(require('./middlewares/common-data'));
@@ -57,7 +57,7 @@ connectToDb()
     .then(() => {
         app.listen(port, () => {
             console.info(`Server started on ${port}`);
-            if (process.env.NODE_ENV !== 'production') {
+            if (env.NODE_ENV !== 'production') {
                 console.info(`Open http://localhost:${port}/ to view service`);
             }
         });
