@@ -30,6 +30,7 @@ const partialsDir = path.join(viewsDir, 'blocks');
 const pagesDir = path.join(viewsDir, 'pages');
 const publicDir = path.join(__dirname, 'public');
 
+app.set('trust proxy', true);
 app.set('view engine', 'hbs');
 app.set('views', pagesDir);
 hbsUtils.registerPartials(partialsDir);
