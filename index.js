@@ -36,10 +36,13 @@ app.set('views', pagesDir);
 hbsUtils.registerPartials(partialsDir);
 hbsHelpers(hbs);
 
-app.use(express.static(publicDir));
-hbsUtils.registerWatchedPartials(partialsDir);
-
-app.use(logger('dev'));
+let loggerType = "short";
+if (process.env.NODE_ENV !== 'production') {
+    app.use(express.static(publicDir));
+    hbsUtils.registerWatchedPartials(partialsDir);
+    loggerType = "dev";
+}
+app.use(logger(loggerType));
 app.use(require('./middlewares/forceSsl'));
 app.use(cookieParser());
 app.use(bodyParser.json());
