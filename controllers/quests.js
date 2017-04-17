@@ -21,7 +21,7 @@ exports.show = (req, res, next) => {
                 return res.render('quest', {quest});
             }
 
-            const err = new Error("You are not allowed to see this quest right now");
+            const err = new Error('You are not allowed to see this quest right now');
             err.status = HttpStatus.FORBIDDEN;
             throw err;
         })
@@ -32,7 +32,7 @@ exports.publish = (req, res, next) => {
     Quest.findById(req.params.id)
         .then(quest => {
             if (quest.author !== req.user._id) {
-                const err = new Error("You are not allowed to modify this quest");
+                const err = new Error('You are not allowed to modify this quest');
                 err.status = HttpStatus.FORBIDDEN;
                 throw err;
             }
