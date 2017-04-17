@@ -1,9 +1,10 @@
 'use strict';
 
 const auth = require('../controllers/auth');
+const isAuth = require('../middlewares/isAuth');
 
 module.exports = app => {
-    app.get('/profile', (req, res) => res.send('Here will be user profile page'));
+    app.get('/profile', isAuth, (req, res) => res.send('Here will be user profile page'));
 
     app.route('/login')
         .get(auth.loginPage)
@@ -19,6 +20,6 @@ module.exports = app => {
         .get(auth.registerPage)
         .post(auth.registration);
 
-    app.get('/logout', auth.logout);
+    app.get('/logout', isAuth, auth.logout);
 };
 

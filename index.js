@@ -47,13 +47,12 @@ app.use(require('./middlewares/forceSsl'));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-app.use(error.middleware(console.error));
 app.use(session({resave: true, saveUninitialized: false, secret: env.SESSION_SECRET}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(require('./middlewares/common-data'));
+app.use(error.middleware(console.error));
 require('./routes')(app);
-
 app.use(error.server(console.error));
 
 connectToDb()

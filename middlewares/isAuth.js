@@ -1,5 +1,9 @@
 'use strict';
 
 module.exports = (req, res, next) => {
-    return req.isAuthenticated() ? next() : res.redirect(`/login?redirectUrl=${req.url}`);
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    req.session.returnTo = req.url;
+    res.redirect('/login');
 };

@@ -13,11 +13,9 @@ exports.middleware = cb => {
 };
 
 exports.server = cb => {
-    return (err, req, res, next) => {
-        /* eslint no-unused-vars: 0 */
-        /* eslint max-params: [2, 4] */
-
+    return (err, req, res) => {
         cb(err);
-        res.sendStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+        res.status(err.status || HttpStatus.INTERNAL_SERVER_ERROR)
+            .render('error', {err});
     };
 };

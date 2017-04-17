@@ -3,17 +3,13 @@
 const passport = require('passport');
 const User = require('../models/user');
 
-exports.loginPage = (req, res) => {
-    res.render('login');
-};
+exports.loginPage = (req, res) => res.render('login');
 
-exports.registerPage = (req, res) => {
-    res.render('register');
-};
+exports.registerPage = (req, res) => res.render('register');
 
 exports.loginLocal = passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/login?fail=true'
+    successReturnToOrRedirect: '/',
+    failureRedirect: '/login?failedStrategy=local'
 });
 
 exports.registration = (req, res, next) => {
@@ -22,8 +18,8 @@ exports.registration = (req, res, next) => {
         password: req.body.password,
         email: req.body.email
     }).save()
-        .then(user => {
-            req.logIn(user, err => err ? next(err) : res.redirect('/'));
+        .then(() => {
+            exports.loginLocal(req, res, next);
         })
         .catch(next);
 };
@@ -36,13 +32,13 @@ exports.logout = function (req, res) {
 exports.loginVK = passport.authenticate('vk');
 
 exports.loginVKCallback = passport.authenticate('vk', {
-    successRedirect: '/',
-    failureRedirect: '/login?fail=true'
+    successReturnToOrRedirect: '/',
+    failureRedirect: '/login?failedStrategy=vk'
 });
 
 exports.loginTwitter = passport.authenticate('twitter');
 
 exports.loginTwitterCallback = passport.authenticate('twitter', {
-    successRedirect: '/',
-    failureRedirect: '/login?fail=true'
+    successReturnToOrRedirect: '/',
+    failureRedirect: '/login?failedStrategy=twitter'
 });
