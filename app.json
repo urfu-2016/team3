@@ -10,10 +10,10 @@
       "required": true
     },
     "HASH_SECRET": {
-      "required": true
+      "generator": "secret"
     },
     "SESSION_SECRET": {
-      "required": true
+      "generator": "secret"
     },
     "TWITTER_KEY": {
       "required": true
