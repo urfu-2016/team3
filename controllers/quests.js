@@ -11,8 +11,7 @@ exports.list = (req, res, next) => {
 };
 
 exports.show = (req, res, next) => {
-    const id = req.params.id;
-    Quest.findById(id)
+    Quest.findById(req.params.id)
         .populate('photos')
         .then(quest => {
             if (!quest) {
@@ -22,19 +21,25 @@ exports.show = (req, res, next) => {
                 return res.render('quest', {quest});
             }
 
-            return res.sendStatus(HttpStatus.FORBIDDEN);
+            const err = new Error("You are not allowed to see this quest right now");
+            err.status = HttpStatus.FORBIDDEN;
+            throw err;
         })
         .catch(next);
 };
 
 exports.publish = (req, res, next) => {
-    Quest
-        .findByIdAndUpdate(
-            req.params.id,
-            {$set: {published: true}},
-            {safe: true, upsert: true, new: true}
-        )
-        .exec()
+    Quest.findById(req.params.id)
+        .then(quest => {
+            if (quest.author !== req.user._id) {
+                const err = new Error("You are not allowed to modify this quest");
+                err.status = HttpStatus.FORBIDDEN;
+                throw err;
+            }
+
+            quest.published = true;
+            return quest.save();
+        })
         .then(quest => res.redirect(`/quests/${quest.id}`))
         .catch(next);
 };
