@@ -17,4 +17,9 @@ require('../db/connect')()
     })
     .then(() => {
         mongoose.connection.close();
+    })
+    .catch(err => {
+        console.error(err.message, err);
+        mongoose.connection.close();
     });
+
