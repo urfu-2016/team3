@@ -7,6 +7,9 @@
 <body>
 {{> header/index }}
 <main class="main">
+    {{#if error}}
+        <p>{{error}}</p>
+    {{/if}}
     <form action="/login" method="post">
         <div>
             <p></p>

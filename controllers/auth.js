@@ -3,14 +3,15 @@
 const passport = require('passport');
 const User = require('../models/user');
 
-exports.loginPage = (req, res) => res.render('login');
+const AUTHORIZATION_STRATEGY_OPTIONS = {
+    successReturnToOrRedirect: '/',
+    failureRedirect: '/login',
+    failureFlash: true
+};
+
+exports.loginPage = (req, res) => res.render('login', {error: req.flash('error')});
 
 exports.registerPage = (req, res) => res.render('register');
-
-exports.loginLocal = passport.authenticate('local', {
-    successReturnToOrRedirect: '/',
-    failureRedirect: '/login?failedStrategy=local'
-});
 
 exports.registration = (req, res, next) => {
     new User({
@@ -18,9 +19,7 @@ exports.registration = (req, res, next) => {
         password: req.body.password,
         email: req.body.email
     }).save()
-        .then(() => {
-            exports.loginLocal(req, res, next);
-        })
+        .then(() => exports.loginLocal(req, res, next))
         .catch(next);
 };
 
@@ -29,16 +28,8 @@ exports.logout = function (req, res) {
     res.redirect('/');
 };
 
-exports.loginVK = passport.authenticate('vk');
+exports.loginLocal = passport.authenticate('local', AUTHORIZATION_STRATEGY_OPTIONS);
 
-exports.loginVKCallback = passport.authenticate('vk', {
-    successReturnToOrRedirect: '/',
-    failureRedirect: '/login?failedStrategy=vk'
-});
+exports.loginVK = passport.authenticate('vk', AUTHORIZATION_STRATEGY_OPTIONS);
 
-exports.loginTwitter = passport.authenticate('twitter');
-
-exports.loginTwitterCallback = passport.authenticate('twitter', {
-    successReturnToOrRedirect: '/',
-    failureRedirect: '/login?failedStrategy=twitter'
-});
+exports.loginTwitter = passport.authenticate('twitter', AUTHORIZATION_STRATEGY_OPTIONS);

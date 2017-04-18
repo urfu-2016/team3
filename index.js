@@ -48,6 +48,7 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(session({resave: true, saveUninitialized: false, secret: env.SESSION_SECRET}));
+app.use(require('connect-flash')());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(require('./middlewares/common-data'));

@@ -34,8 +34,8 @@ const userSchema = new Schema({
         }
     }],
     isAdmin: {type: Boolean, default: false},
-    vkID: {type: String, index: true},
-    twitterID: {type: String, index: true}
+    vkId: {type: String, index: true},
+    twitterId: {type: String, index: true}
 });
 
 function createPasswordHash(password) {

@@ -34,15 +34,15 @@ helpers.array = (...items) => {
     }));
 };
 
-const getArrayItem = (array, index) => {
+function getArrayItem(array, index) {
     if (!(array instanceof Array)) {
         return undefined;
     }
     if (index < 0) {
         index = array.length + index;
     }
-    return index < array.length ? array[index] : undefined;
-};
+    return array[index];
+}
 
 /**
  * Получение элемента массива по индексу
@@ -187,7 +187,7 @@ helpers.photoImageLink = id => `/photos/${id}/image`;
  * Генерация ссылки на квест по id
  *
  * ```handlebars
- * {{questLink photo._id}}
+ * {{questLink quest._id}}
  * ```
  *
  * @param id - id квеста

@@ -1,8 +1,6 @@
 <section class="quest-description">
     {{#with (arrayFirst _images)}}
-        {{#if this}}
-            <img src="{{photoImageLink _id}}" class="quest-description__background">
-        {{/if}}
+        <img src="{{photoImageLink _id}}" class="quest-description__background">
     {{/with}}
     <section class="quest-description__description">
         {{> description/full

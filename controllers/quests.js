@@ -3,14 +3,12 @@
 const Quest = require('../models/quest');
 const HttpStatus = require('http-status');
 
-exports.list = (req, res, next) => {
-    Quest.find({})
-        .populate('photos')
-        .then(quests => res.render('main', {quests}))
-        .catch(next);
-};
+exports.list = (req, res, next) => Quest.find({})
+    .populate('photos')
+    .then(quests => res.render('main', {quests}))
+    .catch(next);
 
-exports.show = (req, res, next) => {
+exports.show = (req, res, next) =>
     Quest.findById(req.params.id)
         .populate('photos')
         .then(quest => {
@@ -26,9 +24,8 @@ exports.show = (req, res, next) => {
             throw err;
         })
         .catch(next);
-};
 
-exports.publish = (req, res, next) => {
+exports.publish = (req, res, next) =>
     Quest.findById(req.params.id)
         .then(quest => {
             if (quest.author !== req.user._id) {
@@ -42,7 +39,6 @@ exports.publish = (req, res, next) => {
         })
         .then(quest => res.redirect(`/quests/${quest.id}`))
         .catch(next);
-};
 
 exports.create = (req, res, next) => {
     if (req.method === 'POST') {

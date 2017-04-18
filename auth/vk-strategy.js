@@ -3,23 +3,20 @@
 const VKStrategy = require('passport-vkontakte').Strategy;
 const User = require('../models/user');
 
-function saveVkAccount(params, profile, done) {
-    return new User({
-        name: profile.displayName,
-        email: params.email,
-        vkID: profile.id
-    }).save()
-        .then(user => done(null, user));
-}
+const saveVkAccount = profile => new User({
+    name: profile.displayName,
+    vkId: profile.id
+}).save();
 
 module.exports = (clientID, clientSecret) => new VKStrategy({
     clientID,
     clientSecret,
-    callbackURL: '/login/vk/callback'
+    callbackURL: '/login/vk'
 }, (accessToken, refreshToken, params, profile, done) => {
     /* eslint max-params: [2, 5] */
 
-    User.findOne({vkID: profile.id})
-        .then(user => user ? done(null, user) : saveVkAccount(params, profile, done))
+    User.findOne({vkId: profile.id})
+        .then(user => user || saveVkAccount(profile))
+        .then(user => done(null, user))
         .catch(done);
 });
