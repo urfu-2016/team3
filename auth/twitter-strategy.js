@@ -3,13 +3,11 @@
 const TwitterStrategy = require('passport-twitter').Strategy;
 const User = require('../models/user');
 
-function saveTwitterAccount(profile, done) {
-    return new User({
+const saveTwitterAccount = profile =>
+    new User({
         name: profile.displayName,
         twitterID: profile.id
-    }).save()
-        .then(user => done(null, user));
-}
+    }).save();
 
 module.exports = (consumerKey, consumerSecret) => new TwitterStrategy({
     consumerKey,
@@ -17,6 +15,7 @@ module.exports = (consumerKey, consumerSecret) => new TwitterStrategy({
     callbackURL: '/login/twitter'
 }, (token, tokenSecret, profile, done) => {
     User.findOne({twitterId: profile.id})
-        .then(user => user ? done(null, user) : saveTwitterAccount(profile, done))
+        .then(user => user || saveTwitterAccount(profile, done))
+        .then(user => done(null, user))
         .catch(done);
 });
