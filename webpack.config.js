@@ -19,8 +19,7 @@ module.exports = {
     entry: {
         main: './main/pack.js',
         quest: './quest/pack.js',
-        authorization: './authorization/pack.js',
-        login: './login/pack.js'
+        authorization: './authorization/pack.js'
     },
 
     output: {

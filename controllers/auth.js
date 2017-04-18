@@ -9,11 +9,11 @@ const AUTHORIZATION_STRATEGY_OPTIONS = {
     failureFlash: true
 };
 
-exports.loginPage = (req, res) => res.render('login', {error: req.flash('error')});
+exports.loginPage = (req, res) => res.render('authorization/login', {error: req.flash('error')});
 
-exports.registerPage = (req, res) => res.render('register');
+exports.registerPage = (req, res) => res.render('authorization/registration', {error: req.flash('error')});
 
-exports.registration = (req, res, next) => {
+exports.registration = (req, res, next) =>
     new User({
         name: req.body.username,
         password: req.body.password,
@@ -21,7 +21,6 @@ exports.registration = (req, res, next) => {
     }).save()
         .then(() => exports.loginLocal(req, res, next))
         .catch(next);
-};
 
 exports.logout = function (req, res) {
     req.logout();

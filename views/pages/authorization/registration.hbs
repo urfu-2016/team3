@@ -14,7 +14,7 @@
             _photo3='http://www.kofe-kofe.ru/img/more/162/162739.jpg'
         }}
         <section class="authorization__container">
-            <form class="authorization__form">
+            <form class="authorization__form" action="/register" method="post">
                 <h2 class="authorization__title">Регистрация</h2>
                 {{> edit_text/index _id='email' _name='email' _label='email' _type='email' _placeholder='E-mail'}}
                 {{> edit_text/index _id='username' _name='username' _label='person' _type='text' _placeholder='Ник'}}
@@ -22,6 +22,8 @@
                 <div class="authorization__submit">
                     {{> button/index _text='Зарегистрироваться'}}
                 </div>
+                <a href="/login/vk">Login with Vk</a>
+                <a href="/login/twitter">Login with Twitter</a>
             </form>
         </section>
     </main>
