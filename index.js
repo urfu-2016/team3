@@ -16,9 +16,7 @@ const connectToDb = require('./db/connect');
 const hbsHelpers = require('./utils/hbs-helpers');
 const error = require('./middlewares/error');
 const env = require('./configs/env');
-
-recaptcha.init(env.CAPTCHA_SITE_KEY, env.CAPTCHA_SECRET, {theme: 'dark'});
-
+require('./configs/recaptcha');
 const session = require('express-session');
 const passport = require('./configs/passport.js');
 
