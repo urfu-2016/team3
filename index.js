@@ -40,7 +40,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 app.use(logger(loggerType));
 app.use(require('./middlewares/forceSsl'));
-app.use(cookieParser());
+app.use(cookieParser(env.COOKIE_SECRET));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(session({resave: true, saveUninitialized: false, secret: env.SESSION_SECRET}));

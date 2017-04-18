@@ -16,3 +16,4 @@ exports.PORT = process.env.PORT || 8080;
 exports.MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/photo-quest';
 
 exports.SESSION_SECRET = process.env.SESSION_SECRET;
+exports.COOKIE_SECRET = process.env.COOKIE_SECRET;
