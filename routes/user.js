@@ -2,6 +2,7 @@
 
 const auth = require('../controllers/auth');
 const isAuth = require('../middlewares/isAuth');
+const recaptcha = require('express-recaptcha');
 
 module.exports = app => {
     app.get('/profile', isAuth, (req, res) => res.send('Here will be user profile page'));
@@ -15,8 +16,8 @@ module.exports = app => {
     app.get('/login/twitter', auth.loginTwitter);
 
     app.route('/register')
-        .get(auth.registerPage)
-        .post(auth.registration);
+        .get(recaptcha.middleware.render, auth.registerPage)
+        .post(recaptcha.middleware.verify, auth.registration);
 
     app.get('/logout', isAuth, auth.logout);
 };

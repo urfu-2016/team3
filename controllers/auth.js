@@ -11,9 +11,28 @@ const AUTHORIZATION_STRATEGY_OPTIONS = {
 
 exports.loginPage = (req, res) => res.render('authorization/login', {error: req.flash('error')});
 
-exports.registerPage = (req, res) => res.render('authorization/registration', {error: req.flash('error')});
+exports.registerPage = (req, res) => res.render('authorization/registration', {
+    error: req.flash('error'),
+    captcha: req.recaptcha
+});
 
-exports.registration = (req, res, next) =>
+exports.registration = (req, res, next) => {
+    if (req.recaptcha.error) {
+        switch (req.recaptcha.error) {
+            case 'invalid-input-secret':
+            case 'missing-input-secret':
+                console.error(`reCaptcha secret key is ${req.recaptcha.error.split('-')[0]}`);
+                return next(new Error('There is a problem on our side. We already knows about it. Please, try again later.'));
+                break;
+            case 'missing-input-response':
+                console.error('User\'s reCaptcha response was lost');
+                return next(new Error('There is a problem on our side. We already knows about it. Please, try again later.'));
+                break;
+            case 'invalid-input-response':
+                req.flash('error', 'Your solution was wrong! Please, try again');
+                return res.redirect('/register');
+        }
+    }
     new User({
         name: req.body.username,
         password: req.body.password,
@@ -21,6 +40,7 @@ exports.registration = (req, res, next) =>
     }).save()
         .then(() => exports.loginLocal(req, res, next))
         .catch(next);
+};
 
 exports.logout = function (req, res) {
     req.logout();
