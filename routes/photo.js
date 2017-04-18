@@ -2,7 +2,6 @@
 
 const photos = require('./../controllers/photos');
 const upload = require('./../configs/multer');
-const recaptcha = require('express-recaptcha');
 const isAuth = require('../middlewares/isAuth');
 
 module.exports = app => {

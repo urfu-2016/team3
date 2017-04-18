@@ -23,14 +23,14 @@ exports.registration = (req, res, next) => {
             case 'missing-input-secret':
                 console.error(`reCaptcha secret key is ${req.recaptcha.error.split('-')[0]}`);
                 return next(new Error('There is a problem on our side. We already knows about it. Please, try again later.'));
-                break;
             case 'missing-input-response':
                 console.error('User\'s reCaptcha response was lost');
                 return next(new Error('There is a problem on our side. We already knows about it. Please, try again later.'));
-                break;
             case 'invalid-input-response':
                 req.flash('error', 'Your solution was wrong! Please, try again');
                 return res.redirect('/register');
+            default:
+                next(new Error(`Undefined reCaptcha error: ${req.recaptcha.error}`));
         }
     }
     new User({

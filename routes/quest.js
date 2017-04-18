@@ -1,7 +1,6 @@
 'use strict';
 
 const quests = require('./../controllers/quests');
-const recaptcha = require('express-recaptcha');
 const isAuth = require('../middlewares/isAuth');
 
 module.exports = app => {

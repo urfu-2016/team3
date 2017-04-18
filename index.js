@@ -6,19 +6,17 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-
 const logger = require('morgan');
 const hbs = require('hbs');
 const hbsUtils = require('hbs-utils')(hbs);
-const recaptcha = require('express-recaptcha');
+const session = require('express-session');
 
+const env = require('./configs/env');
 const connectToDb = require('./db/connect');
 const hbsHelpers = require('./utils/hbs-helpers');
 const error = require('./middlewares/error');
-const env = require('./configs/env');
-require('./configs/recaptcha');
-const session = require('express-session');
 const passport = require('./configs/passport.js');
+require('./configs/recaptcha');
 
 const app = express();
 const port = env.PORT;

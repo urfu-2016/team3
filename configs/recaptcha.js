@@ -24,6 +24,6 @@ recaptcha.middleware.render = (formId, submitButtonId) => {
             req.recaptcha = req.recaptcha.replace(/g-recaptcha" data/,
                 `g-recaptcha" data-bind="${submitButtonId}" data`);
             next();
-        })
+        });
     };
 };
