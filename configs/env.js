@@ -61,8 +61,3 @@ exports.SESSION_SECRET = process.env.SESSION_SECRET;
  * @type {String}
  */
 exports.COOKIE_SECRET = process.env.COOKIE_SECRET;
-/**
- * Secret used to encrypt passwords
- * @type {String}
- */
-exports.HASH_SECRET = process.env.HASH_SECRET;

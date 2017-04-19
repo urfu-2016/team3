@@ -9,7 +9,7 @@
     "CAPTCHA_SECRET": {
       "required": true
     },
-    "HASH_SECRET": {
+    "COOKIE_SECRET": {
       "generator": "secret"
     },
     "SESSION_SECRET": {
