@@ -1,14 +1,20 @@
 'use strict';
 
 const mongoose = require('mongoose');
-const crypto = require('crypto');
+const bcrypt = require('bcrypt');
 const Schema = mongoose.Schema;
 const ObjectId = mongoose.Schema.Types.ObjectId;
 const env = require('../configs/env');
 
+const SALT_WORK_FACTOR = 10;
+
 const userSchema = new Schema({
     likedQuests: [{type: ObjectId, ref: 'Quest', index: true}],
-    name: {type: String, index: true},
+    name: {
+        type: String,
+        index: true,
+        required: true
+    },
     email: {
         type: String,
         index: {
@@ -45,15 +51,33 @@ function createPasswordHash(password) {
 }
 
 userSchema.pre('save', function (next) {
-    if (this.password) {
-        this.password = createPasswordHash(this.password);
+    const user = this;
+
+    if (!user.passowrd || !user.isModified('password')) {
+        return next();
     }
-    next();
+
+    bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
+        if (err) {
+            return next(err);
+        }
+
+        bcrypt.hash(user.password, salt, function(err, hash) {
+            if (err) {
+                return next(err);
+            }
+
+            user.password = hash;
+            next();
+        });
+    });
 });
 
-userSchema.methods.checkPassword = function (password) {
-    const passHash = createPasswordHash(password);
-    return this.password === passHash;
+userSchema.methods.comparePassword = function(candidatePassword) {
+    return new Promise((resolve, reject) => {
+        bcrypt.compare(candidatePassword, this.password,
+            (err, isMatch) => err ? reject(err) : resolve(isMatch));
+    });
 };
 
 module.exports = mongoose.model('User', userSchema);

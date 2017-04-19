@@ -11,7 +11,7 @@ module.exports = new LocalStrategy(
                 if (!user) {
                     return done(null, false, {message: 'Incorrect email'});
                 }
-                if (!user.checkPassword(password)) {
+                if (!user.comparePassword(password)) {
                     return done(null, false, {message: 'Incorrect password'});
                 }
                 return done(null, user);
