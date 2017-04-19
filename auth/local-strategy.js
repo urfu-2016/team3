@@ -5,7 +5,7 @@ const User = require('../models/user');
 
 module.exports = new LocalStrategy(
     {usernameField: 'email'},
-    (email, password, done) => {
+    (email, password, done) =>
         User.findOne({email})
             .then(user => {
                 if (!user) {
@@ -16,6 +16,5 @@ module.exports = new LocalStrategy(
                 }
                 return done(null, user);
             })
-            .catch(done);
-    }
+            .catch(done)
 );

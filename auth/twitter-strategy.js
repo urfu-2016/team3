@@ -9,13 +9,14 @@ const saveTwitterAccount = profile =>
         twitterID: profile.id
     }).save();
 
-module.exports = (consumerKey, consumerSecret) => new TwitterStrategy({
-    consumerKey,
-    consumerSecret,
-    callbackURL: '/login/twitter'
-}, (token, tokenSecret, profile, done) => {
-    User.findOne({twitterId: profile.id})
-        .then(user => user || saveTwitterAccount(profile, done))
-        .then(user => done(null, user))
-        .catch(done);
-});
+module.exports = (consumerKey, consumerSecret) =>
+    new TwitterStrategy({
+        consumerKey,
+        consumerSecret,
+        callbackURL: '/login/twitter'
+    }, (token, tokenSecret, profile, done) =>
+        User.findOne({twitterId: profile.id})
+            .then(user => user || saveTwitterAccount(profile, done))
+            .then(user => done(null, user))
+            .catch(done)
+    );
