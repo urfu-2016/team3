@@ -9,6 +9,7 @@
   "extends": "xo/esnext",
   "rules": {
     "indent": [2, 4, {"SwitchCase": 1}],
-    "operator-linebreak": [2, "after", { "overrides": { "?": "before", ":": "before" }}]
+    "operator-linebreak": [2, "after", { "overrides": { "?": "before", ":": "before" }}],
+    "max-params": [2, 3]
   }
 }

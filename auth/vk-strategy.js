@@ -13,11 +13,10 @@ module.exports = (clientID, clientSecret) =>
         clientID,
         clientSecret,
         callbackURL: '/login/vk'
-    }, (accessToken, refreshToken, params, profile, done) => {
+    }, (accessToken, refreshToken, params, profile, done) =>
         /* eslint max-params: [2, 5] */
-
         User.findOne({vkId: profile.id})
             .then(user => user || saveVkAccount(profile))
             .then(user => done(null, user))
-            .catch(done);
-    });
+            .catch(done)
+    );

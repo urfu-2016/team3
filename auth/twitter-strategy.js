@@ -15,6 +15,7 @@ module.exports = (consumerKey, consumerSecret) =>
         consumerSecret,
         callbackURL: '/login/twitter'
     }, (token, tokenSecret, profile, done) =>
+        /* eslint max-params: [2, 4] */
         User.findOne({twitterId: profile.id})
             .then(user => user || saveTwitterAccount(profile, done))
             .then(user => done(null, user))

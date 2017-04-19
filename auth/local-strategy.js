@@ -11,11 +11,10 @@ module.exports = new LocalStrategy(
                 if (!user) {
                     return done(null, false, {message: 'Incorrect email'});
                 }
-                user.comparePassword(password)
+                return user.comparePassword(password)
                     .then(isMatch => isMatch
                         ? done(null, user)
-                        : done(null, false, {message: 'Incorrect password'}))
-                    .catch(done);
+                        : done(null, false, {message: 'Incorrect password'}));
             })
             .catch(done)
 );
