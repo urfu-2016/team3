@@ -50,7 +50,6 @@ userSchema.pre('save', function (next) {
         return next();
     }
 
-    console.log('Saving password');
     return bcrypt.genSalt(SALT_WORK_FACTOR)
         .then(salt => bcrypt.hash(user.password, salt))
         .then(hash => {
