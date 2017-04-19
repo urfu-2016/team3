@@ -46,10 +46,11 @@ const userSchema = new Schema({
 userSchema.pre('save', function (next) {
     const user = this;
 
-    if (!user.passowrd || !user.isModified('password')) {
+    if (!user.password || !user.isModified('password')) {
         return next();
     }
 
+    console.log('Saving password');
     return bcrypt.genSalt(SALT_WORK_FACTOR)
         .then(salt => bcrypt.hash(user.password, salt))
         .then(hash => {
