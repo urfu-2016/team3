@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 const Schema = mongoose.Schema;
 const ObjectId = mongoose.Schema.Types.ObjectId;
 
-const SALT_WORK_FACTOR = 10;
+const SALT_WORK_FACTOR = 13;
 
 const userSchema = new Schema({
     likedQuests: [{type: ObjectId, ref: 'Quest', index: true}],
