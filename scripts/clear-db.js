@@ -8,13 +8,9 @@ const models = fs.readdirSync('../models')
     .map(file => require(`../models/${file}`));
 
 require('../db/connect')()
-    .then(() => {
-        return Promise.all([
-            models.map(model => {
-                return model.remove({}).exec();
-            })
-        ]);
-    })
+    .then(() => Promise.all(
+            models.map(model => model.remove({}).exec())
+        ))
     .then(() => {
         mongoose.connection.close();
     })
