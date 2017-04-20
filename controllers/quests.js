@@ -58,7 +58,9 @@ exports.createComment = (req, res, next) => {
     return Quest.findById(req.params.id)
         .then(quest => {
             if (!quest) {
-                throw new Error('There is no such quest');
+                const err = new Error('There is no such quest');
+                err.status = HttpStatus.NOT_FOUND;
+                throw err;
             }
             quest.comments.push({text: req.body.text, author: req.user});
             return quest.save();
