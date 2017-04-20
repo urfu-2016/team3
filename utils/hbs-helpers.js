@@ -34,7 +34,7 @@ helpers.array = (...items) => {
     }));
 };
 
-function getArrayItem(array, index) {
+const getArrayItem = (array, index) => {
     if (!(array instanceof Array)) {
         return undefined;
     }
@@ -42,7 +42,7 @@ function getArrayItem(array, index) {
         index = array.length + index;
     }
     return array[index];
-}
+};
 
 /**
  * Получение элемента массива по индексу

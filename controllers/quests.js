@@ -42,10 +42,6 @@ exports.publish = (req, res, next) =>
 
 exports.create = (req, res, next) => {
     if (req.method === 'POST') {
-        if (req.recaptcha.error) {
-            console.error('ReCaptcha error', req.recaptcha.error);
-            return res.redirect('/quests/create?captchaError=true');
-        }
         return new Quest({
             name: req.body.name,
             description: req.body.description,
