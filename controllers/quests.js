@@ -53,3 +53,19 @@ exports.create = (req, res, next) => {
     }
     res.render('createQuest', {captcha: req.recaptcha});
 };
+
+exports.createComment = (req, res, next) => {
+    return Quest.findById(req.params.id)
+        .then(quest => {
+            if (!quest) {
+                const err = new Error('There is no such quest');
+                err.status = HttpStatus.NOT_FOUND;
+                throw err;
+            }
+            quest.comments.push({text: req.body.text, author: req.user});
+            return quest.save();
+        })
+        .then(quest => res.redirect(`/quests/${quest.id}`))
+        .catch(next);
+};
+
