@@ -2,13 +2,13 @@
 <header class="header">
     <div class="header__wrapper">
         <a href="/" class="header__logo">{{ title }}</a>
-        <span class="material-icons header__details" data-details="close">expand_more</span>
-        {{# if _user }}
-            <div class="header__user">
+        {{#if _user }}
+            <div class="header__user header__user-open">
                 <span>Hello, {{ _user.name }}</span>
                 <a class="header__user-link" href="/logout">Выйти</a>
             </div>
         {{else}}
+            <span class="material-icons header__details" data-details="close">expand_more</span>
             <div class="header__user">
                 <a class="header__user-link" href="/login">Войти</a>
                 <span class="header__user-separator">или</span>
