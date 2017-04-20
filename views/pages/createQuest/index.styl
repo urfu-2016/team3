@@ -16,12 +16,15 @@
     margin 10px auto
     padding 20px
     background transparent
-    box-shadow $box-shadow
     border-radius 4px
 
     @media (min-width: 560px)
       max-width 600px
+      box-shadow $box-shadow
       border solid 1px rgba(255, 255, 255, .3)
+
+.big-text__textarea_max-height
+  max-height 45vh
 
 @import '../../blocks/create_quest'
 @import '../../blocks/floating_menu'
