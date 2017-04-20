@@ -1,4 +1,4 @@
-# Фотоквест [![Build Status](https://travis-ci.org/urfu-2016/team3.svg?branch=master)](https://travis-ci.org/urfu-2016/team3) [![Stories in Ready](https://badge.waffle.io/urfu-2016/team3.png?label=ready&title=Ready)](https://waffle.io/urfu-2016/team3)
+# Фотоквест [![Build Status](https://travis-ci.org/urfu-2016/team3.svg?branch=master)](https://travis-ci.org/urfu-2016/team3) [![Stories in Ready](https://badge.waffle.io/urfu-2016/team3.png?label=ready&title=Ready)](https://waffle.io/urfu-2016/team3) [![Stories in progress](https://badge.waffle.io/urfu-2016/team3.png?label=in%20progress&title=In%20progress)](https://waffle.io/urfu-2016/team3)
 
 ### Команды
 
