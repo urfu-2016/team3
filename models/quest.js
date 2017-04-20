@@ -31,7 +31,10 @@ const questSchema = new Schema({
     passedCount: {type: Number, index: true, default: 0},
     photos: [{type: ObjectId, ref: 'Photo'}],
     comments: [{
-        text: String,
+        text: {
+            type: String,
+            maxlength: 300
+        },
         author: {
             type: ObjectId,
             ref: 'User',
