@@ -3,15 +3,13 @@
 const Quest = require('../models/quest');
 const HttpStatus = require('http-status');
 
-exports.list = (req, res, next) => {
-    Quest.find({})
-        .then(quests => res.render('main', {quests}))
-        .catch(next);
-};
+exports.list = (req, res, next) => Quest.find({})
+    .populate('photos')
+    .then(quests => res.render('main', {quests}))
+    .catch(next);
 
-exports.show = (req, res, next) => {
-    const id = req.params.id;
-    Quest.findById(id)
+exports.show = (req, res, next) =>
+    Quest.findById(req.params.id)
         .populate('photos')
         .then(quest => {
             if (!quest) {
@@ -21,29 +19,29 @@ exports.show = (req, res, next) => {
                 return res.render('quest', {quest});
             }
 
-            return res.sendStatus(HttpStatus.FORBIDDEN);
+            const err = new Error('You are not allowed to see this quest right now');
+            err.status = HttpStatus.FORBIDDEN;
+            throw err;
         })
         .catch(next);
-};
 
-exports.publish = (req, res, next) => {
-    Quest
-        .findByIdAndUpdate(
-            req.params.id,
-            {$set: {published: true}},
-            {safe: true, upsert: true, new: true}
-        )
-        .exec()
+exports.publish = (req, res, next) =>
+    Quest.findById(req.params.id)
+        .then(quest => {
+            if (quest.author !== req.user._id) {
+                const err = new Error('You are not allowed to modify this quest');
+                err.status = HttpStatus.FORBIDDEN;
+                throw err;
+            }
+
+            quest.published = true;
+            return quest.save();
+        })
         .then(quest => res.redirect(`/quests/${quest.id}`))
         .catch(next);
-};
 
 exports.create = (req, res, next) => {
     if (req.method === 'POST') {
-        if (req.recaptcha.error) {
-            console.error('ReCaptcha error', req.recaptcha.error);
-            return res.redirect('/quests/create?captchaError=true');
-        }
         return new Quest({
             name: req.body.name,
             description: req.body.description,

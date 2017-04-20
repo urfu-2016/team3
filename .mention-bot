@@ -1,7 +1,6 @@
 {
     "maxReviewers": 2,
     "numFilesToCheck": 10,
-    "message": "Спасибо большое, @pullRequester! @reviewers, пожалуйста, сделайте ревью кода.",
     "alwaysNotifyForPaths": [
         {
             "name": "Gebon",
@@ -20,11 +19,6 @@
         },
         {
             "name": "LeMarck",
-            "files": ["**/*", "*.*"],
-            "skipTeamPrs": false
-        },
-        {
-            "name": "svl96",
             "files": ["**/*", "*.*"],
             "skipTeamPrs": false
         }

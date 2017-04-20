@@ -35,7 +35,13 @@ helpers.array = (...items) => {
 };
 
 const getArrayItem = (array, index) => {
-    return array instanceof Array && index < array.length ? array[index] : null;
+    if (!(array instanceof Array)) {
+        return undefined;
+    }
+    if (index < 0) {
+        index = array.length + index;
+    }
+    return array[index];
 };
 
 /**
@@ -80,7 +86,7 @@ helpers.arrayFirst = array => {
  * @return последний элемент массива
  */
 helpers.arrayLast = array => {
-    return getArrayItem(array, array.length - 1);
+    return getArrayItem(array, -1);
 };
 
 /**
@@ -164,6 +170,30 @@ helpers.shy = text => {
         return res.replace(re, '$1&shy;$2');
     }, text);
 };
+
+/**
+ * Генерация ссылки на картинку фотографии по id
+ *
+ * ```handlebars
+ * {{photoImageLine photo._id}}
+ * ```
+ *
+ * @param id - id фотографии
+ * @return String сгенерированный URL
+ */
+helpers.photoImageLink = id => `/photos/${id}/image`;
+
+/**
+ * Генерация ссылки на квест по id
+ *
+ * ```handlebars
+ * {{questLink quest._id}}
+ * ```
+ *
+ * @param id - id квеста
+ * @return String сгенерированный URL
+ */
+helpers.questLink = id => `/quests/${id}`;
 
 /**
  * Добавляет Helper'ы расширяя стандартный функционал Handlebars

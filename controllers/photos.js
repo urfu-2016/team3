@@ -33,7 +33,9 @@ exports.upload = (req, res, next) => {
         .exec()
         .then(quest => {
             if (!quest) {
-                throw new ReferenceError(`Quest with id: ${req.body.questId} not found`);
+                const err = new Error(`Quest with id: ${req.body.questId} not found`);
+                err.status = HttpStatus.BAD_REQUEST;
+                throw err;
             }
             return quest;
         })
@@ -46,13 +48,7 @@ exports.upload = (req, res, next) => {
             return quest.save();
         })
         .then(quest => res.redirect(`/quests/${quest.id}`))
-        .catch(err => {
-            if (err instanceof ReferenceError) {
-                return res.status(HttpStatus.BAD_REQUEST)
-                    .send(err.message);
-            }
-            next(err);
-        });
+        .catch(next);
 };
 
 function preparePhotoData(req) {
@@ -74,7 +70,9 @@ exports.checkin = (req, res, next) => {
     Photo.findById(req.params.id)
         .then(photo => {
             if (!photo) {
-                throw new ReferenceError(`Photo with id: ${req.params.id} not found`);
+                const err = new Error(`Photo with id: ${req.params.id} not found`);
+                err.status = HttpStatus.NOT_FOUND;
+                throw err;
             }
 
             return photo;
@@ -92,12 +90,7 @@ exports.checkin = (req, res, next) => {
                 .then(() => ({photo, status}));
         })
         .then(({photo, status}) => res.redirect(`/photos/${photo.id}?success=${status}`))
-        .catch(err => {
-            if (err instanceof ReferenceError) {
-                return res.status(HttpStatus.NOT_FOUND).render('404');
-            }
-            next(err);
-        });
+        .catch(next);
 };
 
 const MAX_DISTANCE_BETWEEN_PLAYER_AND_PHOTO_IN_METERS = 500;

@@ -12,7 +12,7 @@ describe('model: user', () => {
             likedQuests: [],
             name: 'Anton',
             email: 'Anton@gmail.com',
-            passwordHash: '3432423sdza',
+            password: '3432423sdza',
             passedQuests: [],
             photoStatuses: []
         });

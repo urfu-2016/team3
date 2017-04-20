@@ -17,7 +17,7 @@ require('../db/connect')()
             likedQuests: [],
             name: 'John Doe',
             email: 'example@mail.com',
-            passwordHash: '3432423sdza',
+            password: '3432423sdza',
             passedQuests: [],
             photoStatuses: []
         });

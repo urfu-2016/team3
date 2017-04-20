@@ -1,5 +1,7 @@
 <section class="quest-description">
-    <img src="{{arrayFirst _images}}" class="quest-description__background">
+    {{#with (arrayFirst _images)}}
+        <img src="{{photoImageLink _id}}" class="quest-description__background">
+    {{/with}}
     <section class="quest-description__description">
         {{> description/full
             _title=_title
