@@ -83,7 +83,7 @@ exports.checkin = (req, res, next) =>
                 latitude: req.body.latitude
             });
             req.user.photoStatuses.push({
-                photo: photo,
+                photo,
                 status
             });
             return req.user.save()
