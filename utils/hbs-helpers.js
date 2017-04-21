@@ -196,6 +196,18 @@ helpers.photoImageLink = id => `/photos/${id}/image`;
 helpers.questLink = id => `/quests/${id}`;
 
 /**
+ * Генерация ссылки для публикации квеста по id
+ *
+ * ```handlebars
+ * {{publishQuestLink quest._id}}
+ * ```
+ *
+ * @param id - id квеста
+ * @return String сгенерированный URL
+ */
+helpers.publishQuestLink = id => `/quests/${id}/publish`;
+
+/**
  * Добавляет Helper'ы расширяя стандартный функционал Handlebars
  *
  * @param hbs - Handlebars

@@ -11,11 +11,14 @@ exports.list = (req, res, next) => Quest.find({})
 exports.show = (req, res, next) =>
     Quest.findById(req.params.id)
         .populate('photos')
+        .populate('comments.author')
         .then(quest => {
             if (!quest) {
-                return res.status(HttpStatus.NOT_FOUND).render('404');
+                const err = new Error(`There is no quest with id ${req.params.id}`);
+                err.status = HttpStatus.NOT_FOUND;
+                throw err;
             }
-            if (quest.published || (req.user && (quest.author === req.user._id || req.user.isAdmin))) {
+            if (quest.published || (req.user && (quest.author.equals(req.user._id) || req.user.isAdmin))) {
                 return res.render('quest', {quest});
             }
 
@@ -28,7 +31,7 @@ exports.show = (req, res, next) =>
 exports.publish = (req, res, next) =>
     Quest.findById(req.params.id)
         .then(quest => {
-            if (quest.author !== req.user._id) {
+            if (!quest.author.equals(req.user._id)) {
                 const err = new Error('You are not allowed to modify this quest');
                 err.status = HttpStatus.FORBIDDEN;
                 throw err;
@@ -54,11 +57,11 @@ exports.create = (req, res, next) => {
     res.render('createQuest', {captcha: req.recaptcha});
 };
 
-exports.createComment = (req, res, next) => {
-    return Quest.findById(req.params.id)
+exports.createComment = (req, res, next) =>
+    Quest.findById(req.params.id)
         .then(quest => {
             if (!quest) {
-                const err = new Error('There is no such quest');
+                const err = new Error(`There is no quest with id ${req.params.id}`);
                 err.status = HttpStatus.NOT_FOUND;
                 throw err;
             }
@@ -67,5 +70,4 @@ exports.createComment = (req, res, next) => {
         })
         .then(quest => res.redirect(`/quests/${quest.id}`))
         .catch(next);
-};
 

@@ -21,6 +21,9 @@
                 _author_name=quest.author.name
                 _images=quest.photos
             }}
+            <form action="{{publishQuestLink quest._id}}" method="post">
+                <button>Publish</button>
+            </form>
             <h2 class="quest__title">Фотографии мест</h2>
             <section class="quest__points">
                 {{#each quest.photos}}
@@ -37,14 +40,16 @@
             </form>
         </section>
     </main>
+    {{#each quest.comments}}
+        <section>
+            <h4>{{author.name}}</h4>
+            <p>{{text}}</p>
+        </section>
+    {{/each}}
     <form action="/quests/{{ quest._id }}/comment" method="post">
         <textarea name="text" placeholder="Write you comment"></textarea>
         <input type="submit" value="Create">
     </form>
-    {{#each quest.comments}}
-        <p>{{this.text}}</p>
-        <p>{{this.author.name}}</p>
-    {{/each}}
     <script src="{{ staticBasePath }}/quest.bundle.js" async="async"></script>
 </body>
 </html>

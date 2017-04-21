@@ -5,36 +5,37 @@ const Quest = require('../models/quest');
 const HttpStatus = require('http-status');
 const geolib = require('geolib');
 
-exports.show = (req, res, next) => {
-    const id = req.params.id;
-    Photo.findById(id)
+exports.show = (req, res, next) =>
+    Photo.findById(req.params.id)
         .then(photo => {
             if (!photo) {
-                return res.status(HttpStatus.NOT_FOUND).render('404');
+                const err = new Error(`There is no photo with id ${req.params.id}`);
+                err.status = HttpStatus.NOT_FOUND;
+                throw err;
             }
             res.render('photo', {photo});
         })
         .catch(next);
-};
 
-exports.image = (req, res, next) => {
+exports.image = (req, res, next) =>
     Photo.findById(req.params.id)
         .then(photo => {
             if (!photo) {
-                return res.status(HttpStatus.NOT_FOUND).render('404');
+                const err = new Error(`There is no photo with id ${req.params.id}`);
+                err.status = HttpStatus.NOT_FOUND;
+                throw err;
             }
             res.contentType(photo.image.contentType).send(photo.image.data);
         })
         .catch(next);
-};
 
-exports.upload = (req, res, next) => {
+exports.upload = (req, res, next) =>
     Quest.findById(req.body.questId)
         .exec()
         .then(quest => {
             if (!quest) {
                 const err = new Error(`Quest with id: ${req.body.questId} not found`);
-                err.status = HttpStatus.BAD_REQUEST;
+                err.status = HttpStatus.NOT_FOUND;
                 throw err;
             }
             return quest;
@@ -49,7 +50,6 @@ exports.upload = (req, res, next) => {
         })
         .then(quest => res.redirect(`/quests/${quest.id}`))
         .catch(next);
-};
 
 function preparePhotoData(req) {
     return {
@@ -66,7 +66,7 @@ function preparePhotoData(req) {
     };
 }
 
-exports.checkin = (req, res, next) => {
+exports.checkin = (req, res, next) =>
     Photo.findById(req.params.id)
         .then(photo => {
             if (!photo) {
@@ -83,7 +83,7 @@ exports.checkin = (req, res, next) => {
                 latitude: req.body.latitude
             });
             req.user.photoStatuses.push({
-                photo: photo._id,
+                photo: photo,
                 status
             });
             return req.user.save()
@@ -91,7 +91,6 @@ exports.checkin = (req, res, next) => {
         })
         .then(({photo, status}) => res.redirect(`/photos/${photo.id}?success=${status}`))
         .catch(next);
-};
 
 const MAX_DISTANCE_BETWEEN_PLAYER_AND_PHOTO_IN_METERS = 500;
 
