@@ -16,7 +16,7 @@ const connectToDb = require('./db/connect');
 const hbsHelpers = require('./utils/hbs-helpers');
 const error = require('./middlewares/error');
 const passport = require('./configs/passport.js');
-require('./configs/recaptcha');
+require('./configs/recaptcha')();
 
 const app = express();
 const port = env.PORT;

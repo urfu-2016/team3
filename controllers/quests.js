@@ -54,7 +54,7 @@ exports.create = (req, res, next) => {
             .then(quest => res.redirect(`/quests/${quest.id}`))
             .catch(next);
     }
-    res.render('createQuest', {captcha: req.recaptcha});
+    res.render('createQuest', {recaptcha: req.recaptcha});
 };
 
 exports.createComment = (req, res, next) =>
