@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ staticBasePath }}/createQuest.bundle.css">
+</head>
+<body>
+    {{> header/index _title=title _user=user }}
+    <main class="main page-create-quest">
+        <section class="page-create-quest__section">
+            {{> create_quest/index }}
+        </section>
+        {{#array '{"icon": "add", "link": "/quests/create"}' '{"icon":"?", "link": "/about"}'}}
+            {{> floating_menu/index _items=this }}
+        {{/array}}
+    </main>
+    <script src="{{ staticBasePath }}/createQuest.bundle.js"></script>
+</body>
+</html>

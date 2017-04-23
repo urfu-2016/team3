@@ -16,7 +16,7 @@ module.exports = app => {
     app.get('/login/twitter', auth.loginTwitter);
 
     app.route('/register')
-        .get(recaptcha.middleware.render('registration-form', 'recaptcha-submit'), auth.registerPage)
+        .get(recaptcha.middleware.render, auth.registerPage)
         .post(recaptcha.middleware.verify, auth.registration);
 
     app.get('/logout', isAuth, auth.logout);

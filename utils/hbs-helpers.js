@@ -196,6 +196,48 @@ helpers.photoImageLink = id => `/photos/${id}/image`;
 helpers.questLink = id => `/quests/${id}`;
 
 /**
+ * Генерация ссылки для публикации квеста по id
+ *
+ * ```handlebars
+ * {{publishQuestLink quest._id}}
+ * ```
+ *
+ * @param id - id квеста
+ * @return String сгенерированный URL
+ */
+helpers.publishQuestLink = id => `/quests/${id}/publish`;
+
+/**
+ * Расширяет разметку, созданную библиотекой express-recaptcha
+ * express-recaptcha не умеет работать с invisible recaptcha,
+ * поэтому приходится делать это самим.
+ * А делается это именно в Handlebars, потому что контролировать
+ * formId, submitButtonId удобнее в месте применения
+ *
+ * ```handlebars
+ * {{captcha 'form-id' 'submit-button-id'}}
+ * ```
+ *
+ * @param formId id формы, на которую биндится капча
+ * @param submitButtonId id кнопки, по нажатию на которую начинаются все проверки
+ * @param context контекст исполнения функции
+ * @return String расширенная разметка
+ */
+helpers.captcha = (formId, submitButtonId, context) => {
+    let recaptcha = context.data.root.recaptcha;
+    recaptcha +=
+        '<script type="text/javascript">' +
+        '   function onFormSubmitReCaptcha() {' +
+        `       document.getElementById('${formId}').submit();` +
+        '   }' +
+        '</script>';
+
+    recaptcha = recaptcha.replace(/g-recaptcha" data/,
+        `g-recaptcha" data-bind="${submitButtonId}" data-badge="inline" style="display: none" data`);
+    return recaptcha;
+};
+
+/**
  * Добавляет Helper'ы расширяя стандартный функционал Handlebars
  *
  * @param hbs - Handlebars

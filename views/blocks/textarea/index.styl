@@ -1,4 +1,4 @@
-.edit-text
+.big-text
   display flex
   border-bottom 2px solid $color-text-secondary
   font-size 1.5rem
@@ -7,14 +7,16 @@
   &__icon
     color $color-text-secondary
 
-  &__input
+  &__textarea
+    box-sizing border-box
     width 100%
-    min-width 200px
+    max-width 100%
     border 0
     background transparent
     color #fff
-    padding 0 10px
+    padding 3px 10px
     font-size 1rem
+    font-family inherit
 
     &:focus
       outline 0

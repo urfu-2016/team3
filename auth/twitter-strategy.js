@@ -6,7 +6,7 @@ const User = require('../models/user');
 const saveTwitterAccount = profile =>
     new User({
         name: profile.displayName,
-        twitterID: profile.id
+        twitterId: profile.id
     }).save();
 
 module.exports = (consumerKey, consumerSecret) =>

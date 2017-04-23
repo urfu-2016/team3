@@ -13,7 +13,7 @@ exports.loginPage = (req, res) => res.render('authorization/login', {error: req.
 
 exports.registerPage = (req, res) => res.render('authorization/registration', {
     error: req.flash('error'),
-    captcha: req.recaptcha
+    recaptcha: req.recaptcha
 });
 
 exports.registration = (req, res, next) => {
