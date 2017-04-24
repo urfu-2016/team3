@@ -1,5 +1,7 @@
 'use strict';
 
+const urls = require('./url-generator');
+
 /**
  * @name hbs-helper
  * @description Helper'ы для Handlebars
@@ -181,7 +183,7 @@ helpers.shy = text => {
  * @param id - id фотографии
  * @return String сгенерированный URL
  */
-helpers.photoImageLink = id => `/photos/${id}/image`;
+helpers.photoImageLink = urls.photos.image;
 
 /**
  * Генерация ссылки на квест по id
@@ -193,7 +195,7 @@ helpers.photoImageLink = id => `/photos/${id}/image`;
  * @param id - id квеста
  * @return String сгенерированный URL
  */
-helpers.questLink = id => `/quests/${id}`;
+helpers.questLink = urls.quests.specific;
 
 /**
  * Генерация ссылки для публикации квеста по id
@@ -205,7 +207,7 @@ helpers.questLink = id => `/quests/${id}`;
  * @param id - id квеста
  * @return String сгенерированный URL
  */
-helpers.publishQuestLink = id => `/quests/${id}/publish`;
+helpers.publishQuestLink = urls.quests.publish;
 
 /**
  * Расширяет разметку, созданную библиотекой express-recaptcha

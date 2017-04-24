@@ -3,11 +3,12 @@
 const photos = require('./../controllers/photos');
 const upload = require('./../configs/multer');
 const isAuth = require('../middlewares/isAuth');
+const photoUrls = require('../utils/url-generator').photos;
 
 module.exports = app => {
-    app.post('/photos', isAuth, upload.single('image'), photos.upload);
-    app.get('/photos/:id', photos.show);
-    app.get('/photos/:id/image', photos.image);
-    app.post('/photos/:id/checkin', isAuth, photos.checkin);
+    app.post(photoUrls.root(), isAuth, upload.single('image'), photos.upload);
+    app.get(photoUrls.specific(), photos.show);
+    app.get(photoUrls.image(), photos.image);
+    app.post(photoUrls.checkin(), isAuth, photos.checkin);
 };
 

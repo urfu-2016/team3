@@ -41,7 +41,8 @@
     "passport-local": "^1.0.0",
     "passport-twitter": "^1.0.4",
     "passport-vkontakte": "git+https://github.com/stevebest/passport-vkontakte.git#0ca02be0d07eef6237d80e040fe58d31d8854f95",
-    "randomstring": "^1.1.5"
+    "string.format": "^1.3.1",
+    "url-join": "^2.0.1"
   },
   "devDependencies": {
     "babel-core": "^6.23.1",

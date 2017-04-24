@@ -3,22 +3,23 @@
 const auth = require('../controllers/auth');
 const isAuth = require('../middlewares/isAuth');
 const recaptcha = require('express-recaptcha');
+const userUrls = require('../utils/url-generator').users;
 
 module.exports = app => {
-    app.get('/profile', isAuth, (req, res) => res.send('Here will be user profile page'));
+    app.get(userUrls.profile(), isAuth, (req, res) => res.send('Here will be user profile page'));
 
-    app.route('/login')
+    app.route(userUrls.login())
         .get(auth.loginPage)
         .post(auth.loginLocal);
 
-    app.get('/login/vk', auth.loginVK);
+    app.get(userUrls.loginVK(), auth.loginVK);
 
-    app.get('/login/twitter', auth.loginTwitter);
+    app.get(userUrls.loginTwitter(), auth.loginTwitter);
 
-    app.route('/register')
+    app.route(userUrls.register())
         .get(recaptcha.middleware.render, auth.registerPage)
         .post(recaptcha.middleware.verify, auth.registration);
 
-    app.get('/logout', isAuth, auth.logout);
+    app.get(userUrls.logout(), isAuth, auth.logout);
 };
 
