@@ -45,7 +45,7 @@ describe('quests', () => {
         res.render = sandbox.stub();
         const query = {
             populate: () => query,
-            then: f => Promise.resolve().then(() => f(questsMock))
+            exec: () => Promise.resolve(questsMock)
         };
 
         const mockFind = sandbox.stub(Quest, 'find');
@@ -64,7 +64,7 @@ describe('quests', () => {
         const expectedError = new Error();
         const query = {
             populate: () => query,
-            then: () => Promise.reject(expectedError)
+            exec: () => Promise.reject(expectedError)
         };
 
         sandbox.stub(Quest, 'find').returns(query);
@@ -94,7 +94,7 @@ describe('quests', () => {
         res.render = sandbox.stub();
         const query = {
             populate: () => query,
-            then: f => Promise.resolve().then(() => f(questMock))
+            exec: () => Promise.resolve(questMock)
         };
 
         const mockFind = sandbox.stub(Quest, 'findById');
@@ -125,7 +125,7 @@ describe('quests', () => {
         res.render = sandbox.stub();
         const query = {
             populate: () => query,
-            then: f => Promise.resolve().then(() => f(questMock))
+            exec: () => Promise.resolve(questMock)
         };
 
         const mockFind = sandbox.stub(Quest, 'findById');
@@ -157,7 +157,7 @@ describe('quests', () => {
         res.render = sandbox.stub();
         const query = {
             populate: () => query,
-            then: f => Promise.resolve().then(() => f(questMock))
+            exec: () => Promise.resolve(questMock)
         };
 
         const mockFind = sandbox.stub(Quest, 'findById');
@@ -186,7 +186,7 @@ describe('quests', () => {
         res.render = sandbox.stub();
         const query = {
             populate: () => query,
-            then: f => Promise.resolve().then(() => f(questMock))
+            exec: () => Promise.resolve(questMock)
         };
 
         const mockFind = sandbox.stub(Quest, 'findById');
@@ -208,7 +208,7 @@ describe('quests', () => {
         res.render = sandbox.stub();
         const query = {
             populate: () => query,
-            then: f => Promise.resolve().then(() => f(questMock))
+            exec: () => Promise.resolve(questMock)
         };
 
         const mockFind = sandbox.stub(Quest, 'findById');
@@ -245,7 +245,7 @@ describe('quests', () => {
         res.redirect = sandbox.stub();
         const query = {
             populate: () => query,
-            then: f => Promise.resolve().then(() => f(questMock))
+            exec: () => Promise.resolve(questMock)
         };
 
         const mockFind = sandbox.stub(Quest, 'findById');
@@ -278,7 +278,7 @@ describe('quests', () => {
         res.redirect = sandbox.stub();
         const query = {
             populate: () => query,
-            then: f => Promise.resolve().then(() => f(questMock))
+            exec: () => Promise.resolve(questMock)
         };
 
         const mockFind = sandbox.stub(Quest, 'findById');
@@ -302,7 +302,7 @@ describe('quests', () => {
         res.redirect = sandbox.stub();
         const query = {
             populate: () => query,
-            then: f => Promise.resolve().then(() => f(questMock))
+            exec: () => Promise.resolve(questMock)
         };
 
         const mockFind = sandbox.stub(Quest, 'findById');
@@ -390,7 +390,7 @@ describe('quests', () => {
         res.redirect = sandbox.stub();
         const query = {
             populate: () => query,
-            then: f => Promise.resolve().then(() => f(questMock))
+            exec: () => Promise.resolve(questMock)
         };
 
         sandbox.stub(Quest, 'findById').returns(query);
@@ -413,7 +413,7 @@ describe('quests', () => {
         res.redirect = sandbox.stub();
         const query = {
             populate: () => query,
-            then: f => Promise.resolve().then(() => f(questMock))
+            exec: () => Promise.resolve(questMock)
         };
 
         sandbox.stub(Quest, 'findById').returns(query);

@@ -1,9 +1,9 @@
 'use strict';
 
 const photos = require('./../controllers/photos');
-const isAuth = require('../middlewares/isAuth');
-const isPersistent = require('../middlewares/is-persistent-user');
 const photoUrls = require('../utils/url-generator').photos;
+const isAuth = require('../middlewares/is-auth');
+const isPersistent = require('../middlewares/is-persistent-user');
 
 module.exports = app => {
     app.post(photoUrls.root(), isAuth, isPersistent, photos.upload);

@@ -27,6 +27,7 @@ exports.show = (req, res, next) =>
 
 exports.image = (req, res, next) =>
     Photo.findById(req.params.id)
+        .exec()
         .then(photo => {
             if (!photo) {
                 return res.sendStatus(HttpStatus.NOT_FOUND);
@@ -61,7 +62,7 @@ exports.upload = (req, res, next) =>
             .then(photo => ({quest, photo}))
         )
         .then(({quest, photo}) => {
-            quest.photos.push(photo._id);
+            quest.photos.push(photo);
             return quest.save();
         })
         .then(quest => res.redirect(urls.quests.specific(quest.id)))
@@ -85,6 +86,7 @@ function preparePhotoData(req) {
 exports.checkin = (req, res, next) =>
     Photo.findById(req.params.id)
         .populate('quest')
+        .exec()
         .then(photo => {
             if (!photo) {
                 const err = new Error(`Photo with id: ${req.params.id} not found`);
