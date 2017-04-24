@@ -1,20 +1,23 @@
+/* eslint-disable no-unused-expressions */
 'use strict';
 
 const sinon = require('sinon');
 const expect = require('chai').expect;
-const {JsMockito} = require('jsmockito');
-const {JsHamcrest} = require('jshamcrest');
 
 const quests = require('../../controllers/quests');
 const Quest = require('../../models/quest');
 const User = require('../../models/user');
 
 describe('quests', () => {
-    it('.list', () => {
-        const req = sinon.stub();
-        const res = sinon.stub();
+    let sandbox;
+    beforeEach(() => {
+        sandbox = sinon.sandbox.create();
+    });
 
-        const questsMock = JsMockito.mock([
+    afterEach(() => sandbox.restore());
+
+    it('.list', () => {
+        const questsMock = [
             new Quest({
                 author: new User(),
                 creationDate: new Date(1490776 + Math.floor(300000 * Math.random())),
@@ -35,14 +38,41 @@ describe('quests', () => {
                 photos: [],
                 published: true
             })
-        ]);
+        ];
+        const req = {};
+        const res = {};
+        res.render = sandbox.stub();
+        const query = {
+            populate: () => query,
+            then: f => Promise.resolve(f(questsMock))
+        };
 
-        const MockQuest = JsMockito.mock(Quest);
-        JsMockito.when(questsMock).populate('photos').thenReturn(questsMock);
-        JsMockito.when(MockQuest).find({}).thenReturn(questsMock);
-        const next = sinon.spy();
-        quests.list(req, res, next);
+        const mockFind = sandbox.stub(Quest, 'find');
+        mockFind.returns(query);
 
-        expect(next.called).to.equal(false);
+        return quests.list(req, res)
+            .then(() => {
+                expect(res.render.calledWith('main', {quests: questsMock})).to.be.true;
+            });
+    });
+
+    it('.list with error', () => {
+        const req = {};
+        const res = {};
+        res.render = sandbox.stub();
+        const expectedError = new Error();
+        const query = {
+            populate: () => query,
+            then: () => Promise.reject(expectedError)
+        };
+
+        sandbox.stub(Quest, 'find').returns(query);
+
+        return quests.list(req, res, err => {
+            expect(err).to.equal(expectedError);
+        })
+            .then(() => {
+                expect(res.render.notCalled).to.be.true;
+            });
     });
 });
