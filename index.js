@@ -5,7 +5,6 @@ require('dotenv-expand')(require('dotenv').config());
 const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const hbs = require('hbs');
 const hbsUtils = require('hbs-utils')(hbs);
@@ -33,17 +32,27 @@ hbsUtils.registerPartials(partialsDir);
 hbsHelpers(hbs);
 
 let loggerType = 'short';
+const sessionSettings = {
+    resave: true,
+    saveUninitialized: false,
+    secret: env.SESSION_SECRET,
+    cookie: {
+        secure: true
+    }
+};
 if (process.env.NODE_ENV !== 'production') {
     app.use(express.static(publicDir));
     hbsUtils.registerWatchedPartials(partialsDir);
     loggerType = 'dev';
+    sessionSettings.cookie.secure = false;
 }
+
 app.use(logger(loggerType));
 app.use(require('./middlewares/forceSsl'));
-app.use(cookieParser(env.COOKIE_SECRET));
+app.use(require('helmet'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-app.use(session({resave: true, saveUninitialized: false, secret: env.SESSION_SECRET}));
+app.use(session(sessionSettings));
 app.use(require('connect-flash')());
 app.use(passport.initialize());
 app.use(passport.session());
