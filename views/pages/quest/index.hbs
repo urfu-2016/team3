@@ -32,6 +32,7 @@
             </section>
             {{#unless quest.published}}
                 <form action="/photos" method="post" enctype="multipart/form-data">
+                    {{{csrf}}}
                     <input name="longitude" type="number">
                     <input name="latitude" type="number">
                     <input name="image" type="file">
@@ -50,6 +51,7 @@
     {{/each}}
     {{#if quest.published}}
         <form action="/quests/{{ quest._id }}/comment" method="post">
+            {{{csrf}}}
             <textarea name="text" placeholder="Write you comment"></textarea>
             <input type="submit" value="Create">
         </form>

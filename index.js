@@ -49,10 +49,11 @@ if (process.env.NODE_ENV !== 'production') {
 
 app.use(logger(loggerType));
 app.use(require('./middlewares/forceSsl'));
-app.use(require('helmet'));
+app.use(require('helmet')());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(session(sessionSettings));
+app.use(require('csurf')());
 app.use(require('connect-flash')());
 app.use(passport.initialize());
 app.use(passport.session());

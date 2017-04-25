@@ -15,6 +15,7 @@
         }}
         <section class="authorization__container">
             <form class="authorization__form" action="/login" method="post">
+                {{{csrf}}}
                 <h2 class="authorization__title">Вход</h2>
                 {{#if error}}
                     <h3 class="authorization__title_error">{{error}}</h3>
