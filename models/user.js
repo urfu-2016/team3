@@ -63,7 +63,7 @@ userSchema.methods.comparePassword = function (candidatePassword) {
     return bcrypt.compare(candidatePassword, this.password);
 };
 
-userSchema.methods.isHaveAccessToQuest = function (quest) {
+userSchema.methods.hasAccessToQuest = function (quest) {
     return quest.author.id === this.id || quest.author.toString() === this.id || this.isAdmin;
 };
 
