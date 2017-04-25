@@ -43,4 +43,8 @@ const questSchema = new Schema({
     }]
 });
 
+questSchema.methods.isAccessibleToUser = function (user) {
+    return user && user.isHaveAccessToQuest(this);
+};
+
 module.exports = mongoose.model('Quest', questSchema);

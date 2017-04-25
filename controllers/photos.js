@@ -8,10 +8,17 @@ const urls = require('../utils/url-generator');
 
 exports.show = (req, res, next) =>
     Photo.findById(req.params.id)
+        .populate('quest')
         .then(photo => {
             if (!photo) {
                 const err = new Error(`There is no photo with id ${req.params.id}`);
                 err.status = HttpStatus.NOT_FOUND;
+                throw err;
+            }
+            const userIsAllowedToSeePhoto = photo.quest.published || photo.quest.isAccessibleToUser(req.user);
+            if (!userIsAllowedToSeePhoto) {
+                const err = new Error('You are not allowed to see this photo right now');
+                err.status = HttpStatus.FORBIDDEN;
                 throw err;
             }
             res.render('photo', {photo, status: req.flash('status')});
@@ -22,9 +29,7 @@ exports.image = (req, res, next) =>
     Photo.findById(req.params.id)
         .then(photo => {
             if (!photo) {
-                const err = new Error(`There is no photo with id ${req.params.id}`);
-                err.status = HttpStatus.NOT_FOUND;
-                throw err;
+                return res.sendStatus(HttpStatus.NOT_FOUND);
             }
             res.contentType(photo.image.contentType).send(photo.image.data);
         })
@@ -39,8 +44,13 @@ exports.upload = (req, res, next) =>
                 err.status = HttpStatus.NOT_FOUND;
                 throw err;
             }
-            if (!quest.author.equals(req.user._id) && !req.user.isAdmin) {
-                const err = new Error(`You are not the author of the quest with id: ${req.body.questId}`);
+            if (quest.published) {
+                const err = new Error(`Quest with id: ${req.body.questId} is already published`);
+                err.status = HttpStatus.BAD_REQUEST;
+                throw err;
+            }
+            if (!quest.isAccessibleToUser(req.user)) {
+                const err = new Error(`You are not allowed to modify quest with id: ${req.body.questId}`);
                 err.status = HttpStatus.FORBIDDEN;
                 throw err;
             }
@@ -74,13 +84,18 @@ function preparePhotoData(req) {
 
 exports.checkin = (req, res, next) =>
     Photo.findById(req.params.id)
+        .populate('quest')
         .then(photo => {
             if (!photo) {
                 const err = new Error(`Photo with id: ${req.params.id} not found`);
                 err.status = HttpStatus.NOT_FOUND;
                 throw err;
             }
-
+            if (!photo.quest.published) {
+                const err = new Error(`Quest with id: ${req.body.questId} is not published yet`);
+                err.status = HttpStatus.FORBIDDEN;
+                throw err;
+            }
             return photo;
         })
         .then(photo => {
