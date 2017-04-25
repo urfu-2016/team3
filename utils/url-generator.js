@@ -2,10 +2,11 @@
 
 const urljoin = require('url-join');
 
-let self;
 function extractParameter(id) {
     return (id || ':id').toString();
 }
+
+let self;
 module.exports = self = { // eslint-disable-line no-multi-assign
     common: {
         main: () => '/',
