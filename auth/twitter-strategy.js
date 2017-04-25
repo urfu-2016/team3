@@ -2,6 +2,7 @@
 
 const TwitterStrategy = require('passport-twitter').Strategy;
 const User = require('../models/user');
+const userUrls = require('../utils/url-generator').users;
 
 const saveTwitterAccount = profile =>
     new User({
@@ -13,7 +14,7 @@ module.exports = (consumerKey, consumerSecret) =>
     new TwitterStrategy({
         consumerKey,
         consumerSecret,
-        callbackURL: '/login/twitter'
+        callbackURL: userUrls.loginTwitter()
     }, (token, tokenSecret, profile, done) =>
         /* eslint max-params: [2, 4] */
         User.findOne({twitterId: profile.id})

@@ -1,7 +1,5 @@
 'use strict';
 
-const urls = require('./url-generator');
-
 /**
  * @name hbs-helper
  * @description Helper'ы для Handlebars
@@ -174,42 +172,6 @@ helpers.shy = text => {
 };
 
 /**
- * Генерация ссылки на картинку фотографии по id
- *
- * ```handlebars
- * {{photoImageLine photo._id}}
- * ```
- *
- * @param id - id фотографии
- * @return String сгенерированный URL
- */
-helpers.photoImageLink = urls.photos.image;
-
-/**
- * Генерация ссылки на квест по id
- *
- * ```handlebars
- * {{questLink quest._id}}
- * ```
- *
- * @param id - id квеста
- * @return String сгенерированный URL
- */
-helpers.questLink = urls.quests.specific;
-
-/**
- * Генерация ссылки для публикации квеста по id
- *
- * ```handlebars
- * {{publishQuestLink quest._id}}
- * ```
- *
- * @param id - id квеста
- * @return String сгенерированный URL
- */
-helpers.publishQuestLink = urls.quests.publish;
-
-/**
  * Расширяет разметку, созданную библиотекой express-recaptcha
  * express-recaptcha не умеет работать с invisible recaptcha,
  * поэтому приходится делать это самим.
@@ -238,6 +200,8 @@ helpers.captcha = (formId, submitButtonId, context) => {
         `g-recaptcha" data-bind="${submitButtonId}" data-badge="inline" style="display: none" data`);
     return recaptcha;
 };
+
+Object.assign(helpers, require('./hbs-url-helpers'));
 
 /**
  * Добавляет Helper'ы расширяя стандартный функционал Handlebars
