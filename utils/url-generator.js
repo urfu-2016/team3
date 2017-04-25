@@ -3,7 +3,9 @@
 const urljoin = require('url-join');
 
 let self;
-
+function extractParameter(id) {
+    return (id || ':id').toString();
+}
 module.exports = self = { // eslint-disable-line no-multi-assign
     common: {
         main: () => '/',
@@ -11,16 +13,16 @@ module.exports = self = { // eslint-disable-line no-multi-assign
     },
     photos: {
         root: () => '/photos',
-        specific: id => urljoin(self.photos.root(), '{0}'.format([(id || ':id').toString()])),
-        image: id => urljoin(self.photos.root(), '{0}/image'.format([(id || ':id').toString()])),
-        checkin: id => urljoin(self.photos.root(), '{0}/checkin'.format([(id || ':id').toString()]))
+        specific: id => urljoin(self.photos.root(), '{0}'.format([extractParameter(id)])),
+        image: id => urljoin(self.photos.root(), '{0}/image'.format([extractParameter(id)])),
+        checkin: id => urljoin(self.photos.root(), '{0}/checkin'.format([extractParameter(id)]))
     },
     quests: {
         root: () => '/quests',
-        specific: id => urljoin(self.quests.root(), '{0}'.format([(id || ':id').toString()])),
+        specific: id => urljoin(self.quests.root(), '{0}'.format([extractParameter(id)])),
         create: () => urljoin(self.quests.root(), 'create'),
-        publish: id => urljoin(self.quests.root(), '{0}/publish'.format([(id || ':id').toString()])),
-        comment: id => urljoin(self.quests.root(), '{0}/comment'.format([(id || ':id').toString()]))
+        publish: id => urljoin(self.quests.root(), '{0}/publish'.format([extractParameter(id)])),
+        comment: id => urljoin(self.quests.root(), '{0}/comment'.format([extractParameter(id)]))
     },
     users: {
         profile: () => '/profile',
