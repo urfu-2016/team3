@@ -16,13 +16,13 @@ const questSchema = new Schema({
         type: String,
         index: true,
         minlength: 6,
-        maxlength: 30,
+        maxlength: 200,
         required: true
     },
     description: {
         type: String,
-        minlength: 30,
-        maxlength: 5000,
+        minlength: 10,
+        maxlength: 10000,
         required: true
     },
     published: {type: Boolean, default: false},
@@ -44,7 +44,7 @@ const questSchema = new Schema({
 });
 
 questSchema.methods.isAccessibleToUser = function (user) {
-    return user && user.hasAccessToQuest(this);
+    return Boolean(user) && user.hasAccessToQuest(this);
 };
 
 module.exports = mongoose.model('Quest', questSchema);
