@@ -103,4 +103,3 @@ exports.createComment = (req, res, next) =>
         })
         .then(quest => res.redirect(urls.quests.specific(quest.id)))
         .catch(next);
-
