@@ -2,10 +2,11 @@
 
 const passport = require('passport');
 const User = require('../models/user');
+const urls = require('../utils/url-generator');
 
 const AUTHORIZATION_STRATEGY_OPTIONS = {
-    successReturnToOrRedirect: '/',
-    failureRedirect: '/login',
+    successReturnToOrRedirect: urls.common.main(),
+    failureRedirect: urls.users.login(),
     failureFlash: true
 };
 
@@ -44,7 +45,7 @@ exports.registration = (req, res, next) => {
 
 exports.logout = function (req, res) {
     req.logout();
-    res.redirect('/');
+    res.redirect(urls.common.main());
 };
 
 exports.loginLocal = passport.authenticate('local', AUTHORIZATION_STRATEGY_OPTIONS);

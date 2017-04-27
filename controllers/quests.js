@@ -2,6 +2,7 @@
 
 const Quest = require('../models/quest');
 const HttpStatus = require('http-status');
+const urls = require('../utils/url-generator');
 
 const SORTING_FIELDS = ['creationDate', 'likesCount'];
 
@@ -52,7 +53,7 @@ exports.publish = (req, res, next) =>
             quest.published = true;
             return quest.save();
         })
-        .then(quest => res.redirect(`/quests/${quest.id}`))
+        .then(quest => res.redirect(urls.quests.specific(quest.id)))
         .catch(next);
 
 exports.create = (req, res, next) => {
@@ -63,7 +64,7 @@ exports.create = (req, res, next) => {
             author: req.user
         })
             .save()
-            .then(quest => res.redirect(`/quests/${quest.id}`))
+            .then(quest => res.redirect(urls.quests.specific(quest.id)))
             .catch(next);
     }
     res.render('createQuest', {recaptcha: req.recaptcha});
@@ -80,6 +81,6 @@ exports.createComment = (req, res, next) =>
             quest.comments.push({text: req.body.text, author: req.user});
             return quest.save();
         })
-        .then(quest => res.redirect(`/quests/${quest.id}`))
+        .then(quest => res.redirect(urls.quests.specific(quest.id)))
         .catch(next);
 

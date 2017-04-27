@@ -1,6 +1,7 @@
 'use strict';
 
 require('dotenv-expand')(require('dotenv').config());
+require('string.format');
 
 const path = require('path');
 const express = require('express');

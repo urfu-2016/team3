@@ -4,6 +4,7 @@ const Photo = require('../models/photo');
 const Quest = require('../models/quest');
 const HttpStatus = require('http-status');
 const geolib = require('geolib');
+const urls = require('../utils/url-generator');
 
 exports.show = (req, res, next) =>
     Photo.findById(req.params.id)
@@ -13,7 +14,7 @@ exports.show = (req, res, next) =>
                 err.status = HttpStatus.NOT_FOUND;
                 throw err;
             }
-            res.render('photo', {photo});
+            res.render('photo', {photo, status: req.flash('status')});
         })
         .catch(next);
 
@@ -38,6 +39,11 @@ exports.upload = (req, res, next) =>
                 err.status = HttpStatus.NOT_FOUND;
                 throw err;
             }
+            if (!quest.author.equals(req.user._id) && !req.user.isAdmin) {
+                const err = new Error(`You are not the author of the quest with id: ${req.body.questId}`);
+                err.status = HttpStatus.FORBIDDEN;
+                throw err;
+            }
             return quest;
         })
         .then(quest => new Photo(preparePhotoData(req))
@@ -48,7 +54,7 @@ exports.upload = (req, res, next) =>
             quest.photos.push(photo._id);
             return quest.save();
         })
-        .then(quest => res.redirect(`/quests/${quest.id}`))
+        .then(quest => res.redirect(urls.quests.specific(quest.id)))
         .catch(next);
 
 function preparePhotoData(req) {
@@ -82,14 +88,14 @@ exports.checkin = (req, res, next) =>
                 longitude: req.body.longitude,
                 latitude: req.body.latitude
             });
-            req.user.photoStatuses.push({
-                photo,
-                status
-            });
+            req.user.photoStatuses.push({photo, status});
             return req.user.save()
                 .then(() => ({photo, status}));
         })
-        .then(({photo, status}) => res.redirect(`/photos/${photo.id}?success=${status}`))
+        .then(({photo, status}) => {
+            req.flash('status', status);
+            res.redirect(urls.photos.specific(photo.id));
+        })
         .catch(next);
 
 const MAX_DISTANCE_BETWEEN_PLAYER_AND_PHOTO_IN_METERS = 500;
