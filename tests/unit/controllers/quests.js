@@ -5,9 +5,9 @@ const sinon = require('sinon');
 const expect = require('chai').expect;
 const HttpStatus = require('http-status');
 
-const quests = require('../../controllers/quests');
-const Quest = require('../../models/quest');
-const User = require('../../models/user');
+const quests = require('../../../controllers/quests');
+const Quest = require('../../../models/quest');
+const User = require('../../../models/user');
 
 describe('quests', () => {
     let sandbox;
@@ -41,15 +41,16 @@ describe('quests', () => {
             })
         ];
         const req = {};
+        req.query = {};
         const res = {};
         res.render = sandbox.stub();
         const query = {
             populate: () => query,
+            sort: () => query,
             exec: () => Promise.resolve(questsMock)
         };
 
-        const mockFind = sandbox.stub(Quest, 'find');
-        mockFind.returns(query);
+        sandbox.stub(Quest, 'find').returns(query);
 
         return quests.list(req, res)
             .then(() => {
@@ -59,11 +60,13 @@ describe('quests', () => {
 
     it('.list with error', () => {
         const req = {};
+        req.query = {};
         const res = {};
         res.render = sandbox.stub();
         const expectedError = new Error();
         const query = {
             populate: () => query,
+            sort: () => query,
             exec: () => Promise.reject(expectedError)
         };
 
@@ -377,7 +380,8 @@ describe('quests', () => {
             author: user,
             creationDate: new Date(1490776 + Math.floor(300000 * Math.random())),
             name: `Quest 1`,
-            description: 'Description here, must be more than 30 characters'
+            description: 'Description here, must be more than 30 characters',
+            published: true
         });
         const mockSave = sinon.stub(questMock, 'save').callsFake(() => Promise.resolve(questMock));
         const req = {};
