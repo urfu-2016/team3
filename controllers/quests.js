@@ -3,7 +3,19 @@
 const Quest = require('../models/quest');
 const HttpStatus = require('http-status');
 
+const SORTING_FIELDS = ['creationDate', 'likesCount'];
+
+function extractFieldName(sortBy) {
+    if (sortBy.startsWith('-')) {
+        return sortBy.substring(1);
+    }
+    return sortBy;
+}
+
 exports.list = (req, res, next) => Quest.find({})
+    .sort(req.query.sortBy && ~SORTING_FIELDS.indexOf(extractFieldName(req.query.sortBy))
+        ? req.query.sortBy
+        : '-creationDate')
     .populate('photos')
     .then(quests => res.render('main', {quests}))
     .catch(next);
