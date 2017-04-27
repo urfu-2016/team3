@@ -1,4 +1,5 @@
 'use strict';
+/* eslint-disable no-unused-expressions */
 
 const expect = require('chai').expect;
 const Quest = require('../../../models/quest.js');
@@ -34,5 +35,5 @@ describe('User', () => {
             });
             expect(new User({}).hasAccessToQuest(quest)).to.be.false;
         });
-    })
-})
+    });
+});
