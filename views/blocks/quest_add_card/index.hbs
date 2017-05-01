@@ -1,0 +1,16 @@
+<form action="{{urlsPhotosRoot}}" method="post" enctype="multipart/form-data" class="add-card-form">
+    <h2 class="add-card-form__title">Шаг 2: добавление фотографий</h2>
+    <section class="add-card-form__input-section">
+        {{> edit_text/index _id='latitude' _name='latitude' _label='explore' _type='text' _placeholder='Широта'}}
+        {{> edit_text/index _id='longitude' _name='longitude' _label='explore' _type='text' _placeholder='Долгота'}}
+        {{> textarea/index _id='description' _name='description' _label='border_color'
+            _placeholder='Описание (не обязательно)' _rows=3}}
+        {{{csrfHiddenInput}}}
+        <div class="add-card-form__button">{{> button/index _text='Добавить'}}</div>
+    </section>
+    <section class="add-card-form__file-section">
+        <label class="add-card-form__file-upload">
+            <input type="file" accept="image/*" name="image" class="add-card-form__file">
+        </label>
+    </section>
+</form>

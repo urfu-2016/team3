@@ -3,6 +3,7 @@
 import header from '../../blocks/header';
 import quest from '../../blocks/quest_description';
 import checkin from '../../blocks/quest_checkin';
+import cardForm from '../../blocks/quest_add_card';
 
 const showPoint = () => {
     const questPoints = [...document.querySelector('.quest__points').children];
@@ -14,8 +15,15 @@ const showPoint = () => {
     });
 };
 
+const addModifierForTextarea = () => {
+    const textarea = document.querySelector('.add-card-form').querySelector('.big-text__textarea');
+    textarea.classList.add('big-text__textarea_resize_none');
+};
+
 export default () => {
     header();
     quest();
     showPoint();
+    cardForm();
+    addModifierForTextarea();
 };
