@@ -13,11 +13,11 @@ const success = resolve => {
 
 export const geoLocation = () => {
     return new Promise((resolve, reject) => {
-        if (!navigator.geolocation) {
+        if (!window.navigator.geolocation) {
             reject(new Error('This browser not support Web API "geolocation"'));
         }
 
-        navigator.geolocation.getCurrentPosition(success(resolve), reject);
+        window.navigator.geolocation.getCurrentPosition(success(resolve), reject);
     });
 };
 
