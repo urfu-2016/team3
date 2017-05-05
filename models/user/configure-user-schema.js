@@ -12,6 +12,6 @@ module.exports = schema => {
     };
 
     schema.methods.isPersistentUser = function () {
-        return this.hasOwnProperty('createdAt');
-    }
+        return Object.prototype.hasOwnProperty.call(this, 'createdAt');
+    };
 };

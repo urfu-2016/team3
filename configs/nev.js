@@ -22,10 +22,10 @@ nev.configure({
     verifyMailOptions: {
         from: `Do Not Reply <${env.EMAIL_LOGIN}>`,
         subject: 'PhotoQuests: account verification',
-        html: '<p>Click the following <a href="${URL}">link</a> to confirm your account</p>' +
-              '<p>If you are unable to click to the link, just copy and paste ${URL} into your browser</p>' +
+        html: '<p>Click the following <a href="${URL}">link</a> to confirm your account</p>' + // eslint-disable-line no-template-curly-in-string
+              '<p>If you are unable to click to the link, just copy and paste ${URL} into your browser</p>' + // eslint-disable-line no-template-curly-in-string
               '<p>Please, don\'t reply to this message. It\'s automatically generated.</p>',
-        text: 'Please verify your account by clicking the following link, or by copying and pasting it into your browser: ${URL}'
+        text: 'Please verify your account by clicking the following link, or by copying and pasting it into your browser: ${URL}' // eslint-disable-line no-template-curly-in-string
     },
     confirmMailOptions: {
         from: `Do Not Reply <${env.EMAIL_LOGIN}>`,

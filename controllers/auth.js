@@ -20,15 +20,14 @@ exports.registerPage = (req, res) => res.render('authorization/registration', {
 });
 
 exports.emailVerification = (req, res, next) =>
-    nev.confirmTempUser(req.params.id, function (err, user) {
+    nev.confirmTempUser(req.params.id, (err, user) => {
         if (err) {
             next(err);
         }
 
         if (user) {
             res.redirect(urls.common.main());
-        }
-        else {
+        } else {
             req.flash('error', 'Your account was expired. Please, start again');
             res.redirect(urls.users.register());
         }
@@ -57,7 +56,7 @@ exports.registration = (req, res, next) => {
         email: req.body.email
     });
     nev.configure({verificationURL: `${extractDomain(req)}/email-verification/\${URL}`}, () => {});
-    nev.createTempUser(user, (err, existingPersistentUser, newTempUser) =>{
+    nev.createTempUser(user, (err, existingPersistentUser, newTempUser) => {
         if (err) {
             return next(new Error('Creating temp user failed'));
         }
@@ -68,14 +67,13 @@ exports.registration = (req, res, next) => {
 
         if (newTempUser) {
             const URL = newTempUser[nev.options.URLFieldName];
-            nev.sendVerificationEmail(newTempUser.email, URL, err =>{
+            nev.sendVerificationEmail(newTempUser.email, URL, err => {
                 if (err) {
                     return next(new Error('Sending verification email failed'));
                 }
                 req.flash('registrationMessage', 'An email has been sent to you. Please check it to verify your account.');
                 return exports.loginLocal(req, res, next);
             });
-            // user already exists in temporary collection!
         } else {
             next(new Error('You have already signed up. Please check your email to verify your account.'));
         }

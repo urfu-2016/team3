@@ -22,6 +22,6 @@ module.exports = app => {
 
     app.get(userUrls.logout(), isAuth, auth.logout);
 
-    app.get(userUrls.emailVerification(), auth.emailVerification)
+    app.get(userUrls.emailVerification(), auth.emailVerification);
 };
 
