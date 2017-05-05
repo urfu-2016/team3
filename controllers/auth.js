@@ -69,6 +69,7 @@ exports.registration = (req, res, next) => {
             const URL = newTempUser[nev.options.URLFieldName];
             nev.sendVerificationEmail(newTempUser.email, URL, err => {
                 if (err) {
+                    console.error(err.message, err);
                     return next(new Error('Sending verification email failed'));
                 }
                 req.flash('registrationMessage', 'An email has been sent to you. Please check it to verify your account.');
