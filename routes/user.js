@@ -21,5 +21,7 @@ module.exports = app => {
         .post(recaptcha.middleware.verify, auth.registration);
 
     app.get(userUrls.logout(), isAuth, auth.logout);
+
+    app.get(userUrls.emailVerification(), auth.emailVerification)
 };
 

@@ -2,10 +2,10 @@
 
 const passport = require('passport');
 
-const User = require('./../models/user');
-const vkStrategy = require('./../auth/vk-strategy');
-const twitterStrategy = require('./../auth/twitter-strategy');
-const localStrategy = require('./../auth/local-strategy');
+const User = require('../models/user');
+const vkStrategy = require('../auth/vk-strategy');
+const twitterStrategy = require('../auth/twitter-strategy');
+const localStrategy = require('../auth/local-strategy');
 const env = require('./env');
 
 passport.serializeUser((user, done) => done(null, user.id));

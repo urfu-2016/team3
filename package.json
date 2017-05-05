@@ -28,6 +28,7 @@
     "csurf": "^1.9.0",
     "dotenv": "^4.0.0",
     "dotenv-expand": "^4.0.1",
+    "email-verification": "^0.4.6",
     "express": "^4.15.2",
     "express-recaptcha": "^2.1.0",
     "express-session": "^1.15.1",

@@ -3,6 +3,8 @@
 const passport = require('passport');
 const User = require('../models/user');
 const urls = require('../utils/url-generator');
+const nev = require('../configs/nev');
+const extractDomain = require('../utils/extract-domain');
 
 const AUTHORIZATION_STRATEGY_OPTIONS = {
     successReturnToOrRedirect: urls.common.main(),
@@ -16,6 +18,23 @@ exports.registerPage = (req, res) => res.render('authorization/registration', {
     error: req.flash('error'),
     recaptcha: req.recaptcha
 });
+
+exports.emailVerification = (req, res, next) => {
+    nev.confirmTempUser(req.params.id, function(err, user) {
+        if (err) {
+            next(err);
+        }
+
+        // user was found!
+        if (user) {
+            res.redirect(urls.users.profile());
+        }
+        else {
+            req.flash('error', 'Your account was expired. Please, start again');
+            res.redirect(urls.users.register());
+        }
+    });
+};
 
 exports.registration = (req, res, next) => {
     if (req.recaptcha.error) {
@@ -34,13 +53,37 @@ exports.registration = (req, res, next) => {
                 next(new Error(`Undefined reCaptcha error: ${req.recaptcha.error}`));
         }
     }
-    new User({
+    const user = new User({
         name: req.body.username,
         password: req.body.password,
         email: req.body.email
-    }).save()
-        .then(() => exports.loginLocal(req, res, next))
-        .catch(next);
+    });
+    nev.configure({verificationURL: `${extractDomain(req)}/email-verification/\${URL}`}, () => {});
+    nev.createTempUser(user, (err, existingPersistentUser, newTempUser) =>{
+        if (err) {
+            return next(new Error('Creating temp user failed'));
+        }
+
+        // user already exists in persistent collection
+        if (existingPersistentUser) {
+            return next(new Error('You have already signed up and confirmed your account. Did you forget your password?'));
+        }
+
+        // new user created
+        if (newTempUser) {
+            const URL = newTempUser[nev.options.URLFieldName];
+            nev.sendVerificationEmail(newTempUser.email, URL, (err, info) =>{
+                if (err) {
+                    return next(new Error('Sending verification email failed'));
+                }
+                req.flash('registrationMessage', 'An email has been sent to you. Please check it to verify your account.');
+                return exports.loginLocal(req, res, next);
+            });
+            // user already exists in temporary collection!
+        } else {
+            next(new Error('You have already signed up. Please check your email to verify your account.'));
+        }
+    });
 };
 
 exports.logout = function (req, res) {

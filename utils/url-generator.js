@@ -5,7 +5,7 @@ const extractParameter = id => id || ':id';
 const self = module.exports = { // eslint-disable-line no-multi-assign
     common: {
         main: () => '/',
-        about: () => `${self.common.main()}/about`
+        about: () => '/about'
     },
     photos: {
         root: () => '/photos',
@@ -26,6 +26,7 @@ const self = module.exports = { // eslint-disable-line no-multi-assign
         loginVK: () => `${self.users.login()}/vk`,
         loginTwitter: () => `${self.users.login()}/twitter`,
         register: () => '/register',
-        logout: () => '/logout'
+        logout: () => '/logout',
+        emailVerification: () => '/email-verification/:id'
     }
 };

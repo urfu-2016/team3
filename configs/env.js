@@ -67,3 +67,16 @@ exports.MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/photo-ques
  * @type {String}
  */
 exports.SESSION_SECRET = process.env.SESSION_SECRET;
+
+/**
+ * GMail account login. Used to sent emails to users
+ * required: true
+ * @type {String}
+ */
+exports.EMAIL_LOGIN = process.env.EMAIL_LOGIN;
+/**
+ * GMail account password
+ * required: true
+ * @type {String}
+ */
+exports.EMAIL_PASSWORD = process.env.EMAIL_PASSWORD;

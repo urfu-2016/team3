@@ -19,7 +19,6 @@ const upload = require('./configs/multer');
 require('./configs/recaptcha')();
 
 const app = express();
-const port = env.PORT;
 
 const viewsDir = path.join(__dirname, 'views');
 const partialsDir = path.join(viewsDir, 'blocks');
@@ -64,7 +63,9 @@ app.use(error.middleware(console.error));
 require('./routes')(app);
 app.use(error.server(console.error));
 
+const port = env.PORT;
 connectToDb()
+    .then(() => require('./configs/nev'))
     .then(() => {
         app.listen(port, () => {
             console.info(`Server started on ${port}`);
@@ -72,5 +73,5 @@ connectToDb()
                 console.info(`Open http://localhost:${port}/ to view service`);
             }
         });
-    })
+    }, err => console.error(err))
     .catch(err => console.error('Unable to connect to database. Application would not start', err));
