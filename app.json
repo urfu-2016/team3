@@ -23,6 +23,12 @@
     },
     "VK_ID": {
       "required": true
+    },
+    "EMAIL_LOGIN": {
+      "required": true
+    },
+    "EMAIL_PASSWORD": {
+      "required": true
     }
   },
   "formation": {
