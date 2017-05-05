@@ -16,7 +16,8 @@ const hbsHelpers = require('./utils/hbs-helpers');
 const error = require('./middlewares/error');
 const passport = require('./configs/passport.js');
 const upload = require('./configs/multer');
-require('./configs/recaptcha')();
+require('./configs/recaptcha');
+require('./configs/nev');
 
 const app = express();
 
@@ -65,7 +66,6 @@ app.use(error.server(console.error));
 
 const port = env.PORT;
 connectToDb()
-    .then(() => require('./configs/nev'))
     .then(() => {
         app.listen(port, () => {
             console.info(`Server started on ${port}`);

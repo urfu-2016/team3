@@ -10,4 +10,8 @@ module.exports = schema => {
     schema.methods.hasAccessToQuest = function (quest) {
         return quest.author.id === this.id || quest.author.toString() === this.id || this.isAdmin;
     };
+
+    schema.methods.isPersistentUser = function () {
+        return this.hasOwnProperty('createdAt');
+    }
 };

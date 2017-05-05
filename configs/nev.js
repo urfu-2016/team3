@@ -5,12 +5,12 @@ const TempUser = require('../models/user/temp-user');
 const mongoose = require('mongoose');
 const nev = require('email-verification')(mongoose);
 const env = require('./env');
-const urls = require('../utils/url-generator');
 
 nev.configure({
     persistentUserModel: User,
     tempUserModel: TempUser,
-    tempUserCollection: 'TempUser',
+    tempUserCollection: TempUser.collection.collectionName,
+    expirationTime: TempUser.schema.path('createdAt').options.expires,
 
     transportOptions: {
         service: 'Gmail',

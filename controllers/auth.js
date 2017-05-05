@@ -19,22 +19,20 @@ exports.registerPage = (req, res) => res.render('authorization/registration', {
     recaptcha: req.recaptcha
 });
 
-exports.emailVerification = (req, res, next) => {
-    nev.confirmTempUser(req.params.id, function(err, user) {
+exports.emailVerification = (req, res, next) =>
+    nev.confirmTempUser(req.params.id, function (err, user) {
         if (err) {
             next(err);
         }
 
-        // user was found!
         if (user) {
-            res.redirect(urls.users.profile());
+            res.redirect(urls.common.main());
         }
         else {
             req.flash('error', 'Your account was expired. Please, start again');
             res.redirect(urls.users.register());
         }
     });
-};
 
 exports.registration = (req, res, next) => {
     if (req.recaptcha.error) {
@@ -64,15 +62,13 @@ exports.registration = (req, res, next) => {
             return next(new Error('Creating temp user failed'));
         }
 
-        // user already exists in persistent collection
         if (existingPersistentUser) {
             return next(new Error('You have already signed up and confirmed your account. Did you forget your password?'));
         }
 
-        // new user created
         if (newTempUser) {
             const URL = newTempUser[nev.options.URLFieldName];
-            nev.sendVerificationEmail(newTempUser.email, URL, (err, info) =>{
+            nev.sendVerificationEmail(newTempUser.email, URL, err =>{
                 if (err) {
                     return next(new Error('Sending verification email failed'));
                 }

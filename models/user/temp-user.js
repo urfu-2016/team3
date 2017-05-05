@@ -1,6 +1,5 @@
 'use strict';
 
-const nev = require('../../configs/nev');
 const bcrypt = require('bcrypt');
 const Schema = require('mongoose').Schema;
 
@@ -12,7 +11,7 @@ const tempUserSchemaObject = Object.assign(
         GENERATED_VERIFYING_URL: String,
         createdAt: {
             type: Date,
-            expires: '86400' + 's',
+            expires: 24 * 60 * 60,
             default: Date.now
         }
     }
