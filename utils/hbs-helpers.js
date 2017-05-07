@@ -204,6 +204,7 @@ helpers.captcha = (formId, submitButtonId, context) => {
 helpers.urls = require('./url-generator');
 
 /**
+ * Examples:
  * joinPaths('asd', 'qwe') -> asdQwe
  * joinPaths('', 'qwe') -> qwe
  * joinPaths(null, 'qwe') -> qwe
