@@ -1,6 +1,6 @@
 <section class="quest-description">
     {{#with (arrayFirst _images)}}
-        <img src="{{photoImageLink _id}}" class="quest-description__background">
+        <img src="{{urlsPhotosImage this._id}}" class="quest-description__background">
     {{/with}}
     <section class="quest-description__description">
         {{> description/full
@@ -14,11 +14,10 @@
             _author_name=_author_name
             _author_link=_author_link
         }}
-        {{#if _user.quest}}
-        {{else}}
+        {{#unless _user.quest}}
             <div class="quest-description__subscribe">
                 {{> floating_button/default _icon='add' }}
             </div>
-        {{/if}}
+        {{/unless}}
     </section>
 </section>

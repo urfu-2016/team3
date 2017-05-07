@@ -201,15 +201,32 @@ helpers.captcha = (formId, submitButtonId, context) => {
     return recaptcha;
 };
 
-Object.assign(helpers, require('./hbs-url-helpers'));
+helpers.urls = require('./url-generator');
+
+/**
+ * joinPaths('asd', 'qwe') -> asdQwe
+ * joinPaths('', 'qwe') -> qwe
+ * joinPaths(null, 'qwe') -> qwe
+ * @param parent - родительский путь
+ * @param current - текущий путь
+ */
+const joinPaths = (parent, current) => parent
+    ? parent + current.charAt(0).toUpperCase() + current.slice(1)
+    : current;
 
 /**
  * Добавляет Helper'ы расширяя стандартный функционал Handlebars
  *
  * @param hbs - Handlebars
+ * @param helpers - объект типа X, содержащий функции либо объекты типа X
+ * @param parentPath - путь до текущего объекта helpers
  */
-module.exports = hbs => {
-    Object.keys(helpers).forEach(key => {
-        hbs.registerHelper(key, helpers[key]);
-    });
-};
+const registerHelpers = (hbs, helpers, parentPath) => Object.keys(helpers).forEach(key => {
+    if (typeof helpers[key] === 'function') {
+        hbs.registerHelper(joinPaths(parentPath, key), helpers[key]);
+    } else {
+        registerHelpers(hbs, helpers[key], joinPaths(parentPath, key));
+    }
+});
+
+module.exports = hbs => registerHelpers(hbs, helpers);

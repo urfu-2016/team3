@@ -2,12 +2,12 @@
     <div class="quest-card__images">
         <div class="quest-card__images-big">
             {{#with (arrayFirst _images)}}
-                <img class="quest-card__image" src="{{photoImageLink _id}}" alt="">
+                <img class="quest-card__image" src="{{urlsPhotosImage _id}}" alt="">
             {{/with}}
         </div>
         <div class="quest-card__images-small">
             {{#with (arrayLast _images)}}
-                <img class="quest-card__image" src="{{photoImageLink _id}}" alt="">
+                <img class="quest-card__image" src="{{urlsPhotosImage _id}}" alt="">
             {{/with}}
         </div>
     </div>

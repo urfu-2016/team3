@@ -1,6 +1,6 @@
 <div class="create-quest">
     <h2 class="create-quest__title">Шаг 1: создание квеста</h2>
-    <form id="create-quest-form" class="create-quest__form" method="post" action="/quests">
+    <form id="create-quest-form" class="create-quest__form" method="post" action="{{urlsQuestsRoot}}">
         {{{csrfHiddenInput}}}
         {{> edit_text/index _id='name' _name='name' _label='inbox' _type='text' _placeholder='Название квеста'}}
         {{> textarea/index _id='description'
