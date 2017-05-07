@@ -29,8 +29,13 @@ exports.emailVerification = (req, res, next) =>
         }
 
         if (user) {
-            req.flash('message', 'You successfully verified your account. Sign in, please');
-            res.redirect(urls.users.login());
+            if (req.user) {
+                req.flash('message', 'You successfully verified your account');
+                res.redirect(urls.users.profile());
+            } else {
+                req.flash('message', 'You successfully verified your account. Sign in, please');
+                res.redirect(urls.users.login());
+            }
         } else {
             req.flash('error', 'Your account was expired. Please, start again');
             res.redirect(urls.users.register());

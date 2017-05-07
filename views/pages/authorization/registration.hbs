@@ -20,6 +20,9 @@
                 {{#if error}}
                     <h3 class="authorization__title_error">{{error}}</h3>
                 {{/if}}
+                {{#if message}}
+                    <h3 class="authorization__title_message">{{message}}</h3>
+                {{/if}}
                 {{> edit_text/index _id='email' _name='email' _label='email' _type='email' _placeholder='E-mail'}}
                 {{> edit_text/index _id='username' _name='username' _label='person' _type='text' _placeholder='Ник'}}
                 {{> edit_text/index _id='password' _name='password' _label='vpn_key' _type='password' _placeholder='Пароль'}}
