@@ -51,7 +51,7 @@
         </section>
     {{/each}}
     {{#if quest.published}}
-        <form action="{{urlsQuestsSpecific quest._id }}" method="post">
+        <form action="{{urlsQuestsComment quest._id }}" method="post">
             {{{csrfHiddenInput}}}
             <textarea name="text" placeholder="Write you comment"></textarea>
             <input type="submit" value="Create">
