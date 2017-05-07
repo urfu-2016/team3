@@ -3,7 +3,7 @@
 const HttpStatus = require('http-status');
 
 module.exports = (req, res, next) => {
-    if (req.user.isPersistentUser()) {
+    if (req.user.isPersistent()) {
         return next();
     }
 

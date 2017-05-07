@@ -11,7 +11,7 @@ module.exports = schema => {
         return quest.author.id === this.id || quest.author.toString() === this.id || this.isAdmin;
     };
 
-    schema.methods.isPersistentUser = function () {
+    schema.methods.isPersistent = function () {
         return this.schema.paths.createdAt === undefined;
     };
 };
