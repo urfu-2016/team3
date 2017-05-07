@@ -30,6 +30,7 @@ exports.emailVerification = (req, res, next) =>
 
         if (user) {
             if (req.user) {
+                // TODO: don't forget to call req.flash('message') in /profile handler
                 req.flash('message', 'You successfully verified your account');
                 res.redirect(urls.users.profile());
             } else {
@@ -81,7 +82,6 @@ exports.registration = (req, res, next) => {
                     console.error(err.message, err);
                     return next(new Error('Sending verification email failed'));
                 }
-                req.flash('message', 'An email has been sent to you. Please check it to verify your account.');
                 return exports.loginLocal(req, res, next);
             });
         } else {
