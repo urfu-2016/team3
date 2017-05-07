@@ -12,6 +12,6 @@ module.exports = schema => {
     };
 
     schema.methods.isPersistentUser = function () {
-        return this.schema.path.createdAt === undefined;
+        return this.schema.paths.createdAt === undefined;
     };
 };

@@ -12,7 +12,10 @@ const AUTHORIZATION_STRATEGY_OPTIONS = {
     failureFlash: true
 };
 
-exports.loginPage = (req, res) => res.render('authorization/login', {error: req.flash('error')});
+exports.loginPage = (req, res) => res.render('authorization/login', {
+    error: req.flash('error'),
+    message: req.flash('message')
+});
 
 exports.registerPage = (req, res) => res.render('authorization/registration', {
     error: req.flash('error'),
@@ -26,7 +29,8 @@ exports.emailVerification = (req, res, next) =>
         }
 
         if (user) {
-            res.redirect(urls.common.main());
+            req.flash('message', 'You successfully verified your account. Sign in, please');
+            res.redirect(urls.users.login());
         } else {
             req.flash('error', 'Your account was expired. Please, start again');
             res.redirect(urls.users.register());
@@ -72,7 +76,7 @@ exports.registration = (req, res, next) => {
                     console.error(err.message, err);
                     return next(new Error('Sending verification email failed'));
                 }
-                req.flash('registrationMessage', 'An email has been sent to you. Please check it to verify your account.');
+                req.flash('message', 'An email has been sent to you. Please check it to verify your account.');
                 return exports.loginLocal(req, res, next);
             });
         } else {
