@@ -56,7 +56,7 @@ exports.publish = (req, res, next) =>
                 err.status = HttpStatus.NOT_FOUND;
                 throw err;
             }
-                if (!quest.isAccessibleToUser(req.user)) {
+            if (!quest.isAccessibleToUser(req.user)) {
                 const err = new Error('You are not allowed to modify this quest');
                 err.status = HttpStatus.FORBIDDEN;
                 throw err;
