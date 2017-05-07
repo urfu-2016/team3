@@ -2,7 +2,7 @@
 
 const LocalStrategy = require('passport-local').Strategy;
 const User = require('../models/user');
-const TempUser = require('../configs/nev').options.tempUserModel;
+const TempUser = require('../models/user/temp-user');
 
 module.exports = new LocalStrategy(
     {usernameField: 'email'},
