@@ -17,7 +17,7 @@ const showPoint = () => {
 
 const addModifierForTextarea = () => {
     const textarea = document.querySelector('.add-card-form').querySelector('.big-text__textarea');
-    textarea.classList.add('big-text__textarea_resize_none');
+    textarea.classList.add('big-text__textarea_height-fixed');
 };
 
 export default () => {

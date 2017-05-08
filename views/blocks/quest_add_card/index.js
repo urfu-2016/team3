@@ -4,24 +4,24 @@ import {photoGeoTag} from '../../../scripts/geolocation';
 import {createFloatingButtonMini} from '../../blocks/floating_button';
 
 export default () => {
-    const fileImage = document.querySelector('.add-card-form__file');
+    const fileInput = document.querySelector('.add-card-form__file');
 
-    fileImage.addEventListener('change', () => {
-        const inputFile = document.querySelector('.add-card-form__file-upload');
-        inputFile.style.display = 'none';
-        const sectionForImage = document.querySelector('.add-card-form__file-section');
+    fileInput.addEventListener('change', () => {
+        const fileInputLabel = document.querySelector('.add-card-form__file-upload');
+        fileInputLabel.style.display = 'none';
+        const imageSection = document.querySelector('.add-card-form__file-section');
 
         const image = document.createElement('img');
         image.classList.add('add-card-form__image');
-        image.src = URL.createObjectURL(fileImage.files[0]);
+        image.src = URL.createObjectURL(fileInput.files[0]);
 
         const close = createFloatingButtonMini('close');
         close.classList.add('add-card-form__close');
 
-        photoGeoTag(fileImage.files[0])
-            .then(gps => {
-                document.getElementById('latitude').value = gps.latitude;
-                document.getElementById('longitude').value = gps.longitude;
+        photoGeoTag(fileInput.files[0])
+            .then(({latitude, longitude}) => {
+                document.getElementById('latitude').value = latitude.toFixed(5);
+                document.getElementById('longitude').value = longitude.toFixed(5);
             });
 
         close.addEventListener('click', () => {
@@ -29,11 +29,11 @@ export default () => {
             document.getElementById('longitude').value = '';
             image.remove();
             close.remove();
-            fileImage.value = null;
-            inputFile.style.display = 'block';
+            fileInput.value = null;
+            fileInputLabel.style.display = 'block';
         });
 
-        sectionForImage.appendChild(image);
-        sectionForImage.appendChild(close);
+        imageSection.appendChild(image);
+        imageSection.appendChild(close);
     });
 };
