@@ -6,11 +6,11 @@
 
 ### Состав
 
-* [**@IrinaSed**](https://github.com/IrinaSed) (Ирина Седова)
 * [**@LeMarck**](https://github.com/LeMarck) (Евгений Петров)
 * [**@Gebon**](https://github.com/Gebon) (Галлям Бикташев)
-* [**@svl96**](https://github.com/svl96) (Сергей Власов)
 * [**@Grehhov**](https://github.com/Grehhov) (Кирилл Грехов)
+* [**@svl96**](https://github.com/svl96) (Сергей Власов) (inactive)
+* [**@IrinaSed**](https://github.com/IrinaSed) (Ирина Седова) (inactive)
 
 ### Менторы
 
