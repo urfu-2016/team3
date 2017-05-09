@@ -15,6 +15,7 @@ const connectToDb = require('./db/connect');
 const hbsHelpers = require('./utils/hbs-helpers');
 const error = require('./middlewares/error');
 const passport = require('./configs/passport.js');
+const upload = require('./configs/multer');
 require('./configs/recaptcha')();
 
 const app = express();
@@ -53,6 +54,7 @@ app.use(require('helmet')());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(session(sessionSettings));
+app.use(upload.any());
 app.use(require('csurf')());
 app.use(require('connect-flash')());
 app.use(passport.initialize());
