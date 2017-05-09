@@ -7,7 +7,8 @@ module.exports = (req, res, next) => {
     if (req.user) {
         res.locals.user = req.user;
     }
-    res.locals.csrf = `<input type="hidden" name="_csrf" value="${req.csrfToken()}">`;
+    res.locals.csrfToken = req.csrfToken();
+    res.locals.csrfHiddenInput = `<input type="hidden" name="_csrf" value="${res.locals.csrfToken}">`;
     if (env.NODE_ENV === 'production') {
         res.locals.staticBasePath = '//team3.surge.sh';
     }
