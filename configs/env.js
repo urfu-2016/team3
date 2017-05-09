@@ -67,9 +67,3 @@ exports.MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/photo-ques
  * @type {String}
  */
 exports.SESSION_SECRET = process.env.SESSION_SECRET;
-/**
- * Random secret used to sign cookies
- * required: false (cookies won't be signed
- * @type {String}
- */
-exports.COOKIE_SECRET = process.env.COOKIE_SECRET;

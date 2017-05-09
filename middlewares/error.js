@@ -7,7 +7,7 @@ exports.middleware = cb => {
         /* eslint no-unused-vars: 0 */
         /* eslint max-params: [2, 4] */
         cb(err);
-        next();
+        next(err);
     };
 };
 

@@ -9,9 +9,6 @@
     "CAPTCHA_SECRET": {
       "required": true
     },
-    "COOKIE_SECRET": {
-      "generator": "secret"
-    },
     "SESSION_SECRET": {
       "generator": "secret"
     },

@@ -22,6 +22,7 @@
                 _images=quest.photos
             }}
             <form action="{{publishQuestLink quest._id}}" method="post">
+                {{{csrfHiddenInput}}}
                 <button>Publish</button>
             </form>
             <h2 class="quest__title">Фотографии мест</h2>
@@ -32,6 +33,7 @@
             </section>
             {{#unless quest.published}}
                 <form action="/photos" method="post" enctype="multipart/form-data">
+                    {{{csrfHiddenInput}}}
                     <input name="longitude" type="number">
                     <input name="latitude" type="number">
                     <input name="image" type="file">
@@ -50,6 +52,7 @@
     {{/each}}
     {{#if quest.published}}
         <form action="/quests/{{ quest._id }}/comment" method="post">
+            {{{csrfHiddenInput}}}
             <textarea name="text" placeholder="Write you comment"></textarea>
             <input type="submit" value="Create">
         </form>

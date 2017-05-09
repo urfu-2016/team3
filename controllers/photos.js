@@ -76,8 +76,8 @@ function preparePhotoData(req) {
             latitude: req.body.latitude
         },
         image: {
-            data: req.file.buffer,
-            contentType: req.file.mimetype
+            data: req.files[0].buffer,
+            contentType: req.files[0].mimetype
         }
     };
 }
