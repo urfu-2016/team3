@@ -22,6 +22,7 @@
                 _images=quest.photos
             }}
             <form action="{{publishQuestLink quest._id}}" method="post">
+                {{{csrfHiddenInput}}}
                 <button>Publish</button>
             </form>
             <h2 class="quest__title">Фотографии мест</h2>
@@ -30,14 +31,17 @@
                     {{> quest_point/index _status='none' _image=(photoImageLink _id)}}
                 {{/each}}
             </section>
-            <form action="/photos" method="post" enctype="multipart/form-data">
-                <input name="longitude" type="number">
-                <input name="latitude" type="number">
-                <input name="image" type="file">
-                <input name="questId" type="hidden" value="{{ quest._id }}">
-                <input name="description" type="text">
-                <input type="submit" value="Upload">
-            </form>
+            {{#unless quest.published}}
+                <form action="/photos" method="post" enctype="multipart/form-data">
+                    {{{csrfHiddenInput}}}
+                    <input name="longitude" type="number">
+                    <input name="latitude" type="number">
+                    <input name="image" type="file">
+                    <input name="questId" type="hidden" value="{{ quest._id }}">
+                    <input name="description" type="text">
+                    <input type="submit" value="Upload">
+                </form>
+            {{/unless}}
         </section>
     </main>
     {{#each quest.comments}}
@@ -46,10 +50,13 @@
             <p>{{text}}</p>
         </section>
     {{/each}}
-    <form action="/quests/{{ quest._id }}/comment" method="post">
-        <textarea name="text" placeholder="Write you comment"></textarea>
-        <input type="submit" value="Create">
-    </form>
+    {{#if quest.published}}
+        <form action="/quests/{{ quest._id }}/comment" method="post">
+            {{{csrfHiddenInput}}}
+            <textarea name="text" placeholder="Write you comment"></textarea>
+            <input type="submit" value="Create">
+        </form>
+    {{/if}}
     <script src="{{ staticBasePath }}/quest.bundle.js" async="async"></script>
 </body>
 </html>

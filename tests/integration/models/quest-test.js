@@ -1,11 +1,11 @@
-const Quest = require('../../models/quest');
-const User = require('../../models/user');
+const Quest = require('../../../models/quest');
+const User = require('../../../models/user');
 const assert = require('assert');
 const mongoose = require('mongoose');
 
 describe('model: quest', () => {
     beforeEach(() => Quest.remove({}).exec());
-    before(() => require('../../db/connect')());
+    before(() => require('../../../db/connect')());
     after(() =>
         Quest.remove({}).exec(() => mongoose.connection.close()));
     it('save quest', () => {

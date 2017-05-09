@@ -23,8 +23,9 @@
   "dependencies": {
     "bcrypt": "^1.0.2",
     "body-parser": "^1.17.1",
+    "chai": "^3.5.0",
     "connect-flash": "^0.1.1",
-    "cookie-parser": "^1.4.3",
+    "csurf": "^1.9.0",
     "dotenv": "^4.0.0",
     "dotenv-expand": "^4.0.1",
     "express": "^4.15.2",
@@ -33,6 +34,7 @@
     "geolib": "^2.0.22",
     "hbs": "^4.0.1",
     "hbs-utils": "0.0.4",
+    "helmet": "^3.5.0",
     "http-status": "^1.0.1",
     "mongoose": "^4.8.6",
     "morgan": "^1.8.1",
@@ -40,8 +42,7 @@
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "passport-twitter": "^1.0.4",
-    "passport-vkontakte": "git+https://github.com/stevebest/passport-vkontakte.git#0ca02be0d07eef6237d80e040fe58d31d8854f95",
-    "randomstring": "^1.1.5"
+    "passport-vkontakte": "git+https://github.com/stevebest/passport-vkontakte.git#0ca02be0d07eef6237d80e040fe58d31d8854f95"
   },
   "devDependencies": {
     "babel-core": "^6.23.1",

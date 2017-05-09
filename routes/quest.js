@@ -3,15 +3,16 @@
 const quests = require('./../controllers/quests');
 const isAuth = require('../middlewares/isAuth');
 const recaptcha = require('express-recaptcha');
+const questUrls = require('../utils/url-generator').quests;
 
 module.exports = app => {
-    app.route('/quests')
+    app.route(questUrls.root())
         .get(quests.list)
         .post(isAuth, recaptcha.middleware.verify, quests.create);
-    app.get('/quests/create', isAuth,
+    app.get(questUrls.create(), isAuth,
         recaptcha.middleware.render, quests.create);
-    app.get('/quests/:id', quests.show);
-    app.post('/quests/:id/publish', isAuth, quests.publish);
-    app.post('/quests/:id/comment', quests.createComment);
+    app.get(questUrls.specific(), quests.show);
+    app.post(questUrls.publish(), isAuth, quests.publish);
+    app.post(questUrls.comment(), quests.createComment);
 };
 

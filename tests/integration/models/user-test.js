@@ -1,10 +1,10 @@
-const User = require('../../models/user');
+const User = require('../../../models/user');
 const assert = require('assert');
 const mongoose = require('mongoose');
 
 describe('model: user', () => {
     beforeEach(() => User.remove({}).exec());
-    before(() => require('../../db/connect')());
+    before(() => require('../../../db/connect')());
     after(() =>
         User.remove({}).exec(() => mongoose.connection.close()));
     it('save user', () => {
