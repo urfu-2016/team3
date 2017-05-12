@@ -1,0 +1,40 @@
+.publisher
+  width 100%
+  color $color-text-secondary
+  background $primary-dark
+  position relative
+
+  & button
+    background transparent
+    border 0
+    font-size 18px
+    cursor pointer
+
+  &__toolbar
+    padding 16px
+    border-bottom 2px solid $color-text-secondary
+    display flex
+
+    & .material-icons
+      font-size 18px
+      color $color-text-secondary
+
+      &:hover
+        color #fff
+
+  &__emoji
+    display none
+    position absolute
+    width 300px
+    margin 5px auto auto 16px
+    border 1px solid $color-text-secondary
+    background rgba($primary-dark, .9)
+
+    &[data-show='true']
+      display block
+
+  &__editor
+    font-size 18px
+    padding 16px
+    color #fff
+    min-height 150px
