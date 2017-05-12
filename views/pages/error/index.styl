@@ -1,0 +1,40 @@
+@import '../../blocks/index'
+@import '../../blocks/header'
+
+.error-page
+  display flex
+  justify-content center
+  align-items center
+  flex-direction column
+  flex-grow 1
+
+  &__status-code
+    display none
+
+  &__photo-cards
+    display flex
+
+  &__item
+    background #fff
+    box-shadow $box-shadow
+
+    &:nth-child(1)
+      transform rotate(16deg)
+
+    &:nth-child(3)
+      transform rotate(-32deg)
+
+  &__content
+    width 150px
+    height 150px
+    margin 12px 12px 40px
+    font-size 10rem
+    display flex
+    align-items center
+    justify-content center
+    background $primary-dark
+    color #fff
+
+  &__status-message
+    font-size 3rem
+    color #fff
