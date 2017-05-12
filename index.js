@@ -17,7 +17,6 @@ const error = require('./middlewares/error');
 const passport = require('./configs/passport.js');
 const upload = require('./configs/multer');
 require('./configs/recaptcha');
-require('./configs/nev');
 
 const app = express();
 
@@ -73,5 +72,5 @@ connectToDb()
                 console.info(`Open http://localhost:${port}/ to view service`);
             }
         });
-    }, err => console.error(err))
+    })
     .catch(err => console.error('Unable to connect to database. Application would not start', err));
