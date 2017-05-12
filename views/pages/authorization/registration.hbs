@@ -14,11 +14,14 @@
             _photo3='http://www.kofe-kofe.ru/img/more/162/162739.jpg'
         }}
         <section class="authorization__container">
-            <form id="registration-form" class="authorization__form" action="/register" method="post">
+            <form id="registration-form" class="authorization__form" action="{{urlsUsersRegister}}" method="post">
                 {{{csrfHiddenInput}}}
                 <h2 class="authorization__title">Регистрация</h2>
                 {{#if error}}
                     <h3 class="authorization__title_error">{{error}}</h3>
+                {{/if}}
+                {{#if message}}
+                    <h3 class="authorization__title_message">{{message}}</h3>
                 {{/if}}
                 {{> edit_text/index _id='email' _name='email' _label='email' _type='email' _placeholder='E-mail'}}
                 {{> edit_text/index _id='username' _name='username' _label='person' _type='text' _placeholder='Ник'}}
@@ -27,8 +30,8 @@
                 <div class="authorization__submit">
                     {{> button/index _text='Зарегистрироваться' _id='recaptcha-submit'}}
                 </div>
-                <a href="/login/vk">Login with Vk</a>
-                <a href="/login/twitter">Login with Twitter</a>
+                <a href="{{urlsUsersLoginVK}}">Login with Vk</a>
+                <a href="{{urlsUsersLoginTwitter}}">Login with Twitter</a>
             </form>
         </section>
     </main>

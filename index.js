@@ -16,10 +16,9 @@ const hbsHelpers = require('./utils/hbs-helpers');
 const error = require('./middlewares/error');
 const passport = require('./configs/passport.js');
 const upload = require('./configs/multer');
-require('./configs/recaptcha')();
+require('./configs/recaptcha');
 
 const app = express();
-const port = env.PORT;
 
 const viewsDir = path.join(__dirname, 'views');
 const partialsDir = path.join(viewsDir, 'blocks');
@@ -64,6 +63,7 @@ app.use(error.middleware(console.error));
 require('./routes')(app);
 app.use(error.server(console.error));
 
+const port = env.PORT;
 connectToDb()
     .then(() => {
         app.listen(port, () => {

@@ -2,8 +2,8 @@
 /* eslint-disable no-unused-expressions */
 
 const expect = require('chai').expect;
-const Quest = require('../../../models/quest.js');
-const User = require('../../../models/user.js');
+const Quest = require('../../../models/quest');
+const User = require('../../../models/user');
 
 describe('Quest', () => {
     describe('isAccessibleToUser', () => {

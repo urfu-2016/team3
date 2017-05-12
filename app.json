@@ -1,10 +1,7 @@
 {
   "name": "photoquests-review",
-  "scripts": {
-    "postdeploy": "npm run build"
-  },
   "env": {
-    "NODE_ENV": "dev",
+    "NODE_ENV": "development",
     "NPM_CONFIG_PRODUCTION": "false",
     "CAPTCHA_SECRET": {
       "required": true
@@ -22,6 +19,12 @@
       "required": true
     },
     "VK_ID": {
+      "required": true
+    },
+    "EMAIL_LOGIN": {
+      "required": true
+    },
+    "EMAIL_PASSWORD": {
       "required": true
     }
   },
