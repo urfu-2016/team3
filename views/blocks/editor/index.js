@@ -47,7 +47,7 @@ const throttle = (func, delay) => {
     };
 };
 
-class Publisher {
+class Editor {
     constructor(node, opts) {
         opts = opts || {};
         this._node = node;
@@ -56,7 +56,7 @@ class Publisher {
 
         this._init();
 
-        this._node.classList.add('publisher');
+        this._node.classList.add('editor');
         this._node.appendChild(this._toolbar);
         this._node.appendChild(this._emojitools);
         this._node.appendChild(this._editor);
@@ -65,7 +65,7 @@ class Publisher {
         const buttons = BUTTONS.filter(button => document.queryCommandSupported(button.cmd));
 
         this._toolbar = document.createElement('section');
-        this._toolbar.classList.add('publisher__toolbar');
+        this._toolbar.classList.add('editor__toolbar');
         buttons.forEach(button => {
             const item = document.createElement('button');
             item.classList.add('material-icons');
@@ -78,7 +78,7 @@ class Publisher {
         });
 
         this._emojitools = document.createElement('section');
-        this._emojitools.classList.add('publisher__emoji');
+        this._emojitools.classList.add('editor__emoji');
         EMOJI.forEach(emoji => {
             const item = document.createElement('button');
             item.type = 'button';
@@ -101,7 +101,7 @@ class Publisher {
         this._toolbar.appendChild(emoji);
 
         this._editor = document.createElement('section');
-        this._editor.classList.add('publisher__editor');
+        this._editor.classList.add('editor__textarea');
         this._editor.setAttribute('contenteditable', 'true');
         this._editor.addEventListener('click', () => {
             if (this._emojitools.dataset.show === 'true') {
@@ -130,4 +130,4 @@ class Publisher {
     }
 }
 
-module.exports = Publisher;
+module.exports = Editor;
