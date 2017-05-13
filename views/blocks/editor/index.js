@@ -1,7 +1,5 @@
 'use strict';
 
-require('./style.styl');
-
 const BUTTONS = [
     {
         cmd: 'bold',

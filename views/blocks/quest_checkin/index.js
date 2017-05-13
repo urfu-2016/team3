@@ -3,7 +3,6 @@
 import {createFloatingButton} from '../floating_button';
 import TouchEmitter from '../index/touch-emitter';
 import geoLocation from '../index/geolocation';
-require('./index.styl');
 
 export default (images, start) => {
     const className = 'quest-checkin';

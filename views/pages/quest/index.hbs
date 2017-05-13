@@ -32,23 +32,24 @@
                 {{/each}}
             </section>
         </section>
+        <section class="quest-comments">
+            {{#if quest.published}}
+                {{#each quest.comments}}
+                    <section>
+                        <h4>{{author.name}}</h4>
+                        <p>{{{text}}}</p>
+                    </section>
+                {{/each}}
+                {{#if user}}
+                    <form action="{{urlsQuestsComment quest._id }}" method="post" class="comment__form">
+                        {{{csrfHiddenInput}}}
+                        <div class="comment__editor"></div>
+                        {{> button/index _text='Отправить'}}
+                    </form>
+                {{/if}}
+            {{/if}}
+        </section>
     </main>
-
-    {{#if quest.published}}
-        {{#each quest.comments}}
-            <section>
-                <h4>{{author.name}}</h4>
-                <p>{{{text}}}</p>
-            </section>
-        {{/each}}
-        {{#if user}}
-            <form action="{{urlsQuestsComment quest._id }}" method="post" class="comment__form">
-                {{{csrfHiddenInput}}}
-                <div class="comment__editor"></div>
-                {{> button/index _text='Отправить'}}
-            </form>
-        {{/if}}
-    {{/if}}
     <script src="{{ staticBasePath }}/quest.bundle.js" async="async"></script>
 </body>
 </html>
