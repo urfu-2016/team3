@@ -32,14 +32,14 @@ const EMOJI = [
 ];
 
 const throttle = (func, delay) => {
-    let isCall = false;
+    let isCalled = false;
 
     return function () {
-        if (!isCall) {
-            isCall = true;
+        if (!isCalled) {
+            isCalled = true;
             setTimeout(() => {
                 func(arguments);
-                isCall = false;
+                isCalled = false;
             }, delay);
         }
     };
@@ -51,6 +51,7 @@ class Editor {
         this._node = node;
         this._storageName = opts.storage || 'EditorStorage';
         this._autosave = opts.autosave || false;
+        this._delay = (opts.delay || 10) * 1000;
 
         this._init();
 
@@ -107,8 +108,8 @@ class Editor {
             }
         });
         if (this._autosave) {
-            this._editor.innerHTML = this.recovery();
-            this._editor.addEventListener('input', throttle(this.save.bind(this), 10000));
+            this._editor.innerHTML = this.getLocalStorage();
+            this._editor.addEventListener('input', throttle(this.saveLocalStorage.bind(this), this._delay));
         }
     }
     text() {
@@ -117,13 +118,13 @@ class Editor {
     clear() {
         this._editor.innerHTML = '';
     }
-    save() {
+    saveLocalStorage() {
         localStorage.setItem(this._storageName, this._editor.innerHTML);
     }
-    recovery() {
+    getLocalStorage() {
         return localStorage.getItem(this._storageName);
     }
-    remove() {
+    removeLocalStorage() {
         localStorage.removeItem(this._storageName);
     }
 }

@@ -37,7 +37,8 @@ const commentRequest = () => {
         }).then(response => {
             if (response.status === 200) {
                 editor.clear();
-                editor.remove();
+                editor.removeLocalStorage();
+                document.location.reload();
             }
         });
     });

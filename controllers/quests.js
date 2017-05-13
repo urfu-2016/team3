@@ -112,7 +112,8 @@ exports.createComment = (req, res, next) =>
             }
 
             quest.comments.push({text: req.body.text, author: req.user});
-            return quest.save();
+            quest.save();
+            res.sendStatus(HttpStatus.OK);
         })
-        .then(quest => res.redirect(urls.quests.specific(quest.id)))
+        // .then(quest => res.redirect(urls.quests.specific(quest.id)))
         .catch(next);
