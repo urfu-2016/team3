@@ -76,18 +76,18 @@ $height = 300px
     cursor pointer
     background #7c4dff
 
-    &:after
-      content '+'
-      text-align center
-      line-height 100px
-      font-size 80px
-      position absolute
-      width 100px
-      height 100px
-      border-radius 50%
-      border solid 5px #fff
-      top calc(50% - 50px)
-      left calc(50% - 50px)
+  &__plus
+    text-align center
+    line-height 100px
+    font-size 80px
+    position absolute
+    width 100px
+    height 100px
+    border-radius 50%
+    border solid 5px #fff
+    top calc(50% - 50px)
+    left calc(50% - 50px)
+    animation pulse 1.7s 0
 
   &__file
     display none
@@ -110,6 +110,23 @@ $height = 300px
     @media(min-width:560px)
       align-self flex-start
 
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  20% {
+    transform: scale(1.2);
+  }
+  40% {
+    transform: scale(1.0);
+  }
+  60% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
 
 @import '../../blocks/edit_text'
 @import '../../blocks/textarea'

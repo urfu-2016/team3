@@ -1,5 +1,6 @@
 <div class="big-text">
-    <label for="{{ _id }}" class="material-icons big-text__icon">{{ _label }}</label>
-    <textarea id="{{ _id }}" placeholder="{{ _placeholder }}" name="{{ _name }}"
-              class="big-text__textarea" rows="{{ _rows }}"></textarea>
+    <label {{#if _id}}for="{{ _id }}"{{/if}} class="material-icons big-text__icon">{{ _label }}</label>
+    <textarea {{#if _id}}id="{{ _id }}"{{/if}} {{#if _placeholder}}placeholder="{{ _placeholder }}"{{/if}}
+        name="{{ _name }}" class="big-text__textarea" {{#if _rows}}rows="{{ _rows }}"{{/if}}
+        {{#if _required}}required{{/if}}></textarea>
 </div>

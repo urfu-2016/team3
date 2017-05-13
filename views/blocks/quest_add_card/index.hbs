@@ -8,10 +8,11 @@
         {{> textarea/index _id='description' _name='description' _label='border_color'
             _placeholder='Описание (не обязательно)' _rows=3}}
         {{{csrfHiddenInput}}}
-        <div class="add-card-form__button">{{> button/index _text='Добавить'}}</div>
+        <div class="add-card-form__button">{{> button/index _text='Добавить' _id='add-card-form__button'}}</div>
     </section>
     <section class="add-card-form__file-section">
         <label class="add-card-form__file-upload">
+            <span class="add-card-form__plus">+</span>
             <input type="file" accept="image/*" name="image" class="add-card-form__file">
         </label>
     </section>

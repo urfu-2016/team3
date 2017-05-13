@@ -197,7 +197,7 @@ helpers.captcha = (formId, submitButtonId, context) => {
         '</script>';
 
     recaptcha = recaptcha.replace(/g-recaptcha" data/,
-        `g-recaptcha" data-bind="${submitButtonId}" data-badge="inline" style="display: none" data`);
+        `g-recaptcha" data-badge="inline" style="display: none" data`);
     return recaptcha;
 };
 
