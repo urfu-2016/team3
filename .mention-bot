@@ -1,5 +1,5 @@
 {
-    "maxReviewers": 2,
+    "maxReviewers": 1,
     "numFilesToCheck": 10,
     "alwaysNotifyForPaths": [
         {
@@ -9,11 +9,6 @@
         },
         {
             "name": "Grehhov",
-            "files": ["**/*", "*.*"],
-            "skipTeamPrs": false
-        },
-        {
-            "name": "IrinaSed",
             "files": ["**/*", "*.*"],
             "skipTeamPrs": false
         },
