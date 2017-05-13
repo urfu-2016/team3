@@ -21,21 +21,30 @@
     flex-direction column
     height 100%
     position relative
-    padding 20px 40px
-    margin 20px 0
+    padding 20px 0
 
     @media (min-width: 560px) and (min-height: 560px)
       border 1px solid $color-text-secondary
       box-shadow $box-shadow
       border-radius 4px
+      padding 20px 40px
 
   &__submit
     display inline-flex
-    justify-content: space-between;
+    justify-content space-between
+
+    &-big button
+      width 100%
 
   &__social
-    display: flex;
-    align-items: center;
+    display flex
+    align-items center
+    justify-content center
+
+    &-separator
+      margin-top 8px
+      padding-top 8px
+      border-top 1px solid $color-text-secondary
 
     &-vk,
     &-twitter
