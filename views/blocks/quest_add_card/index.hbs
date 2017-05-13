@@ -7,6 +7,7 @@
             _type='number' _step='1e-5' _placeholder='Долгота'}}
         {{> textarea/index _id='description' _name='description' _label='border_color'
             _placeholder='Описание (не обязательно)' _rows=3}}
+        <input name="questId" type="hidden" value="{{ quest._id }}">
         {{{csrfHiddenInput}}}
         <div class="add-card-form__button">{{> button/index _text='Добавить' _id='add-card-form__button'}}</div>
     </section>
