@@ -16,7 +16,8 @@ exports.server = cb => {
         /* eslint no-unused-vars: 0 */
         /* eslint max-params: [2, 4] */
         cb(err);
-        res.status(err.status || HttpStatus.INTERNAL_SERVER_ERROR)
-            .render('error', {error: err});
+        err.status = err.status || HttpStatus.INTERNAL_SERVER_ERROR;
+        err.message = err.message || 'Internal Server Error';
+        res.status(err.status).render('error', {error: err});
     };
 };
