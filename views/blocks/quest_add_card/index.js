@@ -25,7 +25,7 @@ export default () => {
         close.classList.add('add-card-form__close');
 
         photoGeoTag(fileInput.files[0])
-            .then((gps) => {
+            .then(gps => {
                 latitude.value = gps.latitude.toFixed(5);
                 latitude.parentNode.classList.remove('edit-text__invalid');
                 longitude.value = gps.longitude.toFixed(5);

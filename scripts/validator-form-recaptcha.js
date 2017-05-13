@@ -1,6 +1,7 @@
 'use strict';
 
 export const validatorFormReCaptcha = (buttonId, ids, recaptcha) => {
+    /* global document, grecaptcha */
     const button = document.getElementById(buttonId);
 
     const fields = ids.map(id => {
@@ -23,7 +24,11 @@ export const validatorFormReCaptcha = (buttonId, ids, recaptcha) => {
         });
 
         if (!hasInvalidField) {
-            recaptcha ? grecaptcha.execute() : button.submit();
+            if (recaptcha) {
+                grecaptcha.execute();
+            } else {
+                button.submit();
+            }
         }
     });
 
