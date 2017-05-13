@@ -41,6 +41,10 @@ module.exports = {
                     fallback: 'style-loader',
                     use: ['css-loader', postcssLoader, 'stylus-loader']
                 })
+            },
+            {
+                test: /\.png$/,
+                use: ['file-loader']
             }
         ]
     },
