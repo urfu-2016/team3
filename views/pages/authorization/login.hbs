@@ -26,11 +26,11 @@
                 {{> edit_text/index _id='email' _name='email' _label='email' _type='email' _placeholder='E-mail'}}
                 {{> edit_text/index _id='password' _name='password' _label='vpn_key' _type='password' _placeholder='Пароль'}}
                 <div class="authorization__submit">
+                    <div class="authorization__social">
+                        <a href="{{urlsUsersLoginVK}}" class="authorization__social-vk" title="Вконтакте"></a>
+                        <a href="{{urlsUsersLoginTwitter}}" class="authorization__social-twitter" title="Twitter"></a>
+                    </div>
                     {{> button/index _text='Вход'}}
-                </div>
-                <div class="authorization__social">
-                    <a href="{{urlsUsersLoginVK}}" class="authorization__social-vk" title="Вконтакте"></a>
-                    <a href="{{urlsUsersLoginTwitter}}" class="authorization__social-twitter" title="Twitter"></a>
                 </div>
             </form>
         </section>
