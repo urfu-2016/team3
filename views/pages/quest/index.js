@@ -26,21 +26,10 @@ const commentRequest = () => {
     });
     const form = document.querySelector('.comment__form');
 
-    form.addEventListener('submit', event => {
-        event.preventDefault();
-        fetch(form.action, {
-            method: form.method,
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({text: editor.text()})
-        }).then(response => {
-            if (response.status === 200) {
-                editor.clear();
-                editor.removeLocalStorage();
-                document.location.reload();
-            }
-        });
+    form.addEventListener('submit', () => {
+        editor.render();
+        editor.clear();
+        editor.removeLocalStorage();
     });
 };
 

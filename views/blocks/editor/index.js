@@ -52,6 +52,7 @@ class Editor {
         this._storageName = opts.storage || 'EditorStorage';
         this._autosave = opts.autosave || false;
         this._delay = (opts.delay || 10) * 1000;
+        this._name = opts.name || 'text';
 
         this._init();
 
@@ -59,6 +60,7 @@ class Editor {
         this._node.appendChild(this._toolbar);
         this._node.appendChild(this._emojitools);
         this._node.appendChild(this._editor);
+        this._node.appendChild(this._textarea);
     }
     _init() {
         const buttons = BUTTONS.filter(button => document.queryCommandSupported(button.cmd));
@@ -111,12 +113,21 @@ class Editor {
             this._editor.innerHTML = this.getLocalStorage();
             this._editor.addEventListener('input', throttle(this.saveLocalStorage.bind(this), this._delay));
         }
+
+        this._textarea = document.createElement('textarea');
+        this._textarea.classList.add('editor__hidden_block');
+        this._textarea.setAttribute('disabled', 'disabled');
+        this._textarea.setAttribute('name', this._name);
     }
     text() {
         return this._editor.innerHTML;
     }
     clear() {
         this._editor.innerHTML = '';
+    }
+    render() {
+        this._textarea.value = this._editor.innerHTML;
+        this._textarea.removeAttribute('disabled');
     }
     saveLocalStorage() {
         localStorage.setItem(this._storageName, this._editor.innerHTML);
