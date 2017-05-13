@@ -110,23 +110,17 @@ $height = 300px
     @media(min-width:560px)
       align-self flex-start
 
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-  }
-  20% {
-    transform: scale(1.2);
-  }
-  40% {
-    transform: scale(1.0);
-  }
-  60% {
-    transform: scale(1.2);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
+@keyframes pulse
+  0%
+    transform scale(1)
+  20%
+    transform scale(1.2)
+  40%
+    transform scale(1)
+  60%
+    transform scale(1.2)
+  100%
+    transform scale(1)
 
 @import '../../blocks/edit_text'
 @import '../../blocks/textarea'
