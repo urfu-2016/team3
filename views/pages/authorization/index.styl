@@ -33,6 +33,23 @@
     display inline-flex
     align-self flex-end
 
+  &__social
+    display flex
+    margin-top 8px
+    border-top 1px solid $color-text-secondary
+    padding-top 8px
+
+    &-vk,
+    &-twitter
+      background-image url('./social.png')
+      background-position top
+      background-size cover
+      width 32px
+      height 32px
+
+    &-vk
+      background-position bottom
+
 @import '../../blocks/photocards'
 @import '../../blocks/edit_text'
 @import '../../blocks/button'
