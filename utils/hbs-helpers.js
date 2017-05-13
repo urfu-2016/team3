@@ -187,7 +187,7 @@ helpers.shy = text => {
  * @param context контекст исполнения функции
  * @return String расширенная разметка
  */
-helpers.captcha = (formId, submitButtonId, context) => {
+helpers.captcha = (formId, context) => {
     let recaptcha = context.data.root.recaptcha;
     recaptcha +=
         '<script type="text/javascript">' +

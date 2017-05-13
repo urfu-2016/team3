@@ -2,15 +2,15 @@
 
 require('./index.styl');
 import header from '../../blocks/header';
-import {validatorFormReCaptcha} from '../../../scripts/validator-form-recaptcha';
+import {validateForm} from '../../../scripts/validator-form';
 
 header();
 
-const fieldsRequired = ['email', 'password'];
+const requiredFields = ['email', 'password'];
 
 if (document.getElementById('username')) {
-    fieldsRequired.push('username');
-    validatorFormReCaptcha('authorization__submit', fieldsRequired, true);
+    requiredFields.push('username');
+    validateForm('authorization__submit', requiredFields, true);
 } else {
-    validatorFormReCaptcha('authorization__submit', fieldsRequired, false);
+    validateForm('authorization__submit', requiredFields, false);
 }

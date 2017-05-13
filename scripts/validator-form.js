@@ -1,6 +1,6 @@
 'use strict';
 
-export const validatorFormReCaptcha = (buttonId, ids, recaptcha) => {
+export const validateForm = (buttonId, ids, recaptcha) => {
     /* global document, grecaptcha */
     const button = document.getElementById(buttonId);
 
