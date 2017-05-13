@@ -32,7 +32,7 @@ export const photoGeoTag = img => {
                 const lonRef = exif.getTag(this, 'GPSLongitudeRef') || 'W';
                 const EXPECTED_REFS = ['N', 'E'];
                 const dmsToDecimal = (coordinate, ref) => (~EXPECTED_REFS.indexOf(ref) ? 1 : -1) *
-                (coordinate[0] + coordinate[1] / 60 + coordinate[2] / 3600);
+                (coordinate[0] + (coordinate[1] / 60) + (coordinate[2] / 3600));
                 resolve({
                     latitude: dmsToDecimal(lat, latRef),
                     longitude: dmsToDecimal(lon, lonRef)
