@@ -21,27 +21,16 @@
                 _author_name=quest.author.name
                 _images=quest.photos
             }}
-            <form action="{{urlsQuestsPublish quest._id}}" method="post">
-                {{{csrfHiddenInput}}}
-                <button>Publish</button>
-            </form>
+            {{#unless quest.published}}
+                <section class="quest__add-card">{{> quest_add_card/index }}</section>
+                <section class="quest__publish">{{> quest_publish/index }}</section>
+            {{/unless}}
             <h2 class="quest__title">Фотографии мест</h2>
             <section class="quest__points">
                 {{#each quest.photos}}
                     {{> quest_point/index _status='none' _image=(urlsPhotosImage _id)}}
                 {{/each}}
             </section>
-            {{#unless quest.published}}
-                <form action="{{urlsPhotosRoot}}" method="post" enctype="multipart/form-data">
-                    {{{csrfHiddenInput}}}
-                    <input name="longitude" type="number">
-                    <input name="latitude" type="number">
-                    <input name="image" type="file">
-                    <input name="questId" type="hidden" value="{{ quest._id }}">
-                    <input name="description" type="text">
-                    <input type="submit" value="Upload">
-                </form>
-            {{/unless}}
         </section>
     </main>
     {{#each quest.comments}}

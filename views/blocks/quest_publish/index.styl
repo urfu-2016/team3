@@ -1,0 +1,24 @@
+.publish-form
+  display flex
+  flex-direction column
+
+  @media (min-width: 560px)
+    align-items center
+    flex-direction row
+    justify-content space-between
+
+  &__title
+    margin-bottom 10px
+    white-space nowrap
+    overflow hidden
+    text-overflow ellipsis
+    align-self flex-start
+
+    @media (min-width: 560px)
+      width 55%
+
+  &__button
+    align-self center
+
+    @media(min-width:560px)
+      align-self flex-start

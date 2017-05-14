@@ -1,6 +1,7 @@
 <div class="edit-text">
-    <label for="{{ _id }}" class="material-icons edit-text__icon">{{ _label }}</label>
-    <input id="{{ _id }}" name="{{ _name }}"
+    <label {{#if _id}}for="{{ _id }}"{{/if}} class="material-icons edit-text__icon">{{ _label }}</label>
+    <input {{#if _id}}id="{{ _id }}"{{/if}} name="{{ _name }}"
            type="{{ _type }}" class="edit-text__input"
-           placeholder="{{ _placeholder }}">
+           {{#if _placeholder}}placeholder="{{ _placeholder }}"{{/if}}
+           {{#if _step}}step="{{ _step }}"{{/if}} {{#if _required}}required{{/if}}>
 </div>
