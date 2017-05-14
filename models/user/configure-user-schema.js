@@ -17,5 +17,5 @@ module.exports = schema => {
 
     schema.methods.isQuestPassed = function (quest) {
         return this.passedQuests.some(passedQuest => passedQuest.equals(quest) || passedQuest.equals(quest._id));
-    }
+    };
 };

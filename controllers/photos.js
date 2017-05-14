@@ -2,7 +2,6 @@
 
 const Photo = require('../models/photo');
 const Quest = require('../models/quest');
-const User = require('../models/user');
 const HttpStatus = require('http-status');
 const geolib = require('geolib');
 const urls = require('../utils/url-generator');
@@ -122,8 +121,8 @@ exports.checkin = (req, res, next) =>
                         .then(() => photosCount))
                     .then(photosCount => {
                         const successfullyCheckedInPhotosCount = req.user
-                            .photoStatuses.filter(photoStatus => photoStatus.status
-                                && photoStatus.photo.quest.equals(photo.quest._id)
+                            .photoStatuses.filter(photoStatus => photoStatus.status &&
+                                photoStatus.photo.quest.equals(photo.quest._id)
                             ).length;
                         return photosCount === successfullyCheckedInPhotosCount;
                     })
