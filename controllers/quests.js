@@ -53,13 +53,7 @@ exports.show = (req, res, next) =>
             }
             res.render('quest', {quest});
         })
-        .catch(err => {
-            if (!('status' in err)) {
-                err = new Error('Quest Not Found');
-                err.status = HttpStatus.NOT_FOUND;
-            }
-            next(err);
-        });
+        .catch(next);
 
 exports.search = (req, res) => {
     req.flash(flashConstants.SEARCH_QUERY, req.body.query);
