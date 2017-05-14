@@ -5,9 +5,6 @@ import {createFloatingButtonMini} from '../../blocks/floating_button';
 
 export default () => {
     const form = document.querySelector('.add-card-form');
-    if (!form) { // quest already published
-        return;
-    }
 
     const longitude = document.getElementById('longitude');
     const latitude = document.getElementById('latitude');

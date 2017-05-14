@@ -38,7 +38,9 @@ export default () => {
     header();
     quest();
     showPoint();
-    cardForm();
-    addModifierForTextarea();
+    if (!isQuestPublished) {
+        cardForm();
+        addModifierForTextarea();
+    }
     commentRequest();
 };
