@@ -14,7 +14,7 @@
             _photo3='http://www.kofe-kofe.ru/img/more/162/162739.jpg'
         }}
         <section class="authorization__container">
-            <form class="authorization__form" action="{{urlsUsersLogin}}" method="post">
+            <form id="authorization-form" class="authorization__form" action="{{urlsUsersLogin}}" method="post">
                 {{{csrfHiddenInput}}}
                 <h2 class="authorization__title">Вход</h2>
                 {{#if error}}
@@ -23,8 +23,10 @@
                 {{#if message}}
                     <h3 class="authorization__title_message">{{message}}</h3>
                 {{/if}}
-                {{> edit_text/index _id='email' _name='email' _label='email' _type='email' _placeholder='E-mail'}}
-                {{> edit_text/index _id='password' _name='password' _label='vpn_key' _type='password' _placeholder='Пароль'}}
+                {{> edit_text/index _id='email' _name='email' _label='email' _type='email' _placeholder='E-mail'
+                    _required=true}}
+                {{> edit_text/index _id='password' _name='password' _label='vpn_key' _type='password' _placeholder='Пароль'
+                    _required=true}}
                 <div class="authorization__submit">
                     <div class="authorization__social">
                         <a href="{{urlsUsersLoginVK}}" class="authorization__social-vk" title="Вконтакте"></a>

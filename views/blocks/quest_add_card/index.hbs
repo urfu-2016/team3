@@ -2,9 +2,9 @@
     <h2 class="add-card-form__title">Шаг 2: добавление фотографий</h2>
     <section class="add-card-form__input-section">
         {{> edit_text/index _id='latitude' _name='latitude' _label='explore'
-            _type='number' _step='1e-5' _placeholder='Широта'}}
+            _type='number' _step='1e-5' _placeholder='Широта' _required=true}}
         {{> edit_text/index _id='longitude' _name='longitude' _label='explore'
-            _type='number' _step='1e-5' _placeholder='Долгота'}}
+            _type='number' _step='1e-5' _placeholder='Долгота' _required=true}}
         {{> textarea/index _id='description' _name='description' _label='border_color'
             _placeholder='Описание (не обязательно)' _rows=3}}
         <input name="questId" type="hidden" value="{{ quest._id }}">

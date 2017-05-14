@@ -46,25 +46,10 @@ export default () => {
     });
 
     form.addEventListener('submit', event => {
-        if (!longitude.value) {
-            event.preventDefault();
-            longitude.parentNode.classList.add('edit-text__invalid');
-        }
-        if (!latitude.value) {
-            event.preventDefault();
-            latitude.parentNode.classList.add('edit-text__invalid');
-        }
         if (!fileInput.value) {
             event.preventDefault();
-            form.querySelector('.add-card-form__plus').style.animationIterationCount = 'infinite';
+            const plus = form.querySelector('.add-card-form__plus');
+            plus.style.animationIterationCount = 'infinite';
         }
-    });
-
-    latitude.addEventListener('input', () => {
-        latitude.parentNode.classList.remove('edit-text__invalid');
-    });
-
-    longitude.addEventListener('input', () => {
-        longitude.parentNode.classList.remove('edit-text__invalid');
     });
 };
