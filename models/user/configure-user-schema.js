@@ -14,4 +14,8 @@ module.exports = schema => {
     schema.methods.isPersistent = function () {
         return this.schema.paths.createdAt === undefined;
     };
+
+    schema.methods.isQuestPassed = function (quest) {
+        return this.passedQuests.some(passedQuest => passedQuest.equals(quest) || passedQuest.equals(quest._id));
+    }
 };

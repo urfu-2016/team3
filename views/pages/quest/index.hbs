@@ -25,10 +25,13 @@
                 <section class="quest__add-card">{{> quest_add_card/index }}</section>
                 <section class="quest__publish">{{> quest_publish/index }}</section>
             {{/unless}}
+            {{#if isPassed}}
+                <h1>Yeah! You passed the quest! Well done!</h1>
+            {{/if}}
             <h2 class="quest__title">Фотографии мест</h2>
             <section class="quest__points">
                 {{#each quest.photos}}
-                    {{> quest_point/index _status='none' _image=(urlsPhotosImage _id)}}
+                    {{> quest_point/index _status=(status) _image=(urlsPhotosImage _id)}}
                 {{/each}}
             </section>
         </section>

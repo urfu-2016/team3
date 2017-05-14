@@ -37,7 +37,7 @@ exports.list = (req, res, next) => {
 
 exports.show = (req, res, next) =>
     Quest.findById(req.params.id)
-        .populate('photos author comments.author')
+        .populate('photos author author.photoStatuses.photo comments.author')
         .exec()
         .then(quest => {
             if (!quest) {
@@ -51,7 +51,14 @@ exports.show = (req, res, next) =>
                 err.status = HttpStatus.FORBIDDEN;
                 throw err;
             }
-            res.render('quest', {quest});
+            if (req.user) {
+                req.user.isAuthor = quest.author.id === req.user.id;
+            }
+            quest.photos.forEach(photo => {
+                const photoStatus = req.user && req.user.photoStatuses.find(photoStatus => photoStatus.photo.id === photo.id);
+                photo.status = photoStatus ? photoStatus.status : 'none';
+            });
+            res.render('quest', {quest, isPassed: req.user && req.user.isQuestPassed(quest)});
         })
         .catch(next);
 
