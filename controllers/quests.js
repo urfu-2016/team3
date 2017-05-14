@@ -55,7 +55,7 @@ exports.show = (req, res, next) =>
         })
         .catch(err => {
             if (!('status' in err)) {
-                err = new Error('Not Found');
+                err = new Error('Quest Not Found');
                 err.status = HttpStatus.NOT_FOUND;
             }
             next(err);
