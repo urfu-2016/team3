@@ -5,6 +5,7 @@ const Quest = require('../models/quest');
 const HttpStatus = require('http-status');
 const geolib = require('geolib');
 const urls = require('../utils/url-generator');
+const flashConstants = require('../configs/flash-constants');
 
 exports.show = (req, res, next) =>
     Photo.findById(req.params.id)
