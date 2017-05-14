@@ -5,6 +5,7 @@ const Quest = require('../models/quest');
 const HttpStatus = require('http-status');
 const geolib = require('geolib');
 const urls = require('../utils/url-generator');
+const flashConstants = require('../configs/flash-constants');
 
 exports.show = (req, res, next) =>
     Photo.findById(req.params.id)
@@ -21,7 +22,7 @@ exports.show = (req, res, next) =>
                 err.status = HttpStatus.FORBIDDEN;
                 throw err;
             }
-            res.render('photo', {photo, status: req.flash('status')});
+            res.render('photo', {photo, status: req.flash(flashConstants.PHOTO_CHECKIN_STATUS)});
         })
         .catch(next);
 
@@ -110,7 +111,7 @@ exports.checkin = (req, res, next) =>
                 .then(() => ({photo, status}));
         })
         .then(({photo, status}) => {
-            req.flash('status', status);
+            req.flash(flashConstants.PHOTO_CHECKIN_STATUS, status);
             res.redirect(urls.photos.specific(photo.id));
         })
         .catch(next);

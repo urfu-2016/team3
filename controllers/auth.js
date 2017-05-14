@@ -5,6 +5,7 @@ const User = require('../models/user');
 const urls = require('../utils/url-generator');
 const nev = require('../configs/nev');
 const extractDomain = require('../utils/extract-domain');
+const flashConstants = require('../configs/flash-constants');
 
 const AUTHORIZATION_STRATEGY_OPTIONS = {
     successReturnToOrRedirect: urls.common.main(),
@@ -13,12 +14,12 @@ const AUTHORIZATION_STRATEGY_OPTIONS = {
 };
 
 exports.loginPage = (req, res) => res.render('authorization/login', {
-    error: req.flash('error'),
-    message: req.flash('message')
+    error: req.flash(flashConstants.ERROR),
+    message: req.flash(flashConstants.MESSAGE)
 });
 
 exports.registerPage = (req, res) => res.render('authorization/registration', {
-    error: req.flash('error'),
+    error: req.flash(flashConstants.ERROR),
     recaptcha: req.recaptcha
 });
 
@@ -31,14 +32,14 @@ exports.emailVerification = (req, res, next) =>
         if (user) {
             if (req.user) {
                 // TODO: don't forget to call req.flash('message') in /profile handler
-                req.flash('message', 'You successfully verified your account');
+                req.flash(flashConstants.MESSAGE, 'You successfully verified your account');
                 res.redirect(urls.users.profile());
             } else {
-                req.flash('message', 'You successfully verified your account. Sign in, please');
+                req.flash(flashConstants.MESSAGE, 'You successfully verified your account. Sign in, please');
                 res.redirect(urls.users.login());
             }
         } else {
-            req.flash('error', 'Your account was expired. Please, start again');
+            req.flash(flashConstants.ERROR, 'Your account was expired. Please, start again');
             res.redirect(urls.users.register());
         }
     });
@@ -54,7 +55,7 @@ exports.registration = (req, res, next) => {
                 console.error('User\'s reCaptcha response was lost');
                 return next(new Error('There is a problem on our side. We already knows about it. Please, try again later.'));
             case 'invalid-input-response':
-                req.flash('error', 'Your solution was wrong! Please, try again');
+                req.flash(flashConstants.ERROR, 'Your solution was wrong! Please, try again');
                 return res.redirect('/register');
             default:
                 next(new Error(`Undefined reCaptcha error: ${req.recaptcha.error}`));

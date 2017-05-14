@@ -42,6 +42,7 @@ describe('quests', () => {
         ];
         const req = {};
         req.query = {};
+        req.flash = sandbox.stub();
         const res = {};
         res.render = sandbox.stub();
         const query = {
@@ -84,6 +85,7 @@ describe('quests', () => {
         const req = {};
         req.query = {};
         req.user = new User();
+        req.flash = sandbox.stub();
         const res = {};
         res.render = sandbox.stub();
         const query = {
@@ -127,6 +129,7 @@ describe('quests', () => {
         const req = {};
         req.query = {};
         req.user = user;
+        req.flash = sandbox.stub();
         const res = {};
         res.render = sandbox.stub();
         const query = {
@@ -169,6 +172,7 @@ describe('quests', () => {
         const req = {};
         req.query = {};
         req.user = new User({isAdmin: true});
+        req.flash = sandbox.stub();
         const res = {};
         res.render = sandbox.stub();
         const query = {
@@ -188,6 +192,7 @@ describe('quests', () => {
     it('.list with error', () => {
         const req = {};
         req.query = {};
+        req.flash = sandbox.stub();
         const res = {};
         res.render = sandbox.stub();
         const expectedError = new Error();
@@ -204,6 +209,50 @@ describe('quests', () => {
         })
             .then(() => {
                 expect(res.render.notCalled).to.be.true;
+            });
+    });
+
+    it('.list with search query', () => {
+        const questsMock = [
+            new Quest({
+                author: new User(),
+                creationDate: new Date(1490776 + Math.floor(300000 * Math.random())),
+                name: `Quest 0`,
+                description: 'Description here, must be more than 30 characters',
+                likesCount: Math.floor(50 * Math.random()),
+                passesCount: 2,
+                photos: [],
+                published: true
+            }),
+            new Quest({
+                author: new User(),
+                creationDate: new Date(1490776 + Math.floor(300000 * Math.random())),
+                name: `Quest 1`,
+                description: 'Description here, must be more than 30 characters',
+                likesCount: Math.floor(50 * Math.random()),
+                passesCount: 2,
+                photos: [],
+                published: false
+            })
+        ];
+        const req = {};
+        req.query = {};
+        req.user = new User({isAdmin: true});
+        req.flash = sandbox.stub().returns(['1']);
+        const res = {};
+        res.render = sandbox.stub();
+        const query = {
+            populate: () => query,
+            sort: () => query,
+            exec: () => Promise.resolve(questsMock)
+        };
+
+        sandbox.stub(Quest, 'find').returns(query);
+
+        return quests.list(req, res)
+            .then(() => {
+                expect(res.render.calledWith('main', {quests: questsMock})).to.be.true;
+                expect(Quest.find.calledWith({$text: {$search: '1'}})).to.be.true;
             });
     });
 

@@ -12,6 +12,7 @@ module.exports = app => {
         .post(isAuth, isPersistent, recaptcha.middleware.verify, quests.create);
     app.get(questUrls.create(), isAuth, isPersistent,
         recaptcha.middleware.render, quests.create);
+    app.post(questUrls.search(), quests.search);
     app.get(questUrls.specific(), quests.show);
     app.post(questUrls.publish(), isAuth, isPersistent, quests.publish);
     app.post(questUrls.comment(), isAuth, isPersistent, quests.createComment);

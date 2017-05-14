@@ -43,6 +43,8 @@ const questSchema = new Schema({
     }]
 });
 
+questSchema.index({description: 'text', name: 'text'});
+
 questSchema.methods.isAccessibleToUser = function (user) {
     return Boolean(user) && user.hasAccessToQuest(this);
 };
