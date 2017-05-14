@@ -2,6 +2,7 @@
 
 const Photo = require('../models/photo');
 const Quest = require('../models/quest');
+const User = require('../models/user');
 const HttpStatus = require('http-status');
 const geolib = require('geolib');
 const urls = require('../utils/url-generator');
@@ -109,22 +110,25 @@ exports.checkin = (req, res, next) =>
         .then(photo => {
             const status = isCheckinSuccessful(photo.location, req.body.location);
             req.user.photoStatuses.push({photo, status});
-            return req.user.save().then(() => status);
+            return req.user.save().then(() => ({photo, status}));
         })
         .then(({photo, status}) => {
             if (status) {
                 return Photo.count({quest: photo.quest})
                     .exec()
+                    .then(photosCount => req.user
+                        .populate('photoStatuses.photo')
+                        .execPopulate()
+                        .then(() => photosCount))
                     .then(photosCount => {
-                        const successfullyCheckedInPhotosCount = req.user.photoStatuses
-                            .filter(photoStatus =>
-                                photoStatus.status
+                        const successfullyCheckedInPhotosCount = req.user
+                            .photoStatuses.filter(photoStatus => photoStatus.status
                                 && photoStatus.photo.quest.equals(photo.quest._id)
                             ).length;
-                        return {photosCount, successfullyCheckedInPhotosCount};
+                        return photosCount === successfullyCheckedInPhotosCount;
                     })
-                    .then(({photosCount, successfullyCheckedInPhotosCount}) => {
-                        if (photosCount === successfullyCheckedInPhotosCount) {
+                    .then(questPassed => {
+                        if (questPassed) {
                             req.user.passedQuests.push(photo.quest);
                             return req.user.save();
                         }

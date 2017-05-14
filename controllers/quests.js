@@ -37,7 +37,7 @@ exports.list = (req, res, next) => {
 
 exports.show = (req, res, next) =>
     Quest.findById(req.params.id)
-        .populate('photos author author.photoStatuses.photo comments.author')
+        .populate('photos author comments.author')
         .exec()
         .then(quest => {
             if (!quest) {
@@ -55,7 +55,7 @@ exports.show = (req, res, next) =>
                 req.user.isAuthor = quest.author.id === req.user.id;
             }
             quest.photos.forEach(photo => {
-                const photoStatus = req.user && req.user.photoStatuses.find(photoStatus => photoStatus.photo.id === photo.id);
+                const photoStatus = req.user && req.user.photoStatuses.find(photoStatus => photoStatus.photo.equals(photo._id));
                 photo.status = photoStatus ? photoStatus.status : 'none';
             });
             res.render('quest', {quest, isPassed: req.user && req.user.isQuestPassed(quest)});
