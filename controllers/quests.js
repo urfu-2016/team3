@@ -95,6 +95,10 @@ exports.create = (req, res, next) => {
     res.render('createQuest', {recaptcha: req.recaptcha});
 };
 
+const textSanitizer = test => {
+    return test.replace(/<(\/?script.*?)>/ig, '&lt;$1&gt;').replace(/ (on.*?=['"].*?['"])/ig, '');
+};
+
 exports.createComment = (req, res, next) =>
     Quest.findById(req.params.id)
         .exec()
@@ -111,8 +115,9 @@ exports.createComment = (req, res, next) =>
                 throw err;
             }
 
-            quest.comments.push({text: req.body.text, author: req.user});
+            quest.comments.push({text: textSanitizer(req.body.text), author: req.user});
             return quest.save();
         })
         .then(quest => res.redirect(urls.quests.specific(quest.id)))
         .catch(next);
+
