@@ -18,6 +18,7 @@ exports.list = (req, res, next) => Quest.find({})
         ? req.query.sortBy
         : '-creationDate')
     .populate('photos author')
+    .exec()
     .then(quests =>
         quests.filter(quest =>
             quest.published || quest.isAccessibleToUser(req.user)
@@ -29,6 +30,7 @@ exports.list = (req, res, next) => Quest.find({})
 exports.show = (req, res, next) =>
     Quest.findById(req.params.id)
         .populate('photos author comments.author')
+        .exec()
         .then(quest => {
             if (!quest) {
                 const err = new Error(`There is no quest with id ${req.params.id}`);
@@ -47,7 +49,13 @@ exports.show = (req, res, next) =>
 
 exports.publish = (req, res, next) =>
     Quest.findById(req.params.id)
+        .exec()
         .then(quest => {
+            if (!quest) {
+                const err = new Error(`There is no quest with id ${req.params.id}`);
+                err.status = HttpStatus.NOT_FOUND;
+                throw err;
+            }
             if (!quest.isAccessibleToUser(req.user)) {
                 const err = new Error('You are not allowed to modify this quest');
                 err.status = HttpStatus.FORBIDDEN;
@@ -76,6 +84,7 @@ exports.create = (req, res, next) => {
 
 exports.createComment = (req, res, next) =>
     Quest.findById(req.params.id)
+        .exec()
         .then(quest => {
             if (!quest) {
                 const err = new Error(`There is no quest with id ${req.params.id}`);
@@ -94,4 +103,3 @@ exports.createComment = (req, res, next) =>
         })
         .then(quest => res.redirect(urls.quests.specific(quest.id)))
         .catch(next);
-

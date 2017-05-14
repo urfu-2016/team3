@@ -1,7 +1,7 @@
 'use strict';
 
 const auth = require('../controllers/auth');
-const isAuth = require('../middlewares/isAuth');
+const isAuth = require('../middlewares/is-auth');
 const recaptcha = require('express-recaptcha');
 const userUrls = require('../utils/url-generator').users;
 

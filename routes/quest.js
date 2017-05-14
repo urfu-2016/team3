@@ -1,7 +1,7 @@
 'use strict';
 
 const quests = require('./../controllers/quests');
-const isAuth = require('../middlewares/isAuth');
+const isAuth = require('../middlewares/is-auth');
 const isPersistent = require('../middlewares/is-persistent-user');
 const recaptcha = require('express-recaptcha');
 const questUrls = require('../utils/url-generator').quests;
