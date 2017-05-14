@@ -148,8 +148,8 @@ describe('photos', () => {
         });
         const req = {};
         req.body = {
-            longitude: 1,
-            latitude: 1
+            longitude: 1.000001,
+            latitude: 0.9999999
         };
         req.file = {};
         req.params = {};
