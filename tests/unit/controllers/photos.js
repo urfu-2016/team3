@@ -2,8 +2,11 @@
 'use strict';
 
 const sinon = require('sinon');
-const expect = require('chai').expect;
+const sinonChai = require('sinon-chai');
+const chai = require('chai');
 const HttpStatus = require('http-status');
+const expect = chai.expect;
+chai.use(sinonChai);
 
 const photos = require('../../../controllers/photos');
 const Photo = require('../../../models/photo');
@@ -148,15 +151,17 @@ describe('photos', () => {
         });
         const req = {};
         req.body = {
-            longitude: 1.000001,
-            latitude: 0.9999999
+            location: {
+                longitude: 1.000001,
+                latitude: 0.9999999
+            }
         };
         req.file = {};
         req.params = {};
         req.user = new User({});
         req.flash = sandbox.spy();
         const res = {};
-        res.redirect = sandbox.stub();
+        res.sendStatus = sinon.spy();
         const query = {
             populate: () => query,
             exec: () => Promise.resolve(mockPhoto)
@@ -165,9 +170,7 @@ describe('photos', () => {
         sandbox.stub(req.user, 'save').returns(Promise.resolve(req.user));
         return photos.checkin(req, res)
             .then(() => {
-                expect(res.redirect.called).to.be.true;
-                expect(req.user.photoStatuses[0].status).to.be.true;
-                expect(req.flash.called).to.be.true;
+                expect(res.sendStatus).to.have.been.calledWith(200);
             });
     });
 
@@ -185,15 +188,17 @@ describe('photos', () => {
         });
         const req = {};
         req.body = {
-            longitude: 25,
-            latitude: 1
+            location: {
+                longitude: 25,
+                latitude: 1
+            }
         };
         req.file = {};
         req.params = {};
         req.user = new User({});
         req.flash = sandbox.spy();
         const res = {};
-        res.redirect = sandbox.stub();
+        res.sendStatus = sandbox.spy();
         const query = {
             populate: () => query,
             exec: () => Promise.resolve(mockPhoto)
@@ -202,9 +207,7 @@ describe('photos', () => {
         sandbox.stub(req.user, 'save').returns(Promise.resolve(req.user));
         return photos.checkin(req, res)
             .then(() => {
-                expect(res.redirect.called).to.be.true;
-                expect(req.user.photoStatuses[0].status).to.be.false;
-                expect(req.flash.called).to.be.true;
+                expect(res.sendStatus).to.have.been.calledWith(417);
             });
     });
 

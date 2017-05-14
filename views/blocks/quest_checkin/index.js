@@ -43,6 +43,7 @@ export default (images, start) => {
         icon.classList.add('rotate');
         geoLocation().then(location => {
             const url = img.src.replace('image', 'checkin');
+            const questId = window.location.href.split('/').pop();
             fetch(url, {
                 method: 'post',
                 headers: {
@@ -51,7 +52,7 @@ export default (images, start) => {
                     'X-Requested-With': 'XMLHttpRequest',
                     'X-CSRF-Token': csrf.value
                 },
-                body: JSON.stringify({location}),
+                body: JSON.stringify({location, questId}),
                 credentials: 'same-origin'
             }).then(response => {
                 if (response.status === 200) {
