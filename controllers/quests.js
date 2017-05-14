@@ -3,6 +3,7 @@
 const Quest = require('../models/quest');
 const HttpStatus = require('http-status');
 const urls = require('../utils/url-generator');
+const flashConstants = require('../configs/flash-constants');
 
 const SORTING_FIELDS = ['creationDate', 'likesCount'];
 
@@ -13,19 +14,25 @@ function extractFieldName(sortBy) {
     return sortBy;
 }
 
-exports.list = (req, res, next) => Quest.find({})
-    .sort(req.query.sortBy && ~SORTING_FIELDS.indexOf(extractFieldName(req.query.sortBy))
-        ? req.query.sortBy
-        : '-creationDate')
-    .populate('photos author')
-    .exec()
-    .then(quests =>
-        quests.filter(quest =>
-            quest.published || quest.isAccessibleToUser(req.user)
+exports.list = (req, res, next) => {
+    let query = {};
+    const searchQuery = req.flash(flashConstants.SEARCH_QUERY);
+    if (Array.isArray(searchQuery) && searchQuery.length) {
+        query = {$text: {$search: searchQuery[searchQuery.length - 1]}};
+    }
+    return Quest.find(query)
+        .sort(req.query.sortBy && ~SORTING_FIELDS.indexOf(extractFieldName(req.query.sortBy))
+            ? req.query.sortBy
+            : '-creationDate')
+        .populate('photos author')
+        .then(quests =>
+            quests.filter(quest =>
+                quest.published || quest.isAccessibleToUser(req.user)
+            )
         )
-    )
-    .then(quests => res.render('main', {quests}))
-    .catch(next);
+        .then(quests => res.render('main', {quests}))
+        .catch(next);
+};
 
 exports.show = (req, res, next) =>
     Quest.findById(req.params.id)
@@ -46,6 +53,11 @@ exports.show = (req, res, next) =>
             res.render('quest', {quest});
         })
         .catch(next);
+
+exports.search = (req, res) => {
+    req.flash(flashConstants.SEARCH_QUERY, req.body.query);
+    res.redirect(urls.quests.root());
+};
 
 exports.publish = (req, res, next) =>
     Quest.findById(req.params.id)

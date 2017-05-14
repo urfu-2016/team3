@@ -21,7 +21,7 @@ exports.show = (req, res, next) =>
                 err.status = HttpStatus.FORBIDDEN;
                 throw err;
             }
-            res.render('photo', {photo, status: req.flash('status')});
+            res.render('photo', {photo, status: req.flash(flashConstants.PHOTO_CHECKIN_STATUS)});
         })
         .catch(next);
 
@@ -110,7 +110,7 @@ exports.checkin = (req, res, next) =>
                 .then(() => ({photo, status}));
         })
         .then(({photo, status}) => {
-            req.flash('status', status);
+            req.flash(flashConstants.PHOTO_CHECKIN_STATUS, status);
             res.redirect(urls.photos.specific(photo.id));
         })
         .catch(next);
