@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ staticBasePath }}/error.bundle.css">
+</head>
+<body>
+    {{> header/index _title=title _user=user }}
+    <main class="main error-page">
+        <h1 class="error-page__status-code">{{error.status}}</h1>
+        <section class="error-page__photo-cards">
+            <section class="error-page__photo-cards__item">
+                <span class="error-page__photo-cards__content"></span>
+            </section>
+            <section class="error-page__photo-cards__item">
+                <span class="error-page__photo-cards__content"></span>
+            </section>
+            <section class="error-page__photo-cards__item">
+                <span class="error-page__photo-cards__content"></span>
+            </section>
+        </section>
+        <h2 class="error-page__status-message">{{error.message}}</h2>
+    </main>
+    <footer class="footer">
+        <span class="footer__copyright">&copy; Лавразия, 2017</span>
+    </footer>
+    <script src="{{ staticBasePath }}/error.bundle.js"></script>
+</body>
+</html>

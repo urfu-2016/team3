@@ -1,6 +1,5 @@
 'use strict';
 
-const HttpStatus = require('http-status');
 const fs = require('fs');
 
 module.exports = app => {
@@ -8,6 +7,10 @@ module.exports = app => {
         .filter(fileName => fileName !== 'index.js')
         .forEach(routeName => require(`./${routeName}`)(app));
 
-    app.all('*', (req, res) => res.sendStatus(HttpStatus.NOT_FOUND));
+    app.all('*', (req, res, next) => {
+        const err = new Error('Page Not Found');
+        err.status = 404;
+        next(err);
+    });
 };
 

@@ -1,0 +1,58 @@
+@import '../../blocks/index'
+@import '../../blocks/header'
+
+.error-page
+  display flex
+  justify-content center
+  align-items center
+  flex-direction column
+  flex-grow 1
+
+  &__status-code
+    display none
+
+  &__photo-cards
+    display flex
+
+    &__item
+      background #fff
+      box-shadow $box-shadow
+
+      &:nth-child(1)
+        transform rotate(16deg)
+
+      &:nth-child(3)
+        transform rotate(-32deg)
+
+    &__content
+      width 150px
+      height 150px
+      margin 12px 12px 40px
+      font-size 10rem
+      display flex
+      align-items center
+      justify-content center
+      background $primary-dark
+      color #fff
+
+      @media (max-width: 640px)
+        width 115px
+        height 115px
+        margin 9px 9px 30px
+        font-size 7.5rem
+
+      @media (max-width: 560px)
+        width 80px
+        height 80px
+        margin 6px 6px 20px
+        font-size 5rem
+
+  &__status-message
+    font-size 3rem
+    color #fff
+
+    @media (max-width: 640px)
+      font-size 2.25rem
+
+    @media (max-width: 560px)
+      font-size 1.5rem
