@@ -114,7 +114,7 @@ class Editor {
         });
         if (this._autosave) {
             this._editor.innerHTML = this.getFromLocalStorage();
-            this._editor.addEventListener('input', throttle(this.saveLocalStorage.bind(this), this._delay));
+            this._editor.addEventListener('input', throttle(this.saveToLocalStorage.bind(this), this._delay));
         }
 
         this._textarea = document.createElement('textarea');
@@ -132,13 +132,13 @@ class Editor {
         this._textarea.value = this._editor.innerHTML;
         this._textarea.removeAttribute('disabled');
     }
-    saveLocalStorage() {
+    saveToLocalStorage() {
         localStorage.setItem(this._storageName, this._editor.innerHTML);
     }
     getFromLocalStorage() {
         return localStorage.getItem(this._storageName);
     }
-    removeLocalStorage() {
+    removeFromLocalStorage() {
         localStorage.removeItem(this._storageName);
     }
 }

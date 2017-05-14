@@ -29,7 +29,7 @@ const commentRequest = () => {
     form.addEventListener('submit', () => {
         editor.render();
         editor.clear();
-        editor.removeLocalStorage();
+        editor.removeFromLocalStorage();
     });
 };
 
