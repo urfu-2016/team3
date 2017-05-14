@@ -97,7 +97,7 @@ describe('photos', () => {
         });
         const req = {};
         req.body = {};
-        req.file = {};
+        req.files = [{}];
         req.user = user;
         const res = {};
         res.redirect = sandbox.stub();
