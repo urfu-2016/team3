@@ -2,11 +2,8 @@
 'use strict';
 
 const sinon = require('sinon');
-const sinonChai = require('sinon-chai');
-const chai = require('chai');
+const expect = require('chai').expect;
 const HttpStatus = require('http-status');
-const expect = chai.expect;
-chai.use(sinonChai);
 
 const photos = require('../../../controllers/photos');
 const Photo = require('../../../models/photo');
@@ -161,7 +158,7 @@ describe('photos', () => {
         req.user = new User({});
         req.flash = sandbox.spy();
         const res = {};
-        res.sendStatus = sinon.spy();
+        res.sendStatus = sandbox.spy();
         const query = {
             populate: () => query,
             exec: () => Promise.resolve(mockPhoto)
@@ -170,7 +167,7 @@ describe('photos', () => {
         sandbox.stub(req.user, 'save').returns(Promise.resolve(req.user));
         return photos.checkin(req, res)
             .then(() => {
-                expect(res.sendStatus).to.have.been.calledWith(200);
+                expect(res.sendStatus.calledWith(200)).to.be.true;
             });
     });
 
@@ -207,7 +204,7 @@ describe('photos', () => {
         sandbox.stub(req.user, 'save').returns(Promise.resolve(req.user));
         return photos.checkin(req, res)
             .then(() => {
-                expect(res.sendStatus).to.have.been.calledWith(417);
+                expect(res.sendStatus.calledWith(417)).to.be.true;
             });
     });
 
