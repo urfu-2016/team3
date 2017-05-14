@@ -25,6 +25,7 @@ exports.list = (req, res, next) => {
             ? req.query.sortBy
             : '-creationDate')
         .populate('photos author')
+        .exec()
         .then(quests =>
             quests.filter(quest =>
                 quest.published || quest.isAccessibleToUser(req.user)
