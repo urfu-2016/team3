@@ -8,6 +8,8 @@ export default (images, start) => {
     const className = 'quest-checkin';
     document.body.style.overflow = 'hidden';
 
+    const csrf = document.querySelector('input[name=\'_csrf\']');
+
     let index = start;
     const len = images.length - 1;
 
@@ -40,12 +42,17 @@ export default (images, start) => {
         icon.innerText = 'sync';
         icon.classList.add('rotate');
         geoLocation().then(location => {
-            fetch(window.location.href, {
+            const url = img.src.replace('image', 'checkin');
+            fetch(url, {
                 method: 'post',
                 headers: {
-                    'Content-Type': 'application/json'
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRF-Token': csrf.value
                 },
-                body: JSON.stringify({index, location})
+                body: JSON.stringify({location}),
+                credentials: 'same-origin'
             }).then(response => {
                 if (response.status === 200) {
                     images[index].dataset.check = 'true';
