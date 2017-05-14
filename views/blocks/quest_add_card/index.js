@@ -30,7 +30,8 @@ export default () => {
                 latitude.parentNode.classList.remove('edit-text__invalid');
                 longitude.value = gps.longitude.toFixed(5);
                 longitude.parentNode.classList.remove('edit-text__invalid');
-            });
+            })
+            .catch(() => {});
 
         close.addEventListener('click', () => {
             latitude.value = '';

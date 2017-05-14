@@ -22,7 +22,11 @@ const addModifierForTextarea = () => {
 };
 
 const commentRequest = () => {
-    const editor = new Editor(document.querySelector('.comment__editor'), {
+    const editorElement = document.querySelector('.comment__editor');
+    if (!editorElement) { // Comment could not be written now
+        return;
+    }
+    const editor = new Editor(editorElement, {
         autosave: true
     });
     const form = document.querySelector('.comment__form');
@@ -38,7 +42,9 @@ export default () => {
     header();
     quest();
     showPoint();
-    cardForm();
-    addModifierForTextarea();
+    if (document.querySelector('.main').dataset.questPublished !== 'true') {
+        cardForm();
+        addModifierForTextarea();
+    }
     commentRequest();
 };
