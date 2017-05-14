@@ -15,10 +15,12 @@ export default (images, start) => {
 
     const pointShow = document.createElement('section');
     pointShow.classList.add(className);
-    pointShow.addEventListener('click', () => {
+    pointShow.addEventListener('click', hideFullscreenImage);
+
+    function hideFullscreenImage() {
         document.body.style.overflow = '';
         pointShow.remove();
-    });
+    }
 
     const content = document.createElement('div');
     content.classList.add(`${className}__content`);
@@ -37,6 +39,7 @@ export default (images, start) => {
         icon.classList.remove('rotate');
         images[index].dataset.check = 'false';
     };
+
     follow.addEventListener('click', event => {
         event.stopPropagation();
         icon.innerText = 'sync';
@@ -64,7 +67,7 @@ export default (images, start) => {
             });
         }).catch(() => {
             error();
-        });
+        }).then(hideFullscreenImage);
     });
 
     const showBtn = () => {

@@ -8,7 +8,7 @@
 </head>
 <body>
     {{> header/index _title=title _user=user }}
-    <main class="main">
+    <main data-quest-published="{{quest.published}}" class="main">
         <section class="quest">
             {{> quest_description/index
                 _title=quest.name
@@ -50,9 +50,6 @@
             {{/if}}
         </section>
     </main>
-    <script>
-        window.isQuestPublished = {{quest.published}};
-    </script>
     <script src="{{ staticBasePath }}/quest.bundle.js" async="async"></script>
 </body>
 </html>
