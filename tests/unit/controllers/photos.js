@@ -167,7 +167,7 @@ describe('photos', () => {
         sandbox.stub(req.user, 'save').returns(Promise.resolve(req.user));
         return photos.checkin(req, res)
             .then(() => {
-                expect(res.sendStatus.calledWith(200)).to.be.true;
+                expect(res.sendStatus.calledWith(HttpStatus.OK)).to.be.true;
             });
     });
 
@@ -204,7 +204,7 @@ describe('photos', () => {
         sandbox.stub(req.user, 'save').returns(Promise.resolve(req.user));
         return photos.checkin(req, res)
             .then(() => {
-                expect(res.sendStatus.calledWith(417)).to.be.true;
+                expect(res.sendStatus.calledWith(HttpStatus.EXPECTATION_FAILED)).to.be.true;
             });
     });
 
