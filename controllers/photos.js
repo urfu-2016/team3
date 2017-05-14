@@ -102,17 +102,12 @@ exports.checkin = (req, res, next) =>
             return photo;
         })
         .then(photo => {
-            const status = isCheckinSuccessful(photo.location, {
-                longitude: req.body.longitude,
-                latitude: req.body.latitude
-            });
+            const status = isCheckinSuccessful(photo.location, req.body.location);
             req.user.photoStatuses.push({photo, status});
-            return req.user.save()
-                .then(() => ({photo, status}));
+            return req.user.save().then(() => status);
         })
-        .then(({photo, status}) => {
-            req.flash(flashConstants.PHOTO_CHECKIN_STATUS, status);
-            res.redirect(urls.photos.specific(photo.id));
+        .then(status => {
+            res.sendStatus(status ? HttpStatus.OK : HttpStatus.EXPECTATION_FAILED);
         })
         .catch(next);
 
