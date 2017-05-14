@@ -109,8 +109,11 @@ class Editor {
                 this._emojitools.dataset.show = 'false';
             }
         });
+        this._editor.addEventListener('blur', () => {
+            this._editor.focus();
+        });
         if (this._autosave) {
-            this._editor.innerHTML = this.getLocalStorage();
+            this._editor.innerHTML = this.getFromLocalStorage();
             this._editor.addEventListener('input', throttle(this.saveLocalStorage.bind(this), this._delay));
         }
 
@@ -132,7 +135,7 @@ class Editor {
     saveLocalStorage() {
         localStorage.setItem(this._storageName, this._editor.innerHTML);
     }
-    getLocalStorage() {
+    getFromLocalStorage() {
         return localStorage.getItem(this._storageName);
     }
     removeLocalStorage() {
