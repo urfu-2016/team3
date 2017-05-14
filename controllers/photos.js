@@ -104,8 +104,7 @@ exports.checkin = (req, res, next) =>
         .then(photo => {
             const status = isCheckinSuccessful(photo.location, req.body.location);
             req.user.photoStatuses.push({photo, status});
-            req.user.save();
-            return status;
+            return req.user.save().then(() => status);
         })
         .then(status => {
             res.sendStatus(status ? HttpStatus.OK : HttpStatus.EXPECTATION_FAILED);
