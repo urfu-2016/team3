@@ -104,6 +104,9 @@ class Editor {
         this._editor = document.createElement('section');
         this._editor.classList.add('editor__textarea');
         this._editor.setAttribute('contenteditable', 'true');
+        if (this._node.dataset.placeholder) {
+            this._editor.setAttribute('placeholder', this._node.dataset.placeholder);
+        }
         this._editor.addEventListener('click', () => {
             if (this._emojitools.dataset.show === 'true') {
                 this._emojitools.dataset.show = 'false';

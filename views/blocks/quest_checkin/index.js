@@ -94,16 +94,9 @@ export default (images, start) => {
     });
 
     const touch = new TouchEmitter(img);
-    touch.on('tap', () => {
-        nextPoint();
-    });
-    touch.on('swipe', next => {
-        if (next) {
-            nextPoint();
-        } else {
-            prevPoint();
-        }
-    });
+    touch.on('tap', nextPoint);
+    touch.on('swipeLeft', nextPoint);
+    touch.on('swipeRight', prevPoint);
 
     showBtn();
 

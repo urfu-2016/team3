@@ -41,5 +41,10 @@
     min-height 150px
     outline 0
 
+    &:empty:before
+      content attr(placeholder)
+      display block
+      color $color-text-secondary
+
   &__hidden_block
     display none
