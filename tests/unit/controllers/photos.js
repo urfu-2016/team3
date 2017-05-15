@@ -134,7 +134,7 @@ describe('photos', () => {
             });
     });
 
-    it('.checkin successful', () => {
+    it('.checkin successful not last', () => {
         const mockPhoto = new Photo({
             image: {
                 data: Buffer.from('Just some bytes', 'utf8'),
@@ -144,7 +144,10 @@ describe('photos', () => {
                 longitude: 1,
                 latitude: 1
             },
-            quest: new Quest({published: true})
+            quest: new Quest({
+                published: true,
+                author: new User({})
+            })
         });
         const req = {};
         req.body = {
@@ -159,15 +162,75 @@ describe('photos', () => {
         req.flash = sandbox.spy();
         const res = {};
         res.sendStatus = sandbox.spy();
-        const query = {
-            populate: () => query,
+        const photoQuery = {
+            populate: () => photoQuery,
             exec: () => Promise.resolve(mockPhoto)
         };
-        sandbox.stub(Photo, 'findById').returns(query);
+        const userQuery = {
+            populate: () => photoQuery,
+            execPopulate: () => Promise.resolve(req.user)
+        };
+        sandbox.stub(req.user, 'populate').returns(userQuery);
         sandbox.stub(req.user, 'save').returns(Promise.resolve(req.user));
+        sandbox.stub(mockPhoto.quest, 'save').returns(Promise.resolve(mockPhoto.quest));
+        sandbox.stub(Photo, 'findById').returns(photoQuery);
+        sandbox.stub(Photo, 'count').returns({
+            exec: () => Promise.resolve(2)
+        });
         return photos.checkin(req, res)
             .then(() => {
                 expect(res.sendStatus.calledWith(HttpStatus.OK)).to.be.true;
+                expect(mockPhoto.quest.passesCount).to.equal(1);
+            });
+    });
+
+    it('.checkin successful last', () => {
+        const mockPhoto = new Photo({
+            image: {
+                data: Buffer.from('Just some bytes', 'utf8'),
+                contentType: 'image/png'
+            },
+            location: {
+                longitude: 1,
+                latitude: 1
+            },
+            quest: new Quest({
+                published: true,
+                author: new User({})
+            })
+        });
+        const req = {};
+        req.body = {
+            location: {
+                longitude: 1.000001,
+                latitude: 0.9999999
+            }
+        };
+        req.file = {};
+        req.params = {};
+        req.user = new User({});
+        req.flash = sandbox.spy();
+        const res = {};
+        res.sendStatus = sandbox.spy();
+        const photoQuery = {
+            populate: () => photoQuery,
+            exec: () => Promise.resolve(mockPhoto)
+        };
+        const userQuery = {
+            populate: () => photoQuery,
+            execPopulate: () => Promise.resolve(req.user)
+        };
+        sandbox.stub(req.user, 'populate').returns(userQuery);
+        sandbox.stub(req.user, 'save').returns(Promise.resolve(req.user));
+        sandbox.stub(mockPhoto.quest, 'save').returns(Promise.resolve(mockPhoto.quest));
+        sandbox.stub(Photo, 'findById').returns(photoQuery);
+        sandbox.stub(Photo, 'count').returns({
+            exec: () => Promise.resolve(1)
+        });
+        return photos.checkin(req, res)
+            .then(() => {
+                expect(res.sendStatus.calledWith(HttpStatus.OK)).to.be.true;
+                expect(mockPhoto.quest.passedCount).to.equal(1);
             });
     });
 
@@ -181,13 +244,16 @@ describe('photos', () => {
                 longitude: 1,
                 latitude: 1
             },
-            quest: new Quest({published: true})
+            quest: new Quest({
+                published: true,
+                author: new User({})
+            })
         });
         const req = {};
         req.body = {
             location: {
-                longitude: 25,
-                latitude: 1
+                longitude: 22,
+                latitude: 0.9999999
             }
         };
         req.file = {};
@@ -196,12 +262,21 @@ describe('photos', () => {
         req.flash = sandbox.spy();
         const res = {};
         res.sendStatus = sandbox.spy();
-        const query = {
-            populate: () => query,
+        const photoQuery = {
+            populate: () => photoQuery,
             exec: () => Promise.resolve(mockPhoto)
         };
-        sandbox.stub(Photo, 'findById').returns(query);
+        const userQuery = {
+            populate: () => photoQuery,
+            execPopulate: () => Promise.resolve(req.user)
+        };
+        sandbox.stub(req.user, 'populate').returns(userQuery);
         sandbox.stub(req.user, 'save').returns(Promise.resolve(req.user));
+        sandbox.stub(mockPhoto.quest, 'save').returns(Promise.resolve(mockPhoto.quest));
+        sandbox.stub(Photo, 'findById').returns(photoQuery);
+        sandbox.stub(Photo, 'count').returns({
+            exec: () => Promise.resolve(2)
+        });
         return photos.checkin(req, res)
             .then(() => {
                 expect(res.sendStatus.calledWith(HttpStatus.EXPECTATION_FAILED)).to.be.true;
