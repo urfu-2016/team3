@@ -8,7 +8,7 @@
 
 const htmlTags = [
     'script', 'noscript', 'button', 'textarea', 'input',
-    'form', 'video', 'img', 'audio', 'style'
+    'form', 'video', 'img', 'audio', 'style', 'iframe'
 ].map(item => new RegExp(`<(/?${item}.*?)>`, 'gi'));
 
 const onEvent = / (on.*?=['"].*?['"])/ig;

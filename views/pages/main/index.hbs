@@ -34,9 +34,16 @@
                 }}
             {{/each}}
         </section>
-        {{#array '{"icon": "add", "link": "/quests/create"}' '{"icon":"?", "link": "/about"}'}}
-            {{> floating_menu/index _items=this }}
-        {{/array}}
+        {{#if user}}
+            {{#array '{"icon": "person", "link": ":profile"}' '{"icon": "add", "link": ":link"}'
+                     '{"icon":"?", "link": ":about"}' '{"icon":"exit_to_app", "link": ":logout"}'}}
+                {{> floating_menu/index _items=this }}
+            {{/array}}
+        {{else}}
+            {{#array '{"icon": "add", "link": ":link"}' '{"icon":"?", "link": ":about"}'}}
+                {{> floating_menu/index _items=this }}
+            {{/array}}
+        {{/if}}
     </main>
     <script src="{{ staticBasePath }}/main.bundle.js" async="async"></script>
 </body>

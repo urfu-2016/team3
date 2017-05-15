@@ -201,6 +201,15 @@ helpers.captcha = (formId, context) => {
     return recaptcha;
 };
 
+helpers.replace = (text, ...items) => {
+    while (items.length !== 0) {
+        const temp = items.shift();
+        const newValue = items.shift();
+        text = text.replace(temp, newValue);
+    }
+    return text;
+};
+
 helpers.urls = require('./url-generator');
 
 /**

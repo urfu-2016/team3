@@ -4,7 +4,7 @@ const Quest = require('../models/quest');
 const HttpStatus = require('http-status');
 const urls = require('../utils/url-generator');
 const flashConstants = require('../configs/flash-constants');
-const htmlSanitizer = require('../utils/html-sanitizer');
+const sanitizeHtml = require('../utils/html-sanitizer');
 
 const SORTING_FIELDS = ['creationDate', 'likesCount'];
 
@@ -93,7 +93,7 @@ exports.create = (req, res, next) => {
     if (req.method === 'POST') {
         return new Quest({
             name: req.body.name,
-            description: htmlSanitizer(req.body.description),
+            description: sanitizeHtml(req.body.description),
             author: req.user
         })
             .save()
@@ -119,7 +119,7 @@ exports.createComment = (req, res, next) =>
                 throw err;
             }
 
-            quest.comments.push({text: htmlSanitizer(req.body.text), author: req.user});
+            quest.comments.push({text: sanitizeHtml(req.body.text), author: req.user});
             return quest.save();
         })
         .then(quest => res.redirect(urls.quests.specific(quest.id)))

@@ -1,7 +1,13 @@
 <section class="floating-menu-button" data-visible="true">
     {{#each _items}}
-        <a class="floating-menu-button__item" data-menu="close" href="{{link}}">
-            {{> floating_button/mini _icon=this.icon}}
+        <a class="floating-menu-button__item" data-menu="close"
+           href="{{replace link
+                           ':link' (urlsQuestsCreate)
+                           ':about' (urlsCommonAbout)
+                           ':logout' (urlsUsersLogout)
+                           ':profile' (urlsUsersProfile)
+           }}">
+            {{> floating_button/mini _icon=icon}}
         </a>
     {{/each}}
     <div class="floating-menu-button__btn" data-menu="close">
