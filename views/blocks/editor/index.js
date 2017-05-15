@@ -99,6 +99,7 @@ class Editor {
             event.preventDefault();
             const status = this._emojitools.dataset.show === 'true';
             this._emojitools.dataset.show = status ? 'false' : 'true';
+            this._editor.focus();
         });
         this._toolbar.appendChild(emoji);
 

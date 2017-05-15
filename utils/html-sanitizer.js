@@ -14,6 +14,6 @@ const htmlTags = [
 const onEvent = / (on.*?=['"].*?['"])/ig;
 
 module.exports = html => {
-    return htmlTags.reduce((newText, regExp) => newText.replace(regExp, '&lt;$1&gt;'), html)
+    return htmlTags.reduce((newText, regExp) => newText.replace(regExp, '&lt;$1&gt;'), html || '')
         .replace(onEvent, '');
 };
