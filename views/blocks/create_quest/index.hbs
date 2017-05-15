@@ -4,8 +4,7 @@
         {{{csrfHiddenInput}}}
         {{> edit_text/index _id='name' _name='name' _label='inbox' _type='text' _placeholder='Название квеста'
             _required=true}}
-        {{> textarea/index _id='description'
-            _name='description' _label='border_color' _placeholder='Описание квеста' _rows='7' _required=true}}
+        <div class="create-quest__editor" data-placeholder="Описание квеста"></div>
         <div class="create-quest__bottom-section">
             {{{ captcha 'create-quest-form' }}}
             <div class="create-quest__button">{{> button/index _text='Создать'}}</div>

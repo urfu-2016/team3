@@ -74,6 +74,7 @@ class Editor {
             item.addEventListener('click', event => {
                 event.preventDefault();
                 document.execCommand(button.cmd);
+                this._editor.focus();
             });
             this._toolbar.appendChild(item);
         });
@@ -111,9 +112,6 @@ class Editor {
             if (this._emojitools.dataset.show === 'true') {
                 this._emojitools.dataset.show = 'false';
             }
-        });
-        this._editor.addEventListener('blur', () => {
-            this._editor.focus();
         });
         if (this._autosave) {
             this._editor.innerHTML = this.getFromLocalStorage();

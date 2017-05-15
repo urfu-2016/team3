@@ -20,6 +20,7 @@
                 _author_avatar=quest.author.avatar
                 _author_name=quest.author.name
                 _images=quest.photos
+                _published=quest.published
             }}
             {{#unless quest.published}}
                 <section class="quest__add-card">{{> quest_add_card/index }}</section>

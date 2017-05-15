@@ -93,7 +93,7 @@ exports.create = (req, res, next) => {
     if (req.method === 'POST') {
         return new Quest({
             name: req.body.name,
-            description: req.body.description,
+            description: htmlSanitizer(req.body.description),
             author: req.user
         })
             .save()

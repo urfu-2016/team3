@@ -14,10 +14,10 @@
             _author_name=_author_name
             _author_link=_author_link
         }}
-        {{#unless _user.quest}}
+        {{#if _published}}
             <div class="quest-description__subscribe">
                 {{> floating_button/default _icon='add' }}
             </div>
-        {{/unless}}
+        {{/if}}
     </section>
 </section>
