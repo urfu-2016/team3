@@ -106,30 +106,46 @@ exports.checkin = (req, res, next) =>
             }
             return photo;
         })
+        .then(photo => req.user
+            .populate('photoStatuses.photo')
+            .execPopulate()
+            .then(() => photo))
         .then(photo => {
+            const userQuestPhotoStatuses = req.user.photoStatuses
+                .filter(photoStatus => photoStatus.photo.quest.equals(photo.quest._id));
+            return {photo, userQuestPhotoStatuses};
+        })
+        .then(({photo, userQuestPhotoStatuses}) => {
+            if (!userQuestPhotoStatuses.length) {
+                photo.quest.passesCount++;
+            }
             const status = isCheckinSuccessful(photo.location, req.body.location);
             req.user.photoStatuses.push({photo, status});
-            return req.user.save().then(() => ({photo, status}));
+            userQuestPhotoStatuses.push({photo, status});
+
+            return Promise.all([
+                req.user.save(),
+                photo.quest.save()
+            ]).then(() => ({photo, status, userQuestPhotoStatuses}));
         })
-        .then(({photo, status}) => {
+        .then(({photo, status, userQuestPhotoStatuses}) => {
             if (status) {
                 return Photo.count({quest: photo.quest})
                     .exec()
-                    .then(photosCount => req.user
-                        .populate('photoStatuses.photo')
-                        .execPopulate()
-                        .then(() => photosCount))
                     .then(photosCount => {
-                        const successfullyCheckedInPhotosCount = req.user
-                            .photoStatuses.filter(photoStatus => photoStatus.status &&
-                                photoStatus.photo.quest.equals(photo.quest._id)
-                            ).length;
+                        const successfullyCheckedInPhotosCount = userQuestPhotoStatuses
+                            .filter(photoStatus => photoStatus.status).length;
                         return photosCount === successfullyCheckedInPhotosCount;
                     })
                     .then(questPassed => {
                         if (questPassed) {
                             req.user.passedQuests.push(photo.quest);
-                            return req.user.save();
+                            photo.quest.passesCount--;
+                            photo.quest.passedCount++;
+                            return Promise.all([
+                                req.user.save(),
+                                photo.quest.save()
+                            ]);
                         }
                     })
                     .then(() => status);

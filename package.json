@@ -8,7 +8,9 @@
   "scripts": {
     "start": "node .",
     "build": "webpack",
-    "test": "mocha --recursive ./tests",
+    "test": "npm-run-all test:*",
+    "test:unit": "mocha --recursive ./tests/unit",
+    "test:integration": "mocha --recursive ./tests/integration",
     "dev": "npm-run-all --parallel dev:*",
     "dev:watch": "webpack --progress --color --watch",
     "dev:server": "nodemon .",

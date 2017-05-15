@@ -58,7 +58,7 @@ exports.show = (req, res, next) =>
                 const photoStatus = req.user && req.user.photoStatuses.find(photoStatus => photoStatus.photo.equals(photo._id));
                 photo.status = photoStatus ? photoStatus.status : 'none';
             });
-            res.render('quest', {quest, isPassed: req.user && req.user.isQuestPassed(quest)});
+            res.render('quest', {quest, isPassed: Boolean(req.user) && req.user.isQuestPassed(quest)});
         })
         .catch(next);
 
