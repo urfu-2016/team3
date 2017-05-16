@@ -51,7 +51,14 @@ exports.show = (req, res, next) =>
                 err.status = HttpStatus.FORBIDDEN;
                 throw err;
             }
-            res.render('quest', {quest});
+            if (req.user) {
+                req.user.isAuthor = quest.author.id === req.user.id;
+            }
+            quest.photos.forEach(photo => {
+                const photoStatus = req.user && req.user.photoStatuses.find(photoStatus => photoStatus.photo.equals(photo._id));
+                photo.status = photoStatus ? photoStatus.status : 'none';
+            });
+            res.render('quest', {quest, isPassed: Boolean(req.user) && req.user.isQuestPassed(quest)});
         })
         .catch(next);
 

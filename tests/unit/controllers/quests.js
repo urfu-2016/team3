@@ -281,7 +281,7 @@ describe('quests', () => {
 
         return quests.show(req, res)
             .then(() => {
-                expect(res.render.calledWith('quest', {quest: questMock})).to.be.true;
+                expect(res.render.calledWith('quest', {quest: questMock, isPassed: false})).to.be.true;
             });
     });
 
@@ -312,7 +312,7 @@ describe('quests', () => {
 
         return quests.show(req, res)
             .then(() => {
-                expect(res.render.calledWith('quest', {quest: questMock})).to.be.true;
+                expect(res.render.calledWith('quest', {quest: questMock, isPassed: false})).to.be.true;
             });
     });
 
@@ -344,7 +344,7 @@ describe('quests', () => {
 
         return quests.show(req, res)
             .then(() => {
-                expect(res.render.calledWith('quest', {quest: questMock})).to.be.true;
+                expect(res.render.calledWith('quest', {quest: questMock, isPassed: false})).to.be.true;
             });
     });
 

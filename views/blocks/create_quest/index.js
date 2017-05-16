@@ -1,7 +1,9 @@
-const createQuestForm = document.getElementById('create-quest-form');
+export default function () {
+    const createQuestForm = document.getElementById('create-quest-form');
 
-createQuestForm.addEventListener('submit', event => {
-    /* global grecaptcha */
-    event.preventDefault();
-    grecaptcha.execute();
-});
+    createQuestForm.addEventListener('submit', event => {
+        /* global grecaptcha */
+        event.preventDefault();
+        grecaptcha.execute();
+    });
+}

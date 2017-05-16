@@ -99,16 +99,59 @@ exports.checkin = (req, res, next) =>
                 err.status = HttpStatus.FORBIDDEN;
                 throw err;
             }
+            if (photo.quest.author.equals(req.user._id)) {
+                const err = new Error(`You could not play in your own quest`);
+                err.status = HttpStatus.FORBIDDEN;
+                throw err;
+            }
             return photo;
         })
+        .then(photo => req.user
+            .populate('photoStatuses.photo')
+            .execPopulate()
+            .then(() => photo))
         .then(photo => {
+            const userQuestPhotoStatuses = req.user.photoStatuses
+                .filter(photoStatus => photoStatus.photo.quest.equals(photo.quest._id));
+            return {photo, userQuestPhotoStatuses};
+        })
+        .then(({photo, userQuestPhotoStatuses}) => {
+            if (!userQuestPhotoStatuses.length) {
+                photo.quest.passesCount++;
+            }
             const status = isCheckinSuccessful(photo.location, req.body.location);
             req.user.photoStatuses.push({photo, status});
-            return req.user.save().then(() => status);
+            userQuestPhotoStatuses.push({photo, status});
+
+            return Promise.all([
+                req.user.save(),
+                photo.quest.save()
+            ]).then(() => ({photo, status, userQuestPhotoStatuses}));
         })
-        .then(status => {
-            res.sendStatus(status ? HttpStatus.OK : HttpStatus.EXPECTATION_FAILED);
+        .then(({photo, status, userQuestPhotoStatuses}) => {
+            if (status) {
+                return Photo.count({quest: photo.quest})
+                    .exec()
+                    .then(photosCount => {
+                        const successfullyCheckedInPhotosCount = userQuestPhotoStatuses
+                            .filter(photoStatus => photoStatus.status).length;
+                        return photosCount === successfullyCheckedInPhotosCount;
+                    })
+                    .then(questPassed => {
+                        if (questPassed) {
+                            req.user.passedQuests.push(photo.quest);
+                            photo.quest.passesCount--;
+                            photo.quest.passedCount++;
+                            return Promise.all([
+                                req.user.save(),
+                                photo.quest.save()
+                            ]);
+                        }
+                    })
+                    .then(() => status);
+            }
         })
+        .then(status => res.sendStatus(status ? HttpStatus.OK : HttpStatus.EXPECTATION_FAILED))
         .catch(next);
 
 const MAX_DISTANCE_BETWEEN_PLAYER_AND_PHOTO_IN_METERS = 500;
