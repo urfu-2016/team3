@@ -2,9 +2,10 @@
 
 const Quest = require('../models/quest');
 const HttpStatus = require('http-status');
+const htmlSanitizer = require('sanitize-html');
 const urls = require('../utils/url-generator');
 const flashConstants = require('../configs/flash-constants');
-const htmlSanitizer = require('sanitize-html');
+const createError = require('../utils/create-error');
 
 const SORTING_FIELDS = ['creationDate', 'likesCount'];
 
@@ -51,21 +52,18 @@ exports.show = (req, res, next) =>
         .exec()
         .then(quest => {
             if (!quest) {
-                const err = new Error(`There is no quest with id ${req.params.id}`);
-                err.status = HttpStatus.NOT_FOUND;
-                throw err;
+                throw createError(`There is no quest with id ${req.params.id}`, HttpStatus.NOT_FOUND);
             }
             const clientIsAllowedToSeeQuest = quest.published || quest.isAccessibleToUser(req.user);
             if (!clientIsAllowedToSeeQuest) {
-                const err = new Error('You are not allowed to see this quest right now');
-                err.status = HttpStatus.FORBIDDEN;
-                throw err;
+                throw createError('You are not allowed to see this quest right now', HttpStatus.FORBIDDEN);
             }
             if (req.user) {
                 req.user.isAuthor = quest.author.id === req.user.id;
             }
             quest.photos.forEach(photo => {
-                const photoStatus = req.user && req.user.photoStatuses.find(photoStatus => photoStatus.photo.equals(photo._id));
+                const photoStatus = req.user &&
+                    req.user.photoStatuses.find(photoStatus => photoStatus.photo.equals(photo._id));
                 photo.status = photoStatus ? photoStatus.status : 'none';
             });
             res.render('quest', {quest, isPassed: Boolean(req.user) && req.user.isQuestPassed(quest)});
@@ -82,14 +80,10 @@ exports.publish = (req, res, next) =>
         .exec()
         .then(quest => {
             if (!quest) {
-                const err = new Error(`There is no quest with id ${req.params.id}`);
-                err.status = HttpStatus.NOT_FOUND;
-                throw err;
+                throw createError(`There is no quest with id ${req.params.id}`, HttpStatus.NOT_FOUND);
             }
             if (!quest.isAccessibleToUser(req.user)) {
-                const err = new Error('You are not allowed to modify this quest');
-                err.status = HttpStatus.FORBIDDEN;
-                throw err;
+                throw createError('You are not allowed to modify this quest', HttpStatus.FORBIDDEN);
             }
 
             quest.published = true;
@@ -117,15 +111,12 @@ exports.createComment = (req, res, next) =>
         .exec()
         .then(quest => {
             if (!quest) {
-                const err = new Error(`There is no quest with id ${req.params.id}`);
-                err.status = HttpStatus.NOT_FOUND;
-                throw err;
+                throw createError(`There is no quest with id ${req.params.id}`, HttpStatus.NOT_FOUND);
             }
 
             if (!quest.published) {
-                const err = new Error(`Quest with id: ${req.body.questId} is not published yet. Commenting is disabled`);
-                err.status = HttpStatus.FORBIDDEN;
-                throw err;
+                throw createError(`Quest with id: ${req.body.questId} is not published yet. Commenting is disabled`,
+                    HttpStatus.FORBIDDEN);
             }
 
             quest.comments.push({text: sanitizeHtml(req.body.text), author: req.user});

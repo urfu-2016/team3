@@ -1,13 +1,15 @@
 'use strict';
 
 const passport = require('passport');
+const HttpStatus = require('http-status');
+const Identicon = require('identicon.js');
+const crypto = require('crypto');
 const User = require('../models/user');
 const urls = require('../utils/url-generator');
 const nev = require('../configs/nev');
 const extractDomain = require('../utils/extract-domain');
 const flashConstants = require('../configs/flash-constants');
-const Identicon = require('identicon.js');
-const crypto = require('crypto');
+const createError = require('../utils/create-error');
 
 const AUTHORIZATION_STRATEGY_OPTIONS = {
     successReturnToOrRedirect: urls.common.main(),
@@ -72,11 +74,12 @@ exports.registration = (req, res, next) => {
     nev.configure({verificationURL: `${extractDomain(req)}/email-verification/\${URL}`}, () => {});
     nev.createTempUser(user, (err, existingPersistentUser, newTempUser) => {
         if (err) {
-            return next(new Error('Creating temp user failed'));
+            return next(createError('Creating temp user failed'));
         }
 
         if (existingPersistentUser) {
-            return next(new Error('You have already signed up and confirmed your account. Did you forget your password?'));
+            return next(createError('You have already signed up and confirmed your account. Try to login',
+                HttpStatus.FORBIDDEN));
         }
 
         if (newTempUser) {
@@ -84,12 +87,13 @@ exports.registration = (req, res, next) => {
             nev.sendVerificationEmail(newTempUser.email, URL, err => {
                 if (err) {
                     console.error(err.message, err);
-                    return next(new Error('Sending verification email failed'));
+                    return next(createError('Sending verification email failed'));
                 }
                 return exports.loginLocal(req, res, next);
             });
         } else {
-            next(new Error('You have already signed up. Please check your email to verify your account.'));
+            next(createError('You have already signed up. Please check your email to verify your account',
+                HttpStatus.FORBIDDEN));
         }
     });
 };
