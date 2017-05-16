@@ -1,9 +1,17 @@
 <section class="description">
     <header class="description__header">
-        <h1 class="description__title">{{{shy _title }}}</h1>
+        <h1 class="description__title">{{{shy _title}}}</h1>
+            {{#unless quest.published}}
+                <div id="edit_title" class="material-icons description__edit-button">mode_edit</div>
+            {{/unless}}
     </header>
     <article class="description__content">
-        {{{_description}}}
+        <section class="description__text-section">
+            <div class="description__text">{{{_description}}}</div>
+                {{#unless quest.published}}
+                    <div id="edit_description" class="material-icons description__edit-button">mode_edit</div>
+                {{/unless}}
+        </section>
         <section class="description__status">
             <span class="description-status__item">
                 <span class="material-icons">directions_run</span>

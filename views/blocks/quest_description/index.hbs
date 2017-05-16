@@ -13,11 +13,19 @@
             _author_avatar=_author_avatar
             _author_name=_author_name
             _author_link=_author_link
+            _user=_user
         }}
-        {{#if _published}}
-            <div class="quest-description__subscribe">
-                {{> floating_button/default _icon='add' }}
-            </div>
-        {{/if}}
+        <section class="quest-description__buttons-section">
+            {{#ifOr _user.isAuthor _user.isAdmin}}
+                <div class="quest-description__remove">
+                    {{> floating_button/default _icon='delete' }}
+                </div>
+            {{/ifOr}}
+            {{#unless _user.isAuthor}}
+                <div class="quest-description__subscribe">
+                    {{> floating_button/default _icon='add' }}
+                </div>
+            {{/unless}}
+        </section>
     </section>
 </section>

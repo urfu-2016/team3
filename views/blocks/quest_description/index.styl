@@ -31,10 +31,10 @@
       width 45%
       padding-bottom 20px
 
-  &__subscribe
+  &__buttons-section
     right 0
     position absolute
-    text-decoration none
+    display flex
 
     @media (max-width: 560px)
       top 0
@@ -43,6 +43,12 @@
     @media (min-width: 560px)
       bottom 0
       transform translateY(50%)
+
+  &__subscribe
+  &__remove
+    text-decoration none
+
+
 
 @import '../description'
 @import '../floating_button'
