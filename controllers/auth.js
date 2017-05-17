@@ -2,7 +2,6 @@
 
 const passport = require('passport');
 const HttpStatus = require('http-status');
-const generateAvatar = require('../utils/generate-avatar');
 const User = require('../models/user');
 const urls = require('../utils/url-generator');
 const nev = require('../configs/nev');

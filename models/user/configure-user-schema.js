@@ -34,7 +34,6 @@ module.exports = schema => {
         next();
     });
 
-
     const reasons = schema.statics.failedLogin = { // eslint-disable-line no-multi-assign
         NOT_FOUND: 0,
         PASSWORD_INCORRECT: 1,
