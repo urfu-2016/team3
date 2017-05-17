@@ -67,8 +67,7 @@ exports.registration = (req, res, next) => {
     const user = new User({
         name: req.body.username,
         password: req.body.password,
-        email: req.body.email,
-        avatar: generateAvatar(req.body.email)
+        email: req.body.email
     });
     nev.configure({verificationURL: `${extractDomain(req)}/email-verification/\${URL}`}, () => {});
     nev.createTempUser(user, (err, existingPersistentUser, newTempUser) => {

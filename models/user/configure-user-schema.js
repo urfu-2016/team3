@@ -1,6 +1,7 @@
 'use strict';
 
 const bcrypt = require('bcrypt');
+const generateAvatar = require('../../utils/generate-avatar');
 
 const MAX_LOGIN_ATTEMPTS = 5;
 const LOCK_TIME_IN_MILLISECONDS = 10 * 60 * 1000;
@@ -25,6 +26,15 @@ module.exports = schema => {
     schema.virtual('isLocked').get(function () {
         return Boolean(this.lockUntil && this.lockUntil > Date.now());
     });
+
+    schema.pre('save', function (next) {
+        if (!this.avatar) {
+            this.avatar = generateAvatar(this.email);
+        }
+        next();
+    });
+
+
     const reasons = schema.statics.failedLogin = { // eslint-disable-line no-multi-assign
         NOT_FOUND: 0,
         PASSWORD_INCORRECT: 1,
