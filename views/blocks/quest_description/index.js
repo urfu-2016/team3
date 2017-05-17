@@ -44,7 +44,7 @@ export default () => {
                     if (response.redirected) {
                         document.location.href = response.url;
                     }
-                })
+                });
         });
     }
 };

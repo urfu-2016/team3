@@ -130,7 +130,6 @@ helpers.ifEqual = (first, second, options) => {
     return first === second ? options.fn(this) : options.inverse(this);
 };
 
-
 /**
  * Добавляет конструкцию вида:
  *   if (a || b) ...

@@ -137,7 +137,7 @@ exports.remove = (req, res, next) =>
                 throw err;
             }
 
-            return Photo.remove({quest: quest});
+            return Photo.remove({quest});
         })
         .then(() => Quest.deleteOne({_id: new mongodb.ObjectID(req.params.id)}))
         .then(() => res.redirect(urls.common.main()))

@@ -90,7 +90,6 @@ const edit = () => {
         }
     });
 
-
     const textSectionQuest = document.querySelector('.description__text-section');
     const textQuest = textSectionQuest.querySelector('.description__text');
     const editDescription = document.getElementById('edit_description');
@@ -114,7 +113,7 @@ const edit = () => {
             editDescription.innerText = 'done';
             textareaText.value = textQuest.innerText;
             const heightBlock = textQuest.offsetHeight > 34 ? textQuest.offsetHeight - 22 : 34;
-            textareaText.style.height = heightBlock + "px";
+            textareaText.style.height = heightBlock + 'px';
             textSectionQuest.removeChild(textQuest);
             textSectionQuest.insertBefore(divTextareaText, editDescription);
         } else {
