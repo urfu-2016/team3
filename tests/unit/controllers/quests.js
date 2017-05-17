@@ -7,6 +7,7 @@ const HttpStatus = require('http-status');
 
 const quests = require('../../../controllers/quests');
 const Quest = require('../../../models/quest');
+const Photo = require('../../../models/photo');
 const User = require('../../../models/user');
 
 describe('quests', () => {
@@ -603,6 +604,175 @@ describe('quests', () => {
         })
             .then(() => {
                 expect(res.redirect.notCalled).to.be.true;
+            });
+    });
+
+
+    it('.edit name from author', () => {
+        const user = new User();
+        const questMock = new Quest({
+            author: user,
+            creationDate: new Date(1490776 + Math.floor(300000 * Math.random())),
+            name: `Quest 1`,
+            description: 'Description here, must be more than 30 characters',
+            likesCount: Math.floor(50 * Math.random()),
+            passesCount: 2,
+            photos: [],
+            published: false
+        });
+        const mockSave = sinon.stub(questMock, 'save').callsFake(() => {
+            questMock.name = 'Quest 2';
+            return questMock;
+        });
+        const req = {};
+        req.params = {};
+        req.user = user;
+        req.body = {};
+        const res = {};
+        res.sendStatus = sandbox.stub();
+        const query = {
+            populate: () => query,
+            exec: () => Promise.resolve(questMock)
+        };
+
+        const mockFind = sandbox.stub(Quest, 'findById');
+        mockFind.returns(query);
+
+        return quests.edit(req, res)
+            .then(() => {
+                expect(mockSave.called).to.be.true;
+                expect(questMock.name).to.equal('Quest 2');
+                expect(res.sendStatus.called).to.be.true;
+            });
+    });
+
+
+    it('.edit name from not author returns FORBIDDEN', () => {
+        const questMock = new Quest({
+            author: new User(),
+            creationDate: new Date(1490776 + Math.floor(300000 * Math.random())),
+            name: `Quest 1`,
+            description: 'Description here, must be more than 30 characters',
+            likesCount: Math.floor(50 * Math.random()),
+            passesCount: 2,
+            photos: [],
+            published: false
+        });
+        const mockSave = sinon.stub(questMock, 'save');
+        const req = {};
+        req.params = {};
+        req.user = new User();
+        req.body = {};
+        const res = {};
+        res.sendStatus = sandbox.stub();
+        const query = {
+            populate: () => query,
+            exec: () => Promise.resolve(questMock)
+        };
+
+        const mockFind = sandbox.stub(Quest, 'findById');
+        mockFind.returns(query);
+
+        return quests.edit(req, res, err => {
+            expect(err.status).to.equal(HttpStatus.FORBIDDEN);
+        })
+            .then(() => {
+                expect(mockSave.called).to.be.false;
+                expect(questMock.name).to.equal('Quest 1');
+                expect(res.sendStatus.called).to.be.false;
+            });
+    });
+
+    it('.remove from author', () => {
+        const user = new User();
+        const questMock = new Quest({
+            author: user,
+            creationDate: new Date(1490776 + Math.floor(300000 * Math.random())),
+            name: `Quest 1`,
+            description: 'Description here, must be more than 30 characters',
+            likesCount: Math.floor(50 * Math.random()),
+            passesCount: 2,
+            photos: [],
+            published: false
+        });
+        const mockRemovePhoto = sandbox.stub(Photo, 'remove');
+        const mockRemoveQuest = sandbox.stub(Quest, 'findByIdAndRemove');
+        const req = {};
+        req.params = {};
+        req.user = user;
+        const res = {};
+        res.redirect = sandbox.stub();
+        const query = {
+            populate: () => query,
+            exec: () => Promise.resolve(questMock)
+        };
+
+        const mockFind = sandbox.stub(Quest, 'findById');
+        mockFind.returns(query);
+
+        return quests.remove(req, res)
+            .then(() => {
+                expect(mockRemovePhoto.called).to.be.true;
+                expect(mockRemoveQuest.called).to.be.true;
+                expect(res.redirect.called).to.be.true;
+            });
+    });
+
+    it('.remove from not author returns FORBIDDEN', () => {
+        const questMock = new Quest({
+            author: new User(),
+            creationDate: new Date(1490776 + Math.floor(300000 * Math.random())),
+            name: `Quest 1`,
+            description: 'Description here, must be more than 30 characters',
+            likesCount: Math.floor(50 * Math.random()),
+            passesCount: 2,
+            photos: [],
+            published: false
+        });
+        const mockRemovePhoto = sandbox.stub(Photo, 'remove');
+        const mockRemoveQuest = sandbox.stub(Quest, 'findByIdAndRemove');
+        const req = {};
+        req.params = {};
+        req.user = new User();
+        const res = {};
+        res.redirect = sandbox.stub();
+        const query = {
+            populate: () => query,
+            exec: () => Promise.resolve(questMock)
+        };
+
+        const mockFind = sandbox.stub(Quest, 'findById');
+        mockFind.returns(query);
+
+        return quests.remove(req, res, err => {
+            expect(err.status).to.equal(HttpStatus.FORBIDDEN);
+        })
+            .then(() => {
+                expect(mockRemovePhoto.called).to.be.false;
+                expect(mockRemoveQuest.called).to.be.false;
+                expect(res.redirect.called).to.be.false;
+            });
+    });
+
+    it('.remove on non existent quest returns NOT_FOUND', () => {
+        const questMock = null;
+        const req = {};
+        req.params = {};
+        const res = {};
+        res.redirect = sandbox.stub();
+        const query = {
+            populate: () => query,
+            exec: () => Promise.resolve(questMock)
+        };
+
+        const mockFind = sandbox.stub(Quest, 'findById');
+        mockFind.returns(query);
+
+        return quests.remove(req, res, err => {
+            expect(err.status).to.equal(HttpStatus.NOT_FOUND);
+        })
+            .then(() => {
+                expect(res.redirect.called).to.be.false;
             });
     });
 });

@@ -129,7 +129,13 @@ exports.createComment = (req, res, next) =>
 
 exports.remove = (req, res, next) =>
     Quest.findById(req.params.id)
+        .exec()
         .then(quest => {
+            if (!quest) {
+                const err = new Error(`There is no quest with id ${req.params.id}`);
+                err.status = HttpStatus.NOT_FOUND;
+                throw err;
+            }
             if (!quest.isAccessibleToUser(req.user)) {
                 const err = new Error('You are not allowed to delete this quest');
                 err.status = HttpStatus.FORBIDDEN;
@@ -144,6 +150,7 @@ exports.remove = (req, res, next) =>
 
 exports.edit = (req, res, next) =>
     Quest.findById(req.params.id)
+        .exec()
         .then(quest => {
             if (!quest.isAccessibleToUser(req.user)) {
                 const err = new Error('You are not allowed to modify this quest');
