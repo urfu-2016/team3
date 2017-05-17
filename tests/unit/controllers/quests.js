@@ -653,7 +653,7 @@ describe('quests', () => {
             photos: [],
             published: false
         });
-        const mockSave = sinon.stub(questMock, 'save');
+        const mockSave = sandbox.stub(questMock, 'save');
         const req = {};
         req.params = {};
         req.user = new User();
