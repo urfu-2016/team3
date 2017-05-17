@@ -8,8 +8,6 @@ const urls = require('../utils/url-generator');
 const flashConstants = require('../configs/flash-constants');
 const createError = require('../utils/create-error');
 
-const mongodb = require('mongodb');
-
 const SORTING_FIELDS = ['creationDate', 'likesCount'];
 
 function extractFieldName(sortBy) {
@@ -63,6 +61,7 @@ exports.show = (req, res, next) =>
             }
             if (req.user) {
                 req.user.isAuthor = quest.author.id === req.user.id;
+                quest.isAccessibleToCurrentUser = quest.isAccessibleToUser(req.user);
             }
             quest.photos.forEach(photo => {
                 const photoStatus = req.user &&
@@ -139,7 +138,7 @@ exports.remove = (req, res, next) =>
 
             return Photo.remove({quest});
         })
-        .then(() => Quest.deleteOne({_id: new mongodb.ObjectID(req.params.id)}))
+        .then(() => Quest.findByIdAndRemove(req.params.id))
         .then(() => res.redirect(urls.common.main()))
         .catch(next);
 
