@@ -29,12 +29,15 @@ const BUTTONS = [
 ];
 
 const EMOJI = [
-    '😀', '😃', '😄', '😁', '😆', '😅', '😂', '😊', '😇', '😉', '😌',
-    '😍', '😘', '😗', '😙', '😚', '😋', '😜', '😝', '😛', '😎', '😏',
-    '😒', '😞', '😔', '😟', '😕', '😣', '😖', '😫', '😩', '😤', '😠',
-    '😡', '😶', '😐', '😑', '😯', '😦', '😧', '😮', '😲', '😵', '😳',
-    '😱', '😨', '😰', '😢', '😥', '😭', '😓', '😪', '😴', '😬', '😷', '😈'
-];
+    '😀', '😃', '😄', '😁', '😆', '😅', '😂', '🤣', '😊', '😇',
+    '🙂', '🙃', '😉', '😌', '😍', '😘', '😗', '😙', '😚', '😋',
+    '😜', '😝', '😛', '🤑', '🤗', '🤓', '😎', '🤡', '🤠', '😏',
+    '😒', '😞', '😔', '😟', '😕', '🙁', '😣', '😖', '😫', '😩',
+    '😤', '😠', '😡', '😶', '😐', '😑', '😯', '😦', '😧', '😮',
+    '😲', '😵', '😳', '😱', '😨', '😰', '😢', '😥', '🤤', '😭',
+    '😓', '😪', '😴', '🙄', '🤔', '🤥', '😬', '🤐', '🤢', '🤧',
+    '😷', '🤒', '🤕', '😈'
+].map(emoji => ((((emoji.charCodeAt(0) - 0xD800) * 0x400) + (emoji.charCodeAt(1) - 0xDC00) + 0x10000)).toString(16));
 
 const throttle = (func, delay) => {
     let isCalled = false;
@@ -91,19 +94,20 @@ class Editor {
         this._emojitools = document.createElement('section');
         this._emojitools.classList.add('editor__emoji');
         EMOJI.forEach(emoji => {
-            const item = document.createElement('button');
-            item.type = 'button';
-            item.innerText = emoji;
+            const item = document.createElement('img');
+            item.dataset.type = 'emoji';
+            item.src = `https://cdn.jsdelivr.net/emojione/assets/3.0/png/32/${emoji}.png`;
             item.addEventListener('click', event => {
                 event.preventDefault();
-                document.execCommand('insertText', false, emoji);
+                document.execCommand('insertHtml', false, item.outerHTML);
                 this._emojitools.dataset.show = 'false';
             });
             this._emojitools.appendChild(item);
         });
 
-        const emoji = document.createElement('button');
-        emoji.innerText = '😃';
+        const emoji = document.createElement('img');
+        emoji.dataset.type = 'emoji';
+        emoji.src = `https://cdn.jsdelivr.net/emojione/assets/3.0/png/32/${EMOJI[10]}.png`;
         emoji.addEventListener('click', event => {
             event.preventDefault();
             const state = this._emojitools.dataset.show === 'true';
@@ -119,9 +123,7 @@ class Editor {
             this._editor.setAttribute('placeholder', this._node.dataset.placeholder);
         }
         this._editor.addEventListener('click', event => {
-            if (this._emojitools.dataset.show === 'true') {
-                this._emojitools.dataset.show = 'false';
-            }
+            this._emojitools.dataset.show = 'false';
             const cursor = document.caretRangeFromPoint(event.clientX, event.clientY);
             let parentNode = cursor.commonAncestorContainer;
             const tags = [];

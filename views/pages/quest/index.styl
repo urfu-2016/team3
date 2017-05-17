@@ -2,6 +2,12 @@
 @import '../../blocks/header'
 @import '../../blocks/quest_description'
 
+img[data-type='emoji']
+  width 18px
+  height 18px
+  object-fit cover
+  cursor pointer
+
 .quest
   margin-top 20px
 
@@ -49,13 +55,13 @@
 
   &__author
     font-size 1.2rem
-    color $color-text-secondary
+    color lightness($color-text-secondary, 70%)
     padding 0 16px 8px
     border-bottom 1px solid $color-text-secondary
     display inline-flex
 
   &__text
-    padding 8px 32px 0
+    padding 8px 16px
 
 @import '../../blocks/quest_point'
 @import '../../blocks/quest_checkin'

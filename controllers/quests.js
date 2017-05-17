@@ -17,7 +17,10 @@ function extractFieldName(sortBy) {
 
 const sanitizeHtml = html => {
     return htmlSanitizer(html, {
-        allowedTags: ['b', 'i', 'u', 'div', 'li', 'ul', 'ol', 'span', 'br']
+        allowedTags: ['b', 'i', 'u', 'div', 'li', 'ul', 'ol', 'span', 'br', 'img'],
+        allowedAttributes: {
+            img: ['src', 'data-type']
+        }
     });
 };
 

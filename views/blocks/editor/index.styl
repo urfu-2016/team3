@@ -4,6 +4,12 @@
   background $primary-dark
   position relative
 
+  & img[data-type='emoji']
+    width 18px
+    height 18px
+    object-fit cover
+    cursor pointer
+
   & button
     background transparent
     border 0
@@ -19,6 +25,9 @@
     border-bottom 2px solid $color-text-secondary
     display flex
 
+    & [data-type='emoji']
+      padding 1px 6px
+
     & .material-icons
       font-size 18px
       color $color-text-secondary
@@ -32,8 +41,12 @@
     width 300px
     margin 5px auto auto 16px
     border 1px solid $color-text-secondary
+    padding 4px 0
     background rgba($primary-dark, .9)
     color #fff
+
+    & [data-type='emoji']
+      padding 1px 6px
 
     &[data-show='true']
       display block
@@ -42,7 +55,7 @@
     font-size 18px
     padding 16px
     color #fff
-    min-height 150px
+    min-height 180px
     outline 0
 
     &:empty:before

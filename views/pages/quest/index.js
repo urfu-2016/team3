@@ -5,6 +5,7 @@ import quest from '../../blocks/quest_description';
 import checkin from '../../blocks/quest_checkin';
 import cardForm from '../../blocks/quest_add_card';
 import Editor from '../../blocks/editor';
+import {localeDate} from '../../blocks/description';
 
 const showPoint = () => {
     const questPoints = [...document.querySelector('.quest__points').children];
@@ -47,4 +48,5 @@ export default () => {
         addModifierForTextarea();
     }
     commentRequest();
+    localeDate();
 };
