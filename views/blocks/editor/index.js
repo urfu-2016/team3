@@ -97,7 +97,7 @@ class Editor {
             item.addEventListener('click', event => {
                 event.preventDefault();
                 document.execCommand('insertText', false, emoji);
-                this._emojitools.dataset.show = false;
+                this._emojitools.dataset.show = 'false';
             });
             this._emojitools.appendChild(item);
         });
