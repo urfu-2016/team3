@@ -36,5 +36,8 @@ module.exports = {
     isAdmin: {type: Boolean, default: false},
     vkId: {type: String, index: true},
     twitterId: {type: String, index: true},
-    avatar: {type: String}
+    avatar: {type: String},
+    
+    loginAttempts: {type: Number, required: true, default: 0},
+    lockUntil: {type: Number}
 };

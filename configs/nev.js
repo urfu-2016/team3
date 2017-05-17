@@ -5,6 +5,7 @@ const TempUser = require('../models/user/temp-user');
 const mongoose = require('mongoose');
 const nev = require('email-verification')(mongoose);
 const env = require('./env');
+const {transportOptions} = require('./email');
 
 nev.configure({
     persistentUserModel: User,
@@ -12,13 +13,8 @@ nev.configure({
     tempUserCollection: TempUser.collection.collectionName,
     expirationTime: TempUser.schema.path('createdAt').options.expires,
 
-    transportOptions: {
-        service: 'Gmail',
-        auth: {
-            user: env.EMAIL_LOGIN,
-            pass: env.EMAIL_PASSWORD
-        }
-    },
+    transportOptions,
+
     verifyMailOptions: {
         from: `Do Not Reply <${env.EMAIL_LOGIN}>`,
         subject: 'PhotoQuests: account verification',
