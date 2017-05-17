@@ -607,7 +607,6 @@ describe('quests', () => {
             });
     });
 
-
     it('.edit name from author', () => {
         const user = new User();
         const questMock = new Quest({
@@ -645,7 +644,6 @@ describe('quests', () => {
                 expect(res.sendStatus.called).to.be.true;
             });
     });
-
 
     it('.edit name from not author returns FORBIDDEN', () => {
         const questMock = new Quest({
