@@ -1,6 +1,8 @@
 'use strict';
 
 const HttpStatus = require('http-status');
+const flashConstants = require('../configs/flash-constants');
+const urls = require('../utils/url-generator');
 
 exports.middleware = cb => {
     return (err, req, res, next) => {
@@ -20,8 +22,11 @@ exports.server = cb => {
             err = new Error(HttpStatus[HttpStatus.INTERNAL_SERVER_ERROR]);
             err.status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
-        err.status = err.status || HttpStatus.INTERNAL_SERVER_ERROR;
-        err.message = err.message || HttpStatus[HttpStatus.INTERNAL_SERVER_ERROR];
+        if (req.method === 'POST') {
+            const {message, status} = err;
+            req.flash(flashConstants.ERROR, JSON.stringify({message, status}));
+            return res.redirect(urls.common.error());
+        }
         res.status(err.status).render('error', {error: err});
     };
 };

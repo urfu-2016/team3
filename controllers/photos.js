@@ -6,21 +6,18 @@ const HttpStatus = require('http-status');
 const geolib = require('geolib');
 const urls = require('../utils/url-generator');
 const flashConstants = require('../configs/flash-constants');
+const createError = require('../utils/create-error');
 
 exports.show = (req, res, next) =>
     Photo.findById(req.params.id)
         .populate('quest')
         .then(photo => {
             if (!photo) {
-                const err = new Error(`There is no photo with id ${req.params.id}`);
-                err.status = HttpStatus.NOT_FOUND;
-                throw err;
+                throw createError(`There is no photo with id ${req.params.id}`, HttpStatus.NOT_FOUND);
             }
             const userIsAllowedToSeePhoto = photo.quest.published || photo.quest.isAccessibleToUser(req.user);
             if (!userIsAllowedToSeePhoto) {
-                const err = new Error('You are not allowed to see this photo right now');
-                err.status = HttpStatus.FORBIDDEN;
-                throw err;
+                throw createError('You are not allowed to see this photo right now', HttpStatus.FORBIDDEN);
             }
             res.render('photo', {photo, status: req.flash(flashConstants.PHOTO_CHECKIN_STATUS)});
         })
@@ -42,19 +39,15 @@ exports.upload = (req, res, next) =>
         .exec()
         .then(quest => {
             if (!quest) {
-                const err = new Error(`Quest with id: ${req.body.questId} not found`);
-                err.status = HttpStatus.NOT_FOUND;
-                throw err;
+                throw createError(`Quest with id: ${req.body.questId} not found`, HttpStatus.NOT_FOUND);
             }
             if (quest.published) {
-                const err = new Error(`Quest with id: ${req.body.questId} is already published`);
-                err.status = HttpStatus.BAD_REQUEST;
-                throw err;
+                throw createError(`Quest with id: ${req.body.questId} is already published`,
+                    HttpStatus.BAD_REQUEST);
             }
             if (!quest.isAccessibleToUser(req.user)) {
-                const err = new Error(`You are not allowed to modify quest with id: ${req.body.questId}`);
-                err.status = HttpStatus.FORBIDDEN;
-                throw err;
+                throw createError(`You are not allowed to modify quest with id: ${req.body.questId}`,
+                    HttpStatus.FORBIDDEN);
             }
             return quest;
         })
@@ -90,19 +83,13 @@ exports.checkin = (req, res, next) =>
         .exec()
         .then(photo => {
             if (!photo) {
-                const err = new Error(`Photo with id: ${req.params.id} not found`);
-                err.status = HttpStatus.NOT_FOUND;
-                throw err;
+                throw createError(`Photo with id: ${req.params.id} not found`, HttpStatus.NOT_FOUND);
             }
             if (!photo.quest.published) {
-                const err = new Error(`Quest with id: ${req.body.questId} is not published yet`);
-                err.status = HttpStatus.FORBIDDEN;
-                throw err;
+                throw createError(`Quest with id: ${req.body.questId} is not published yet`, HttpStatus.FORBIDDEN);
             }
             if (photo.quest.author.equals(req.user._id)) {
-                const err = new Error(`You could not play in your own quest`);
-                err.status = HttpStatus.FORBIDDEN;
-                throw err;
+                throw createError(`You could not play in your own quest`, HttpStatus.FORBIDDEN);
             }
             return photo;
         })

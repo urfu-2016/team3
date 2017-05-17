@@ -50,6 +50,7 @@ if (process.env.NODE_ENV !== 'production') {
 app.use(logger(loggerType));
 app.use(require('./middlewares/force-ssl'));
 app.use(require('helmet')());
+app.use(require('serve-favicon')(path.join(__dirname, 'favicon.ico')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(session(sessionSettings));

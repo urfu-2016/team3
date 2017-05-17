@@ -5,7 +5,8 @@ const extractParameter = id => id || ':id';
 const self = module.exports = { // eslint-disable-line no-multi-assign
     common: {
         main: () => '/',
-        about: () => '/about'
+        about: () => '/about',
+        error: () => '/error'
     },
     photos: {
         root: () => '/photos',
