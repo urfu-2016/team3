@@ -3,7 +3,7 @@
 /**
  * @name hbs-helper
  * @description Helper'ы для Handlebars
- * @version 2.6.3
+ * @version 2.7.3
  */
 
 const helpers = {};
@@ -202,9 +202,9 @@ helpers.captcha = (formId, context) => {
 };
 
 helpers.replace = (text, ...items) => {
-    while (items.length !== 0) {
-        const temp = items.shift();
-        const newValue = items.shift();
+    for (let index = 0; index < items.length; index++) {
+        const temp = items[index];
+        const newValue = items[++index];
         text = text.replace(temp, newValue);
     }
     return text;

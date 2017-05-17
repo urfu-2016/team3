@@ -2,10 +2,8 @@
     {{#each _items}}
         <a class="floating-menu-button__item" data-menu="close"
            href="{{replace link
-                           ':link' (urlsQuestsCreate)
+                           ':create' (urlsQuestsCreate)
                            ':about' (urlsCommonAbout)
-                           ':logout' (urlsUsersLogout)
-                           ':profile' (urlsUsersProfile)
            }}">
             {{> floating_button/mini _icon=icon}}
         </a>

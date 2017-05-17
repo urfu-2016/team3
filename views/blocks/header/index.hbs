@@ -1,13 +1,17 @@
 <header class="header">
     <div class="header__wrapper">
         <a href="{{urlsCommonMain}}" class="header__logo">{{ title }}</a>
-        {{#unless _user}}
-            <span class="material-icons header__details" data-details="close">expand_more</span>
-            <div class="header__user">
+        <span class="material-icons header__details" data-details="close">expand_more</span>
+        <div class="header__user">
+            {{#if _user}}
+                <a class="header__user-link" href="{{urlsUsersProfile}}">{{_user.name}}</a>
+                <span class="header__user-separator">|</span>
+                <a class="header__user-link" href="{{urlsUsersLogout}}">Выход</a>
+            {{else}}
                 <a class="header__user-link" href="{{urlsUsersLogin}}">Войти</a>
                 <span class="header__user-separator">или</span>
                 <a class="header__user-link" href="{{urlsUsersRegister}}">Зарегистрироваться</a>
-            </div>
-        {{/unless}}
+            {{/if}}
+        </div>
     </div>
 </header>

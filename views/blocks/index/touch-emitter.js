@@ -38,9 +38,9 @@ export default class TouchEmitter extends EventEmitter {
                         this.emit('swipeRight');
                     }
                 } else if (start.clientY >= end.clientY) {
-                    this.emit('swipeUp', true);
+                    this.emit('swipeUp');
                 } else {
-                    this.emit('swipeDown', false);
+                    this.emit('swipeDown');
                 }
             }
         });

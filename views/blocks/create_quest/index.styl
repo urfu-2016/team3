@@ -8,8 +8,7 @@
     display flex
     flex-direction column
 
-  &__name,
-  &__description
+  &__name
     width 100%
     box-sizing border-box
     margin-bottom 10px
@@ -24,10 +23,6 @@
     &:focus
       outline 0
 
-  &__description
-    max-width 100%
-    height 15em
-
   &__bottom-section
     display flex
     flex-direction column
@@ -36,6 +31,9 @@
 
     @media (min-width: 560px)
       flex-direction row
+
+  &__editor
+    border-bottom 2px solid $color-text-secondary
 
 @import '../../blocks/edit_text'
 @import '../../blocks/editor'

@@ -3,23 +3,28 @@
 const BUTTONS = [
     {
         cmd: 'bold',
-        icon: 'format_bold'
+        icon: 'format_bold',
+        nodeName: 'B'
     },
     {
         cmd: 'italic',
-        icon: 'format_italic'
+        icon: 'format_italic',
+        nodeName: 'I'
     },
     {
         cmd: 'underline',
-        icon: 'format_underlined'
+        icon: 'format_underlined',
+        nodeName: 'U'
     },
     {
         cmd: 'insertOrderedList',
-        icon: 'format_list_numbered'
+        icon: 'format_list_numbered',
+        nodeName: 'OL'
     },
     {
         cmd: 'insertUnorderedList',
-        icon: 'format_list_bulleted'
+        icon: 'format_list_bulleted',
+        nodeName: 'UL'
     }
 ];
 
@@ -53,6 +58,7 @@ class Editor {
         this._autosave = opts.autosave || false;
         this._delay = (opts.delay || 10) * 1000;
         this._name = opts.name || 'text';
+        this._buttons = {};
 
         this._init();
 
@@ -74,8 +80,10 @@ class Editor {
             item.addEventListener('click', event => {
                 event.preventDefault();
                 document.execCommand(button.cmd);
+                item.dataset.click = !item.dataset.click;
                 this._editor.focus();
             });
+            this._buttons[button.nodeName] = item;
             this._toolbar.appendChild(item);
         });
 
@@ -88,7 +96,7 @@ class Editor {
             item.addEventListener('click', event => {
                 event.preventDefault();
                 document.execCommand('insertText', false, emoji);
-                this._emojitools.dataset.show = 'false';
+                this._emojitools.dataset.show = false;
             });
             this._emojitools.appendChild(item);
         });
@@ -97,8 +105,7 @@ class Editor {
         emoji.innerText = '😃';
         emoji.addEventListener('click', event => {
             event.preventDefault();
-            const status = this._emojitools.dataset.show === 'true';
-            this._emojitools.dataset.show = status ? 'false' : 'true';
+            this._emojitools.dataset.show = !this._emojitools.dataset.show;
             this._editor.focus();
         });
         this._toolbar.appendChild(emoji);
@@ -109,10 +116,18 @@ class Editor {
         if (this._node.dataset.placeholder) {
             this._editor.setAttribute('placeholder', this._node.dataset.placeholder);
         }
-        this._editor.addEventListener('click', () => {
+        this._editor.addEventListener('click', event => {
             if (this._emojitools.dataset.show === 'true') {
                 this._emojitools.dataset.show = 'false';
             }
+            const cursor = document.caretRangeFromPoint(event.clientX, event.clientY).commonAncestorContainer;
+            let parentNode = cursor.parentNode;
+            const tags = [];
+            while (parentNode !== this._editor) {
+                tags.push(parentNode.nodeName);
+                parentNode = parentNode.parentNode;
+            }
+            this._changeToolbarButton(tags);
         });
         if (this._autosave) {
             this._editor.innerHTML = this.getFromLocalStorage();
@@ -123,6 +138,16 @@ class Editor {
         this._textarea.classList.add('editor__hidden_block');
         this._textarea.setAttribute('disabled', 'disabled');
         this._textarea.setAttribute('name', this._name);
+    }
+    _changeToolbarButton(tags) {
+        Object.keys(this._buttons).forEach(button => {
+            this._buttons[button].dataset.click = false;
+        });
+        tags.forEach(tag => {
+            if (this._buttons[tag]) {
+                this._buttons[tag].dataset.click = true;
+            }
+        });
     }
     text() {
         return this._editor.innerHTML;
