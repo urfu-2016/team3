@@ -2,8 +2,7 @@
 
 const passport = require('passport');
 const HttpStatus = require('http-status');
-const Identicon = require('identicon.js');
-const crypto = require('crypto');
+const generateAvatar = require('../utils/generate-avatar');
 const User = require('../models/user');
 const urls = require('../utils/url-generator');
 const nev = require('../configs/nev');
@@ -69,7 +68,7 @@ exports.registration = (req, res, next) => {
         name: req.body.username,
         password: req.body.password,
         email: req.body.email,
-        avatar: `data:image/png;base64,${new Identicon(crypto.createHash('md5').update(req.body.email).digest('hex'), 200)}`
+        avatar: generateAvatar(req.body.email)
     });
     nev.configure({verificationURL: `${extractDomain(req)}/email-verification/\${URL}`}, () => {});
     nev.createTempUser(user, (err, existingPersistentUser, newTempUser) => {
