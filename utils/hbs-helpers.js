@@ -131,33 +131,6 @@ helpers.ifEqual = (first, second, options) => {
 };
 
 /**
- * Добавляет конструкцию вида:
- *   if (a || b) ...
- *   else ...
- *
- * ```handlebars
- * {{#ifOr item1 item2}}
- *   {{! item1 === item2}}
- * {{else}}
- *   {{! item1 !== item2}}
- * {{/ifOr}}
- * ```
- *
- * @param first - первый аргумент
- * @param second - второй аргумент
- * @param options - объект внутри тегов {{#ifOr}}{{/ifOr}}
- * @param options.fn - блок 'then'
- * @param options.inverse - блок 'else'
- * @return options.fn или options.inverse в зависимости от результата сравнения
- */
-helpers.ifOr = (first, second, options) => {
-    if (first || second) {
-        return options.fn(this);
-    }
-    return options.inverse(this);
-};
-
-/**
  * Форматирует многострочный текст
  *
  * ```handlebars
