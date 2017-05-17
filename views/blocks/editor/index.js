@@ -3,33 +3,41 @@
 const BUTTONS = [
     {
         cmd: 'bold',
-        icon: 'format_bold'
+        icon: 'format_bold',
+        nodeName: 'B'
     },
     {
         cmd: 'italic',
-        icon: 'format_italic'
+        icon: 'format_italic',
+        nodeName: 'I'
     },
     {
         cmd: 'underline',
-        icon: 'format_underlined'
+        icon: 'format_underlined',
+        nodeName: 'U'
     },
     {
         cmd: 'insertOrderedList',
-        icon: 'format_list_numbered'
+        icon: 'format_list_numbered',
+        nodeName: 'OL'
     },
     {
         cmd: 'insertUnorderedList',
-        icon: 'format_list_bulleted'
+        icon: 'format_list_bulleted',
+        nodeName: 'UL'
     }
 ];
 
 const EMOJI = [
-    '😀', '😃', '😄', '😁', '😆', '😅', '😂', '😊', '😇', '😉', '😌',
-    '😍', '😘', '😗', '😙', '😚', '😋', '😜', '😝', '😛', '😎', '😏',
-    '😒', '😞', '😔', '😟', '😕', '😣', '😖', '😫', '😩', '😤', '😠',
-    '😡', '😶', '😐', '😑', '😯', '😦', '😧', '😮', '😲', '😵', '😳',
-    '😱', '😨', '😰', '😢', '😥', '😭', '😓', '😪', '😴', '😬', '😷', '😈'
-];
+    '😀', '😃', '😄', '😁', '😆', '😅', '😂', '🤣', '😊', '😇',
+    '🙂', '🙃', '😉', '😌', '😍', '😘', '😗', '😙', '😚', '😋',
+    '😜', '😝', '😛', '🤑', '🤗', '🤓', '😎', '🤡', '🤠', '😏',
+    '😒', '😞', '😔', '😟', '😕', '🙁', '😣', '😖', '😫', '😩',
+    '😤', '😠', '😡', '😶', '😐', '😑', '😯', '😦', '😧', '😮',
+    '😲', '😵', '😳', '😱', '😨', '😰', '😢', '😥', '🤤', '😭',
+    '😓', '😪', '😴', '🙄', '🤔', '🤥', '😬', '🤐', '🤢', '🤧',
+    '😷', '🤒', '🤕', '😈'
+].map(emoji => ((((emoji.charCodeAt(0) - 0xD800) * 0x400) + (emoji.charCodeAt(1) - 0xDC00) + 0x10000)).toString(16));
 
 const throttle = (func, delay) => {
     let isCalled = false;
@@ -53,6 +61,7 @@ class Editor {
         this._autosave = opts.autosave || false;
         this._delay = (opts.delay || 10) * 1000;
         this._name = opts.name || 'text';
+        this._buttons = {};
 
         this._init();
 
@@ -74,43 +83,55 @@ class Editor {
             item.addEventListener('click', event => {
                 event.preventDefault();
                 document.execCommand(button.cmd);
+                const state = item.dataset.active === 'true';
+                item.dataset.active = state ? 'false' : 'true';
+                this._editor.focus();
             });
+            this._buttons[button.nodeName] = item;
             this._toolbar.appendChild(item);
         });
 
         this._emojitools = document.createElement('section');
         this._emojitools.classList.add('editor__emoji');
         EMOJI.forEach(emoji => {
-            const item = document.createElement('button');
-            item.type = 'button';
-            item.innerText = emoji;
+            const item = document.createElement('img');
+            item.dataset.type = 'emoji';
+            item.src = `https://cdn.jsdelivr.net/emojione/assets/3.0/png/32/${emoji}.png`;
             item.addEventListener('click', event => {
                 event.preventDefault();
-                document.execCommand('insertText', false, emoji);
+                document.execCommand('insertHtml', false, item.outerHTML);
                 this._emojitools.dataset.show = 'false';
             });
             this._emojitools.appendChild(item);
         });
 
-        const emoji = document.createElement('button');
-        emoji.innerText = '😃';
+        const emoji = document.createElement('img');
+        emoji.dataset.type = 'emoji';
+        emoji.src = `https://cdn.jsdelivr.net/emojione/assets/3.0/png/32/${EMOJI[10]}.png`;
         emoji.addEventListener('click', event => {
             event.preventDefault();
-            const status = this._emojitools.dataset.show === 'true';
-            this._emojitools.dataset.show = status ? 'false' : 'true';
+            const state = this._emojitools.dataset.show === 'true';
+            this._emojitools.dataset.show = state ? 'false' : 'true';
+            this._editor.focus();
         });
         this._toolbar.appendChild(emoji);
 
         this._editor = document.createElement('section');
         this._editor.classList.add('editor__textarea');
         this._editor.setAttribute('contenteditable', 'true');
-        this._editor.addEventListener('click', () => {
-            if (this._emojitools.dataset.show === 'true') {
-                this._emojitools.dataset.show = 'false';
+        if (this._node.dataset.placeholder) {
+            this._editor.setAttribute('placeholder', this._node.dataset.placeholder);
+        }
+        this._editor.addEventListener('click', event => {
+            this._emojitools.dataset.show = 'false';
+            const cursor = document.caretRangeFromPoint(event.clientX, event.clientY);
+            let parentNode = cursor.commonAncestorContainer;
+            const tags = [];
+            while (parentNode !== this._editor) {
+                parentNode = parentNode.parentNode;
+                tags.push(parentNode.nodeName);
             }
-        });
-        this._editor.addEventListener('blur', () => {
-            this._editor.focus();
+            this._changeToolbarButton(tags);
         });
         if (this._autosave) {
             this._editor.innerHTML = this.getFromLocalStorage();
@@ -121,6 +142,16 @@ class Editor {
         this._textarea.classList.add('editor__hidden_block');
         this._textarea.setAttribute('disabled', 'disabled');
         this._textarea.setAttribute('name', this._name);
+    }
+    _changeToolbarButton(tags) {
+        Object.keys(this._buttons).forEach(button => {
+            this._buttons[button].dataset.active = 'false';
+        });
+        tags.forEach(tag => {
+            if (this._buttons[tag]) {
+                this._buttons[tag].dataset.active = 'true';
+            }
+        });
     }
     text() {
         return this._editor.innerHTML;

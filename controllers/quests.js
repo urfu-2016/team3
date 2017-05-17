@@ -4,6 +4,7 @@ const Quest = require('../models/quest');
 const HttpStatus = require('http-status');
 const urls = require('../utils/url-generator');
 const flashConstants = require('../configs/flash-constants');
+const htmlSanitizer = require('sanitize-html');
 
 const SORTING_FIELDS = ['creationDate', 'likesCount'];
 
@@ -13,6 +14,15 @@ function extractFieldName(sortBy) {
     }
     return sortBy;
 }
+
+const sanitizeHtml = html => {
+    return htmlSanitizer(html, {
+        allowedTags: ['b', 'i', 'u', 'div', 'li', 'ul', 'ol', 'span', 'br', 'img'],
+        allowedAttributes: {
+            img: ['src', 'data-type']
+        }
+    });
+};
 
 exports.list = (req, res, next) => {
     let query = {};
@@ -92,7 +102,7 @@ exports.create = (req, res, next) => {
     if (req.method === 'POST') {
         return new Quest({
             name: req.body.name,
-            description: req.body.description,
+            description: sanitizeHtml(req.body.description),
             author: req.user
         })
             .save()
@@ -100,10 +110,6 @@ exports.create = (req, res, next) => {
             .catch(next);
     }
     res.render('createQuest', {recaptcha: req.recaptcha});
-};
-
-const textSanitizer = test => {
-    return test.replace(/<(\/?script.*?)>/ig, '&lt;$1&gt;').replace(/ (on.*?=['"].*?['"])/ig, '');
 };
 
 exports.createComment = (req, res, next) =>
@@ -122,9 +128,8 @@ exports.createComment = (req, res, next) =>
                 throw err;
             }
 
-            quest.comments.push({text: textSanitizer(req.body.text), author: req.user});
+            quest.comments.push({text: sanitizeHtml(req.body.text), author: req.user});
             return quest.save();
         })
         .then(quest => res.redirect(urls.quests.specific(quest.id)))
         .catch(next);
-

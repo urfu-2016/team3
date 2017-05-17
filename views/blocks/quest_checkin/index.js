@@ -15,9 +15,9 @@ export default (images, start) => {
 
     const pointShow = document.createElement('section');
     pointShow.classList.add(className);
-    pointShow.addEventListener('click', hideFullscreenImage);
+    pointShow.addEventListener('click', closeFullScreenImage);
 
-    function hideFullscreenImage() {
+    function closeFullScreenImage() {
         document.body.style.overflow = '';
         pointShow.remove();
     }
@@ -67,7 +67,7 @@ export default (images, start) => {
             });
         }).catch(() => {
             error();
-        }).then(hideFullscreenImage);
+        }).then(closeFullScreenImage);
     });
 
     const showBtn = () => {
@@ -94,16 +94,9 @@ export default (images, start) => {
     });
 
     const touch = new TouchEmitter(img);
-    touch.on('tap', () => {
-        nextPoint();
-    });
-    touch.on('swipe', next => {
-        if (next) {
-            nextPoint();
-        } else {
-            prevPoint();
-        }
-    });
+    touch.on('tap', nextPoint);
+    touch.on('swipeLeft', nextPoint);
+    touch.on('swipeRight', prevPoint);
 
     showBtn();
 

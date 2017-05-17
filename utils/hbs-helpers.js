@@ -3,7 +3,7 @@
 /**
  * @name hbs-helper
  * @description Helper'ы для Handlebars
- * @version 2.6.3
+ * @version 2.7.3
  */
 
 const helpers = {};
@@ -199,6 +199,15 @@ helpers.captcha = (formId, context) => {
     recaptcha = recaptcha.replace(/g-recaptcha" data/,
         `g-recaptcha" data-badge="inline" style="display: none" data`);
     return recaptcha;
+};
+
+helpers.replace = (text, ...items) => {
+    for (let index = 0; index < items.length; index++) {
+        const temp = items[index];
+        const newValue = items[++index];
+        text = text.replace(temp, newValue);
+    }
+    return text;
 };
 
 helpers.urls = require('./url-generator');

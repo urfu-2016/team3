@@ -9,3 +9,9 @@ export const addLikes = () => {
     const likes = document.querySelector('.description-status__item-likes');
     likes.innerText = Number(likes.innerText) + 1;
 };
+
+export const localeDate = () => {
+    [...document.querySelectorAll('time')].forEach(item => {
+        item.innerText = new Date(item.innerText).toLocaleString();
+    });
+};

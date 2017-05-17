@@ -12,9 +12,6 @@
         <section class="page-create-quest__section">
             {{> create_quest/index }}
         </section>
-        {{#array '{"icon": "add", "link": "/quests/create"}' '{"icon":"?", "link": "/about"}'}}
-            {{> floating_menu/index _items=this }}
-        {{/array}}
     </main>
     <script src="{{ staticBasePath }}/createQuest.bundle.js"></script>
 </body>

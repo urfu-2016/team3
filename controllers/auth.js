@@ -6,6 +6,8 @@ const urls = require('../utils/url-generator');
 const nev = require('../configs/nev');
 const extractDomain = require('../utils/extract-domain');
 const flashConstants = require('../configs/flash-constants');
+const Identicon = require('identicon.js');
+const crypto = require('crypto');
 
 const AUTHORIZATION_STRATEGY_OPTIONS = {
     successReturnToOrRedirect: urls.common.main(),
@@ -64,7 +66,8 @@ exports.registration = (req, res, next) => {
     const user = new User({
         name: req.body.username,
         password: req.body.password,
-        email: req.body.email
+        email: req.body.email,
+        avatar: `data:image/png;base64,${new Identicon(crypto.createHash('md5').update(req.body.email).digest('hex'), 200)}`
     });
     nev.configure({verificationURL: `${extractDomain(req)}/email-verification/\${URL}`}, () => {});
     nev.createTempUser(user, (err, existingPersistentUser, newTempUser) => {
