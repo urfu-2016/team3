@@ -619,14 +619,11 @@ describe('quests', () => {
             photos: [],
             published: false
         });
-        const mockSave = sinon.stub(questMock, 'save').callsFake(() => {
-            questMock.name = 'Quest 2';
-            return questMock;
-        });
+        const mockSave = sandbox.stub(questMock, 'save');
         const req = {};
         req.params = {};
         req.user = user;
-        req.body = {};
+        req.body = {name: 'Quest 2'};
         const res = {};
         res.sendStatus = sandbox.stub();
         const query = {

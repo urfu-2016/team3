@@ -94,37 +94,28 @@ const edit = () => {
     const textQuest = textSectionQuest.querySelector('.description__text');
     const editDescription = document.getElementById('edit_description');
 
-    const paragraph = text => {
-        if (text) {
-            const paragraphs = text.split('\n');
-            return `<p>${paragraphs.join('</p>\n<p>')}</p>`;
-        }
-    };
+    const editorElement = document.createElement('div');
+    editorElement.classList.add('description__editor');
 
-    const divTextareaText = document.createElement('div');
-    divTextareaText.classList.add('big-text');
-    const textareaText = document.createElement('textarea');
-    textareaText.classList.add('big-text__textarea');
-    textareaText.style.resize = 'vertical';
-    divTextareaText.appendChild(textareaText);
+    const editor = new Editor(editorElement, {
+        autosave: true
+    });
 
     editDescription.addEventListener('click', () => {
         if (editDescription.innerText === 'mode_edit') {
             editDescription.innerText = 'done';
-            textareaText.value = textQuest.innerText;
-            const heightBlock = textQuest.offsetHeight > 34 ? textQuest.offsetHeight - 22 : 34;
-            textareaText.style.height = heightBlock + 'px';
+            editor.setText(textQuest.innerHTML);
             textSectionQuest.removeChild(textQuest);
-            textSectionQuest.insertBefore(divTextareaText, editDescription);
+            textSectionQuest.insertBefore(editorElement, editDescription);
         } else {
-            sendQueryEdit('description', textareaText.value)
+            sendQueryEdit('description', editor.text())
                 .then(response => {
                     if (response.status === 200) {
-                        textQuest.innerHTML = paragraph(textareaText.value);
+                        textQuest.innerHTML = editor.text();
                     }
                 });
             editDescription.innerText = 'mode_edit';
-            textSectionQuest.removeChild(divTextareaText);
+            textSectionQuest.removeChild(editorElement);
             textSectionQuest.insertBefore(textQuest, editDescription);
         }
     });
