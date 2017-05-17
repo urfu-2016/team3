@@ -35,5 +35,6 @@ module.exports = {
     }],
     isAdmin: {type: Boolean, default: false},
     vkId: {type: String, index: true},
-    twitterId: {type: String, index: true}
+    twitterId: {type: String, index: true},
+    avatar: {type: String}
 };

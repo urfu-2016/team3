@@ -22,14 +22,14 @@ const addModifierForTextarea = () => {
 };
 
 const commentRequest = () => {
-    const editorElement = document.querySelector('.comment__editor');
+    const editorElement = document.querySelector('.comments__editor');
     if (!editorElement) { // Comment could not be written now
         return;
     }
     const editor = new Editor(editorElement, {
         autosave: true
     });
-    const form = document.querySelector('.comment__form');
+    const form = document.querySelector('.comments__form');
 
     form.addEventListener('submit', () => {
         editor.render();

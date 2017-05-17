@@ -36,18 +36,23 @@
                 {{/each}}
             </section>
         </section>
-        <section class="quest-comments">
+        <section class="comments">
             {{#if quest.published}}
                 {{#each quest.comments}}
-                    <section>
-                        <h4>{{author.name}}</h4>
-                        <p>{{{text}}}</p>
+                    <section class="comments__card">
+                        <img alt="{{author.name}}" class="comments__avatar" src="{{author.avatar}}">
+                        <section class="comments__content">
+                            <header class="comments__author">{{author.name}}</header>
+                            <article class="comments__text">
+                                {{{text}}}
+                            </article>
+                        </section>
                     </section>
                 {{/each}}
                 {{#if user}}
-                    <form action="{{urlsQuestsComment quest._id}}" method="post" class="comment__form">
+                    <form action="{{urlsQuestsComment quest._id}}" method="post" class="comments__form">
                         {{{csrfHiddenInput}}}
-                        <div class="comment__editor"></div>
+                        <div class="comments__editor"></div>
                         {{> button/index _text='Отправить'}}
                     </form>
                 {{/if}}

@@ -4,11 +4,11 @@ const TwitterStrategy = require('passport-twitter').Strategy;
 const User = require('../models/user');
 const userUrls = require('../utils/url-generator').users;
 
-const saveTwitterAccount = profile =>
-    new User({
-        name: profile.displayName,
-        twitterId: profile.id
-    }).save();
+const saveTwitterAccount = profile => new User({
+    name: profile.displayName,
+    twitterId: profile.id,
+    avatar: profile.photos[0].value.replace('normal', '200x200')
+}).save();
 
 module.exports = (consumerKey, consumerSecret) =>
     new TwitterStrategy({

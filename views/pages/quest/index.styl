@@ -25,6 +25,37 @@
     margin-top 50px
     padding 0 20px 10px
 
+.comments
+  margin-top 20px
+
+  &__card
+    padding 16px
+    display flex
+
+    &:not(:first-child)
+      border-top 1px solid $color-text-secondary
+
+  &__avatar
+    width 64px
+    height 64px
+    object-fit cover
+    border-radius 50%
+
+  &__content
+    margin-left 16px
+
+  &__editor
+    border-bottom 2px solid $color-text-secondary
+
+  &__author
+    font-size 1.2rem
+    color $color-text-secondary
+    padding 0 16px 8px
+    border-bottom 1px solid $color-text-secondary
+    display inline-flex
+
+  &__text
+    padding 8px 32px 0
 
 @import '../../blocks/quest_point'
 @import '../../blocks/quest_checkin'

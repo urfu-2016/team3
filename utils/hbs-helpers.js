@@ -210,6 +210,14 @@ helpers.replace = (text, ...items) => {
     return text;
 };
 
+helpers.date = date => new Date(date).toLocaleString('ru', {
+    year: 'numeric',
+    month: '2-digit',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric'
+});
+
 helpers.urls = require('./url-generator');
 
 /**

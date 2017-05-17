@@ -4,7 +4,7 @@ const Quest = require('../models/quest');
 const HttpStatus = require('http-status');
 const urls = require('../utils/url-generator');
 const flashConstants = require('../configs/flash-constants');
-const sanitizeHtml = require('../utils/html-sanitizer');
+const htmlSanitizer = require('sanitize-html');
 
 const SORTING_FIELDS = ['creationDate', 'likesCount'];
 
@@ -14,6 +14,12 @@ function extractFieldName(sortBy) {
     }
     return sortBy;
 }
+
+const sanitizeHtml = html => {
+    return htmlSanitizer(html, {
+        allowedTags: ['b', 'i', 'u', 'div', 'li', 'ul', 'ol', 'span', 'br']
+    });
+};
 
 exports.list = (req, res, next) => {
     let query = {};
