@@ -132,14 +132,10 @@ exports.remove = (req, res, next) =>
         .exec()
         .then(quest => {
             if (!quest) {
-                const err = new Error(`There is no quest with id ${req.params.id}`);
-                err.status = HttpStatus.NOT_FOUND;
-                throw err;
+                throw createError(`There is no quest with id ${req.params.id}`, HttpStatus.NOT_FOUND);
             }
             if (!quest.isAccessibleToUser(req.user)) {
-                const err = new Error('You are not allowed to delete this quest');
-                err.status = HttpStatus.FORBIDDEN;
-                throw err;
+                throw createError('You are not allowed to delete this quest', HttpStatus.FORBIDDEN);
             }
 
             return Photo.remove({quest});
@@ -153,9 +149,7 @@ exports.edit = (req, res, next) =>
         .exec()
         .then(quest => {
             if (!quest.isAccessibleToUser(req.user)) {
-                const err = new Error('You are not allowed to modify this quest');
-                err.status = HttpStatus.FORBIDDEN;
-                throw err;
+                throw createError('You are not allowed to modify this quest', HttpStatus.FORBIDDEN);
             }
 
             if (req.body.name) {
