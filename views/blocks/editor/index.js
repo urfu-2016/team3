@@ -80,7 +80,8 @@ class Editor {
             item.addEventListener('click', event => {
                 event.preventDefault();
                 document.execCommand(button.cmd);
-                item.dataset.click = !item.dataset.click;
+                const state = item.dataset.active === 'true';
+                item.dataset.active = state ? 'false' : 'true';
                 this._editor.focus();
             });
             this._buttons[button.nodeName] = item;
@@ -105,7 +106,8 @@ class Editor {
         emoji.innerText = '😃';
         emoji.addEventListener('click', event => {
             event.preventDefault();
-            this._emojitools.dataset.show = !this._emojitools.dataset.show;
+            const state = this._emojitools.dataset.show === 'true';
+            this._emojitools.dataset.show = state ? 'false' : 'true';
             this._editor.focus();
         });
         this._toolbar.appendChild(emoji);
@@ -120,12 +122,12 @@ class Editor {
             if (this._emojitools.dataset.show === 'true') {
                 this._emojitools.dataset.show = 'false';
             }
-            const cursor = document.caretRangeFromPoint(event.clientX, event.clientY).commonAncestorContainer;
-            let parentNode = cursor.parentNode;
+            const cursor = document.caretRangeFromPoint(event.clientX, event.clientY);
+            let parentNode = cursor.commonAncestorContainer;
             const tags = [];
             while (parentNode !== this._editor) {
-                tags.push(parentNode.nodeName);
                 parentNode = parentNode.parentNode;
+                tags.push(parentNode.nodeName);
             }
             this._changeToolbarButton(tags);
         });
@@ -141,11 +143,11 @@ class Editor {
     }
     _changeToolbarButton(tags) {
         Object.keys(this._buttons).forEach(button => {
-            this._buttons[button].dataset.click = false;
+            this._buttons[button].dataset.active = 'false';
         });
         tags.forEach(tag => {
             if (this._buttons[tag]) {
-                this._buttons[tag].dataset.click = true;
+                this._buttons[tag].dataset.active = 'true';
             }
         });
     }
