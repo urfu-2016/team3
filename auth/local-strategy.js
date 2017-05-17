@@ -12,12 +12,12 @@ module.exports = new LocalStrategy(
             .then(user => user || TempUser.findOne({email}).exec())
             .then(user => {
                 if (!user) {
-                    return done(null, false, {message: 'Incorrect email'});
+                    return done(null, false, {message: 'Incorrect email or password'});
                 }
                 return user.comparePassword(password)
                     .then(isMatch => isMatch
                         ? done(null, user)
-                        : done(null, false, {message: 'Incorrect password'}));
+                        : done(null, false, {message: 'Incorrect email or password'}));
             })
             .catch(done)
 );
