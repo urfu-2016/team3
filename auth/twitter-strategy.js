@@ -17,7 +17,7 @@ module.exports = (consumerKey, consumerSecret) =>
         callbackURL: userUrls.loginTwitter(),
         passReqToCallback: true
     }, (req, token, tokenSecret, profile, done) =>
-        /* eslint max-params: [2, 4] */
+        /* eslint max-params: [2, 5] */
         User.findOne({twitterId: profile.id})
             .then(user => {
                 if (!req.user) {
