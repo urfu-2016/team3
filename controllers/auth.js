@@ -112,9 +112,10 @@ exports.show = (req, res, next) => {
         })
         .then(profile => Quest.find({author: profile})
             .then(quests => {
-                profile.createdQuests = quests.filter(quest => quest.published || quest.isAccessibleToUser(req.user));
+                profile.quests = quests.filter(quest => quest.published || quest.isAccessibleToUser(req.user)).map(quest => Object.assign(quest, {author: profile}));
                 res.render('profile', profile);
-            }))
+            })
+        )
         .catch(next);
 };
 

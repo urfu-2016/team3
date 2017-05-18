@@ -17,16 +17,21 @@
     align-items center
 
   &__avatar
-    width 200px
-    height 200px
+    width 150px
+    height 150px
     object-fit cover
     border-radius 50%
     box-shadow $box-shadow
 
+    @media (min-width 560px)
+      width 200px
+      height 200px
+
   &__name
     font-size 2rem
 
-  &__info
+  &__info,
+  &__quests
     display flex
     justify-content space-around
     flex-wrap wrap
@@ -35,10 +40,6 @@
     display flex
     flex-direction column
     align-items center
-    width 50%
-
-    @media (min-width: 560px)
-      width auto
 
   &__info-header
     font-size 1.2rem
@@ -49,3 +50,17 @@
   &__info-content
     font-size 2rem
     padding 16px 0
+
+  &__quest-card
+    width 100%
+    min-width 300px
+    box-shadow $box-shadow
+
+    & a
+      text-decoration none
+      color #fff
+
+    @media (min-width 560px)
+      width 30%
+
+@import '../../blocks/description'

@@ -14,11 +14,7 @@
                 <img src="{{avatar}}" alt="{{name}}" class="profile__avatar">
                 <h1 class="profile__name">{{name}}</h1>
             </header>
-            <article class="profile__info">
-                <section class="profile__info-item">
-                    <header class="profile__info-header">Автор</header>
-                    <article class="profile__info-content">{{createdQuests.length}}</article>
-                </section>
+            <section class="profile__info">
                 <section class="profile__info-item">
                     <header class="profile__info-header">Участник</header>
                     <article class="profile__info-content">{{passedQuests.length}}</article>
@@ -31,7 +27,29 @@
                     <header class="profile__info-header">Нравится</header>
                     <article class="profile__info-content">{{likedQuests.length}}</article>
                 </section>
-            </article>
+            </section>
+            <section class="profile__quests">
+                {{#if quests}}
+                    {{#each quests}}
+                        <section class="profile__quest-card">
+                            <a href="{{urlsQuestsSpecific this._id}}" title="{{this.name}}">
+                                {{> description/full
+                                    _title=this.name
+                                    _date=this.creationDate
+                                    _likes=this.likesCount
+                                    _finish=this.passedCount
+                                    _followers=this.passesCount
+                                    _author_avatar=this.author.avatar
+                                    _author_name=this.author.name
+                                    _author_link=(urlsUsersProfile this.author._id)
+                                    _images=this.photos
+                                    _link=(urlsQuestsSpecific _id)
+                                }}
+                            </a>
+                        </section>
+                    {{/each}}
+                {{/if}}
+            </section>
         </section>
     </main>
     <footer class="footer">
