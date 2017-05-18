@@ -30,7 +30,6 @@ module.exports = (clientID, clientSecret) =>
                         req.user.vkId = profile.id;
                         return req.user.save();
                     });
-
             })
             .then(user => done(null, user))
             .catch(done)
