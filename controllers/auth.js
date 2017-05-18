@@ -101,7 +101,5 @@ exports.logout = function (req, res) {
 };
 
 exports.loginLocal = passport.authenticate('local', AUTHORIZATION_STRATEGY_OPTIONS);
-
 exports.loginVK = passport.authenticate('vk', AUTHORIZATION_STRATEGY_OPTIONS);
-
 exports.loginTwitter = passport.authenticate('twitter', AUTHORIZATION_STRATEGY_OPTIONS);

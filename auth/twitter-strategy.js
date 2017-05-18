@@ -14,11 +14,22 @@ module.exports = (consumerKey, consumerSecret) =>
     new TwitterStrategy({
         consumerKey,
         consumerSecret,
-        callbackURL: userUrls.loginTwitter()
-    }, (token, tokenSecret, profile, done) =>
+        callbackURL: userUrls.loginTwitter(),
+        passReqToCallback: true
+    }, (req, token, tokenSecret, profile, done) =>
         /* eslint max-params: [2, 4] */
         User.findOne({twitterId: profile.id})
-            .then(user => user || saveTwitterAccount(profile, done))
+            .then(user => {
+                if (!req.user) {
+                    return user || saveTwitterAccount(profile, done);
+                }
+                return User.findByIdAndRemove(user._id)
+                    .exec()
+                    .then(() => {
+                        req.user.twitterId = profile.id;
+                        return req.user.save();
+                    });
+            })
             .then(user => done(null, user))
             .catch(done)
     );
