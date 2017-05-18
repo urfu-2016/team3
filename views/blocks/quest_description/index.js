@@ -24,4 +24,13 @@ export default () => {
                 });
         });
     }
+
+    const removeQuestForm = document.querySelector('.quest-description__remove');
+    const removeQuestButton = removeQuestForm.querySelector('.floating-button');
+    if (removeQuestButton) {
+        removeQuestButton.classList.add('floating-button_red-background');
+        removeQuestButton.addEventListener('click', () => {
+            removeQuestForm.submit();
+        });
+    }
 };

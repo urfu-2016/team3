@@ -1,5 +1,6 @@
 'use strict';
 
+const Photo = require('../models/photo');
 const Quest = require('../models/quest');
 const HttpStatus = require('http-status');
 const htmlSanitizer = require('sanitize-html');
@@ -60,6 +61,7 @@ exports.show = (req, res, next) =>
             }
             if (req.user) {
                 req.user.isAuthor = quest.author.id === req.user.id;
+                quest.isAccessibleToCurrentUser = quest.isAccessibleToUser(req.user);
             }
             quest.photos.forEach(photo => {
                 const photoStatus = req.user &&
@@ -123,4 +125,43 @@ exports.createComment = (req, res, next) =>
             return quest.save();
         })
         .then(quest => res.redirect(urls.quests.specific(quest.id)))
+        .catch(next);
+
+exports.remove = (req, res, next) =>
+    Quest.findById(req.params.id)
+        .exec()
+        .then(quest => {
+            if (!quest) {
+                throw createError(`There is no quest with id ${req.params.id}`, HttpStatus.NOT_FOUND);
+            }
+            if (!quest.isAccessibleToUser(req.user)) {
+                throw createError('You are not allowed to delete this quest', HttpStatus.FORBIDDEN);
+            }
+
+            return Photo.remove({quest});
+        })
+        .then(() => Quest.findByIdAndRemove(req.params.id))
+        .then(() => res.redirect(urls.common.main()))
+        .catch(next);
+
+exports.edit = (req, res, next) =>
+    Quest.findById(req.params.id)
+        .exec()
+        .then(quest => {
+            if (!quest.isAccessibleToUser(req.user)) {
+                throw createError('You are not allowed to modify this quest', HttpStatus.FORBIDDEN);
+            }
+
+            if (req.body.name) {
+                quest.name = req.body.name;
+            }
+            if (req.body.description) {
+                quest.description = req.body.description;
+            }
+
+            return quest.save();
+        })
+        .then(() => {
+            res.sendStatus(HttpStatus.OK);
+        })
         .catch(next);

@@ -14,10 +14,18 @@
             _author_name=_author_name
             _author_link=_author_link
         }}
-        {{#if _published}}
-            <div class="quest-description__subscribe">
-                {{> floating_button/default _icon='add' }}
-            </div>
-        {{/if}}
+        <section class="quest-description__buttons-section">
+            {{#if quest.isAccessibleToCurrentUser}}
+                <form class="quest-description__remove" action="{{urlsQuestsRemove quest._id}}" method="post">
+                    {{{csrfHiddenInput}}}
+                    {{> floating_button/default _icon='delete' }}
+                </form>
+            {{/if}}
+            {{#unless user.isAuthor}}
+                <div class="quest-description__subscribe">
+                    {{> floating_button/default _icon='add' }}
+                </div>
+            {{/unless}}
+        </section>
     </section>
 </section>
