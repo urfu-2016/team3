@@ -4,9 +4,10 @@ const auth = require('../controllers/auth');
 const isAuth = require('../middlewares/is-auth');
 const recaptcha = require('express-recaptcha');
 const userUrls = require('../utils/url-generator').users;
+const recaptchaErrorHandler = require('../middlewares/recaptcha-error-handler');
 
 module.exports = app => {
-    app.get(userUrls.profile(), isAuth, (req, res) => res.send('Here will be user profile page'));
+    app.get(userUrls.profile(), auth.show);
 
     app.route(userUrls.login())
         .get(auth.loginPage)
@@ -17,7 +18,7 @@ module.exports = app => {
 
     app.route(userUrls.register())
         .get(recaptcha.middleware.render, auth.registerPage)
-        .post(recaptcha.middleware.verify, auth.registration);
+        .post(recaptcha.middleware.verify, recaptchaErrorHandler, auth.registration);
 
     app.get(userUrls.logout(), isAuth, auth.logout);
 

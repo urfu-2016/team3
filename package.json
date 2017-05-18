@@ -7,7 +7,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node .",
-    "build": "webpack",
+    "build": "webpack --config webpack.build.config.js",
     "test": "npm-run-all test:*",
     "test:unit": "mocha --recursive ./tests/unit",
     "test:integration": "mocha --recursive ./tests/integration",
@@ -27,6 +27,7 @@
     "body-parser": "^1.17.1",
     "chai": "^3.5.0",
     "connect-flash": "^0.1.1",
+    "connect-mongo": "^1.3.2",
     "csurf": "^1.9.0",
     "dotenv": "^4.0.0",
     "dotenv-expand": "^4.0.1",

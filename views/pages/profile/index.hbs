@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ staticBasePath }}/profile.bundle.css">
+</head>
+<body>
+    {{> header/index _title=title _user=user }}
+    <main class="main profile__wrap">
+        <section class="profile">
+            <header class="profile__header">
+                <img src="{{avatar}}" alt="{{name}}" class="profile__avatar">
+                <h1 class="profile__name">{{name}}</h1>
+            </header>
+            <section class="profile__info">
+                <section class="profile__info-item">
+                    <header class="profile__info-header">Автор</header>
+                    <article class="profile__info-content">{{quests.length}}</article>
+                </section>
+                <section class="profile__info-item">
+                    <header class="profile__info-header">Участник</header>
+                    <article class="profile__info-content">{{passedQuests.length}}</article>
+                </section>
+                <section class="profile__info-item">
+                    <header class="profile__info-header">Выполнено</header>
+                    <article class="profile__info-content">{{passedQuests.length}}</article>
+                </section>
+                <section class="profile__info-item">
+                    <header class="profile__info-header">Нравится</header>
+                    <article class="profile__info-content">{{likedQuests.length}}</article>
+                </section>
+            </section>
+            <section class="profile__quests">
+                {{#if quests}}
+                    {{#each quests}}
+                        <section class="profile__quest-card">
+                            <a href="{{urlsQuestsSpecific this._id}}" title="{{this.name}}">
+                                {{> description/full
+                                    _title=this.name
+                                    _date=this.creationDate
+                                    _likes=this.likesCount
+                                    _finish=this.passedCount
+                                    _followers=this.passesCount
+                                    _author_avatar=this.author.avatar
+                                    _author_name=this.author.name
+                                    _author_link=(urlsUsersProfile this.author._id)
+                                    _images=this.photos
+                                    _link=(urlsQuestsSpecific _id)
+                                }}
+                            </a>
+                        </section>
+                    {{/each}}
+                {{/if}}
+            </section>
+        </section>
+    </main>
+    <footer class="footer">
+        <span class="footer__copyright">&copy; Лавразия, 2017</span>
+    </footer>
+<script src="{{ staticBasePath }}/profile.bundle.js" async="async"></script>
+</body>
+</html>

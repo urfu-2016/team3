@@ -9,6 +9,7 @@ const logger = require('morgan');
 const hbs = require('hbs');
 const hbsUtils = require('hbs-utils')(hbs);
 const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 
 const env = require('./configs/env');
 const connectToDb = require('./db/connect');
@@ -37,6 +38,7 @@ const sessionSettings = {
     resave: true,
     saveUninitialized: false,
     secret: env.SESSION_SECRET,
+    store: new MongoStore({url: env.MONGODB_URI}),
     cookie: {
         secure: true
     }
