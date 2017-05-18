@@ -61,12 +61,9 @@ exports.show = (req, res, next) =>
             }
             if (req.user) {
                 req.user.isAuthor = quest.author.id === req.user.id;
-<<<<<<< HEAD
                 quest.isAccessibleToCurrentUser = quest.isAccessibleToUser(req.user);
-=======
-                req.user.isPassToCurrentQuest = req.user.isQuestPassed(quest) || req.user.isQuestPasses(quest);
-                req.user.isLikedToCurrentQuest = req.user.isQuestLiked(quest);
->>>>>>> Лайки и подписка на квест
+                req.user.isPassingCurrentQuest = req.user.isQuestPassed(quest) || req.user.isPassingQuest(quest);
+                req.user.isLikedCurrentQuest = req.user.isQuestLiked(quest);
             }
             quest.photos.forEach(photo => {
                 const photoStatus = req.user &&
@@ -211,11 +208,12 @@ exports.follow = (req, res, next) =>
             if (quest.author.equals(req.user._id)) {
                 throw createError('You could not play in your own quest', HttpStatus.FORBIDDEN);
             }
-            if (req.user.isQuestPasses(quest) || req.user.isQuestPassed(quest)) {
-                throw createError(`You already pass or passed quest with is ${req.params.id}`, HttpStatus.FORBIDDEN);
+            if (req.user.isPassingQuest(quest) || req.user.isQuestPassed(quest)) {
+                throw createError(`You already passing or passed the quest with is ${req.params.id}`,
+                    HttpStatus.FORBIDDEN);
             }
 
-            req.user.passesQuests.push(quest);
+            req.user.passingQuests.push(quest);
             quest.passesCount++;
 
             return Promise.all([

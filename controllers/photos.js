@@ -91,6 +91,10 @@ exports.checkin = (req, res, next) =>
             if (photo.quest.author.equals(req.user._id)) {
                 throw createError(`You could not play in your own quest`, HttpStatus.FORBIDDEN);
             }
+            if (req.user.isQuestPassed(photo.quest)) {
+                throw createError(`You already passed the quest with is ${req.params.id}`,
+                    HttpStatus.FORBIDDEN);
+            }
             return photo;
         })
         .then(photo => req.user
@@ -103,7 +107,8 @@ exports.checkin = (req, res, next) =>
             return {photo, userQuestPhotoStatuses};
         })
         .then(({photo, userQuestPhotoStatuses}) => {
-            if (!userQuestPhotoStatuses.length) {
+            if (!req.user.isPassingQuest(photo.quest)) {
+                req.user.passingQuests.push(photo.quest);
                 photo.quest.passesCount++;
             }
             const status = isCheckinSuccessful(photo.location, req.body.location);
@@ -127,6 +132,7 @@ exports.checkin = (req, res, next) =>
                     .then(questPassed => {
                         if (questPassed) {
                             req.user.passedQuests.push(photo.quest);
+                            req.user.passingQuests.remove(photo.quest);
                             photo.quest.passesCount--;
                             photo.quest.passedCount++;
                             return Promise.all([

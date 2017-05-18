@@ -23,8 +23,8 @@ module.exports = schema => {
         return this.passedQuests.some(passedQuest => passedQuest.equals(quest) || passedQuest.equals(quest._id));
     };
 
-    schema.methods.isQuestPasses = function (quest) {
-        return this.passesQuests.some(passesQuest => passesQuest.equals(quest) || passesQuest.equals(quest._id));
+    schema.methods.isPassingQuest = function (quest) {
+        return this.passingQuests.some(passingQuest => passingQuest.equals(quest) || passingQuest.equals(quest._id));
     };
 
     schema.methods.isQuestLiked = function (quest) {
