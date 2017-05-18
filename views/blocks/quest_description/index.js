@@ -49,6 +49,32 @@ export default () => {
         });
     }
 
+    if (likeButton) {
+        const icon = likeButton.querySelector('.material-icons');
+        const iconName = icon.innerText;
+        likeButton.addEventListener('click', () => {
+            icon.innerText = 'sync';
+            icon.classList.add('rotate');
+            const questId = window.location.href.split('/').pop();
+            const url = window.location.origin + questUrls.like(questId);
+            fetch(url, {
+                method: 'post',
+                headers: {
+                    'X-CSRF-Token': csrf.value
+                },
+                credentials: 'same-origin'})
+                .then(response => {
+                    if (response.status === 200) {
+                        likeButton.remove();
+                        addLikes();
+                    } else {
+                        icon.innerText = iconName;
+                        icon.classList.remove('rotate');
+                    }
+                });
+        });
+    }
+
     const removeQuestForm = document.querySelector('.quest-description__remove');
     if (!removeQuestForm) {
         return;
