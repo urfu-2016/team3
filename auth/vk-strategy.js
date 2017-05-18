@@ -18,7 +18,7 @@ module.exports = (clientID, clientSecret) =>
         lang: 'ru',
         passReqToCallback: true
     }, (req, accessToken, refreshToken, params, profile, done) =>
-        /* eslint max-params: [2, 5] */
+        /* eslint max-params: [2, 6] */
         User.findOne({vkId: profile.id})
             .then(user => {
                 if (!req.user) {
