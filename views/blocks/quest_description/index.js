@@ -26,6 +26,9 @@ export default () => {
     }
 
     const removeQuestForm = document.querySelector('.quest-description__remove');
+    if (!removeQuestForm) {
+        return;
+    }
     const removeQuestButton = removeQuestForm.querySelector('.floating-button');
     if (removeQuestButton) {
         removeQuestButton.classList.add('floating-button_red-background');
