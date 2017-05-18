@@ -8,19 +8,19 @@ export default () => {
     const sectionButtons = document.querySelector('.quest-description__buttons-section');
     const followButton = sectionButtons.querySelector('.quest-description__subscribe');
 
-    const like = document.createElement('div');
-    like.classList.add('quest-description__like');
-    const div = document.createElement('div');
-    div.classList.add('floating-button');
-    like.appendChild(div);
-    const span = document.createElement('div');
-    span.classList.add('material-icons');
-    span.innerHTML = 'favorite';
-    div.appendChild(span);
+    const myLikeButton = document.createElement('div');
+    myLikeButton.classList.add('quest-description__like');
+    const likeFloatingButton = document.createElement('div');
+    likeFloatingButton.classList.add('floating-button');
+    myLikeButton.appendChild(likeFloatingButton);
+    const spanLikeFloatingButton = document.createElement('div');
+    spanLikeFloatingButton.classList.add('material-icons');
+    spanLikeFloatingButton.innerHTML = 'favorite';
+    likeFloatingButton.appendChild(spanLikeFloatingButton);
 
-    const likeButton = sectionButtons.querySelector('.quest-description__like') ?
-        sectionButtons.querySelector('.quest-description__like') :
-        like;
+    const likeButton = sectionButtons.querySelector('.quest-description__like')
+        ? sectionButtons.querySelector('.quest-description__like')
+        : myLikeButton;
 
     if (followButton) {
         const icon = followButton.querySelector('.material-icons');
