@@ -1,0 +1,14 @@
+{
+  "name": "PhotoQuests",
+  "icons": [
+    {
+      "src": "app-logo.png",
+      "sizes": "200x200",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#24292e",
+  "background_color": "#24292e",
+  "start_url": "https://photoquests.herokuapp.com",
+  "display": "standalone"
+}

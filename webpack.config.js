@@ -44,8 +44,8 @@ module.exports = {
                 })
             },
             {
-                test: /\.png$/,
-                use: ['file-loader']
+                test: /\.(png|json)$/,
+                use: ['file-loader?name=[name].[ext]']
             }
         ]
     },
