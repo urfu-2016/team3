@@ -183,7 +183,6 @@ helpers.shy = text => {
  * ```
  *
  * @param formId id формы, на которую биндится капча
- * @param submitButtonId id кнопки, по нажатию на которую начинаются все проверки
  * @param context контекст исполнения функции
  * @return String расширенная разметка
  */
