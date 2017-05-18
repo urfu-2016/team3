@@ -16,13 +16,14 @@
         }}
         <section class="quest-description__buttons-section">
             {{#if quest.isAccessibleToCurrentUser}}
-                <div class="quest-description__remove">
+                <form class="quest-description__remove" action="{{urlsQuestsRemove quest._id}}" method="post">
+                    {{{csrfHiddenInput}}}
                     {{> floating_button/default _icon='delete' }}
-                </div>
+                </form>
             {{/if}}
             {{#unless user.isAuthor}}
                 <div class="quest-description__subscribe">
-                    {{> floating_button/default _icon='add' }}
+                    {{> floating_button/defaulqt _icon='add' }}
                 </div>
             {{/unless}}
         </section>
