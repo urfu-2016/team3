@@ -4,6 +4,7 @@ const ObjectId = require('mongoose').Schema.Types.ObjectId;
 
 module.exports = {
     likedQuests: [{type: ObjectId, ref: 'Quest', index: true}],
+    passesQuests: [{type: ObjectId, ref: 'Quest', index: true}],
     name: {
         type: String,
         index: true,

@@ -1,21 +1,29 @@
 'use strict';
 
-import {addFollowers} from '../description';
+import {addFollowers, addLikes} from '../description';
+const csrf = document.querySelector('input[name=\'_csrf\']');
+const questUrls = require('../../../utils/url-generator').quests;
 
 export default () => {
-    const follow = document.querySelector('.quest-description__subscribe');
+    const followButton = document.querySelector('.quest-description__subscribe');
 
-    if (follow) {
-        const icon = follow.querySelector('.material-icons');
+    if (followButton) {
+        const icon = followButton.querySelector('.material-icons');
         const iconName = icon.innerText;
-
-        follow.addEventListener('click', () => {
+        followButton.addEventListener('click', () => {
             icon.innerText = 'sync';
             icon.classList.add('rotate');
-            fetch(window.location.href, {method: 'post'})
+            const questId = window.location.href.split('/').pop();
+            const url = window.location.origin + questUrls.follow(questId);
+            fetch(url, {
+                method: 'post',
+                headers: {
+                    'X-CSRF-Token': csrf.value
+                },
+                credentials: 'same-origin'})
                 .then(response => {
                     if (response.status === 200) {
-                        follow.remove();
+                        followButton.remove();
                         addFollowers();
                     } else {
                         icon.innerText = iconName;

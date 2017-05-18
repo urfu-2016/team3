@@ -19,10 +19,12 @@ const self = module.exports = { // eslint-disable-line no-multi-assign
         create: () => `${self.quests.root()}/create`,
         specific: id => `${self.quests.root()}/${extractParameter(id)}`,
         publish: id => `${self.quests.specific(id)}/publish`,
-        search: () => `${self.quests.root()}/search`,
         remove: id => `${self.quests.specific(id)}/remove`,
         edit: id => `${self.quests.specific(id)}/edit`,
-        comment: id => `${self.quests.specific(id)}/comment`
+        like: id => `${self.quests.specific(id)}/like`,
+        follow: id => `${self.quests.specific(id)}/follow`,
+        comment: id => `${self.quests.specific(id)}/comment`,
+        search: () => `${self.quests.root()}/search`
     },
     users: {
         root: () => '/users',
