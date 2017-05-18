@@ -15,11 +15,22 @@ module.exports = (clientID, clientSecret) =>
         clientID,
         clientSecret,
         callbackURL: userUrls.loginVK(),
-        lang: 'ru'
-    }, (accessToken, refreshToken, params, profile, done) =>
-        /* eslint max-params: [2, 5] */
+        lang: 'ru',
+        passReqToCallback: true
+    }, (req, accessToken, refreshToken, params, profile, done) =>
+        /* eslint max-params: [2, 6] */
         User.findOne({vkId: profile.id})
-            .then(user => user || saveVkAccount(profile))
+            .then(user => {
+                if (!req.user) {
+                    return user || saveVkAccount(profile, done);
+                }
+                return User.findByIdAndRemove(user._id)
+                    .exec()
+                    .then(() => {
+                        req.user.vkId = profile.id;
+                        return req.user.save();
+                    });
+            })
             .then(user => done(null, user))
             .catch(done)
     );

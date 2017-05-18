@@ -30,6 +30,7 @@ const self = module.exports = { // eslint-disable-line no-multi-assign
         login: () => '/login',
         loginVK: () => `${self.users.login()}/vk`,
         loginTwitter: () => `${self.users.login()}/twitter`,
+
         register: () => '/register',
         logout: () => '/logout',
         emailVerification: () => '/email-verification/:id'

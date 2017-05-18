@@ -14,7 +14,6 @@ module.exports = app => {
         .post(auth.loginLocal);
 
     app.get(userUrls.loginVK(), auth.loginVK);
-
     app.get(userUrls.loginTwitter(), auth.loginTwitter);
 
     app.route(userUrls.register())
