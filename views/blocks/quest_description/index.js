@@ -1,9 +1,6 @@
 'use strict';
 
 import {addFollowers} from '../description';
-const questUrls = require('../../../utils/url-generator').quests;
-
-const csrf = document.querySelector('input[name=\'_csrf\']');
 
 export default () => {
     const follow = document.querySelector('.quest-description__subscribe');
