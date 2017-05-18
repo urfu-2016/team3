@@ -21,7 +21,8 @@ module.exports = {
         quest: './quest/pack.js',
         createQuest: './createQuest/pack.js',
         authorization: './authorization/pack.js',
-        error: './error/pack.js'
+        error: './error/pack.js',
+        profile: './profile/pack.js'
     },
 
     output: {
