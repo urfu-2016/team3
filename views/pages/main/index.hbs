@@ -26,10 +26,11 @@
                     _title=this.name
                     _date=this.creationDate
                     _likes=this.likesCount
-                    _finish=this.likesCount
-                    _followers=this.likesCount
+                    _finish=this.passedCount
+                    _followers=this.passesCount
                     _author_avatar=this.author.avatar
                     _author_name=this.author.name
+                    _author_link=(urlsUsersProfile this.author._id)
                     _images=this.photos
                     _link=(urlsQuestsSpecific _id)
                 }}

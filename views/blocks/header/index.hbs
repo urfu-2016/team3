@@ -4,7 +4,7 @@
         <span class="material-icons header__details" data-details="close">expand_more</span>
         <div class="header__user">
             {{#if _user}}
-                <a class="header__user-link" href="{{urlsUsersProfile}}">{{_user.name}}</a>
+                <a class="header__user-link" href="{{urlsUsersProfile _user._id}}">{{_user.name}}</a>
                 <span class="header__user-separator">|</span>
                 <a class="header__user-link" href="{{urlsUsersLogout}}">Выход</a>
             {{else}}
