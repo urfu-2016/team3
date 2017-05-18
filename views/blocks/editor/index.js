@@ -156,6 +156,9 @@ class Editor {
     text() {
         return this._editor.innerHTML;
     }
+    setText(text) {
+        this._editor.innerHTML = text;
+    }
     clear() {
         this._editor.innerHTML = '';
     }

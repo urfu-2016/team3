@@ -13,6 +13,9 @@
     padding 0
     text-align center
 
+  &__title
+    flex-basis 100%
+
   &__name
     font-size 1.5rem
     padding-right 10px
@@ -25,6 +28,12 @@
 
   &__content
     padding 0 16px
+
+  &__text-section
+    display flex
+
+  &__text
+    flex-basis 100%
 
     p
       margin 8px
@@ -68,3 +77,27 @@
       border-radius 50%
       height 28px
       width 28px
+
+  &__editor
+    border-bottom 2px solid $color-text-secondary
+
+  &__edit-button
+    align-self flex-start
+    cursor pointer
+    padding 6px
+    border-radius 50%
+    background #40c4ff
+    margin-left 8px
+    box-shadow $box-shadow
+
+  &__edit-button:active
+    background #00b0ff
+
+  .edit-text
+    margin 8.5px 0
+    flex-basis 100%
+
+  .big-text
+    margin 10px 0
+    flex-basis 100%
+

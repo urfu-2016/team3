@@ -16,6 +16,8 @@ module.exports = app => {
     app.post(questUrls.search(), quests.search);
     app.get(questUrls.specific(), quests.show);
     app.post(questUrls.publish(), isAuth, isPersistent, quests.publish);
+    app.post(questUrls.remove(), isAuth, isPersistent, quests.remove);
+    app.post(questUrls.edit(), isAuth, isPersistent, quests.edit);
     app.post(questUrls.comment(), isAuth, isPersistent, quests.createComment);
 };
 
