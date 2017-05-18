@@ -42,7 +42,7 @@ export default () => {
                 credentials: 'same-origin'})
                 .then(response => {
                     if (response.redirected) {
-                        document.location.href = response.url;
+                        document.location.replace(response.url);
                     }
                 });
         });
