@@ -25,7 +25,8 @@ const self = module.exports = { // eslint-disable-line no-multi-assign
         comment: id => `${self.quests.specific(id)}/comment`
     },
     users: {
-        profile: () => '/profile',
+        root: () => '/users',
+        profile: id => `${self.users.root()}/${extractParameter(id)}`,
         login: () => '/login',
         loginVK: () => `${self.users.login()}/vk`,
         loginTwitter: () => `${self.users.login()}/twitter`,
