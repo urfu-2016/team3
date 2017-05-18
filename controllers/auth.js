@@ -3,6 +3,7 @@
 const passport = require('passport');
 const HttpStatus = require('http-status');
 const User = require('../models/user');
+const Photo = require('../models/photo');
 const urls = require('../utils/url-generator');
 const nev = require('../configs/nev');
 const extractDomain = require('../utils/extract-domain');
@@ -14,16 +15,40 @@ const AUTHORIZATION_STRATEGY_OPTIONS = {
     failureRedirect: urls.users.login(),
     failureFlash: true
 };
+const RANDOM_PHOTOS_COUNT = 3;
+const DEFAULT_RANDOM_PHOTOS = [
+    'http://www.topkurortov.com/wp-content/uploads/2015/10/Chynkve-Terre.jpg',
+    'http://cdn.fishki.net/upload/post/2016/05/03/1939577/0ace592ec84ae23d60be05367f0d05dd.jpg',
+    'http://lifeglobe.net/x/entry/4600/15.jpg'
+];
 
-exports.loginPage = (req, res) => res.render('authorization/login', {
-    error: req.flash(flashConstants.ERROR),
-    message: req.flash(flashConstants.MESSAGE)
-});
+const renderAuthorizationPage = (req, res, next, cb) =>
+    Photo.count().exec()
+        .then(count => {
+            const random = Math.floor(Math.random() * (Math.max(count - RANDOM_PHOTOS_COUNT, 0)));
+            return Photo.find()
+                .skip(random)
+                .limit(RANDOM_PHOTOS_COUNT)
+                .exec()
+                .then(randomPhotos => randomPhotos.map(photo => urls.photos.image(photo._id)))
+                .then(randomPhotos => randomPhotos.concat(DEFAULT_RANDOM_PHOTOS).slice(0, 3))
+                .then(cb);
+        })
+        .catch(next);
 
-exports.registerPage = (req, res) => res.render('authorization/registration', {
-    error: req.flash(flashConstants.ERROR),
-    recaptcha: req.recaptcha
-});
+exports.loginPage = (req, res, next) => renderAuthorizationPage(req, res, next,
+    randomPhotos => res.render('authorization/login', {
+        photos: randomPhotos,
+        error: req.flash(flashConstants.ERROR),
+        message: req.flash(flashConstants.MESSAGE)
+    }));
+
+exports.registerPage = (req, res) => renderAuthorizationPage(req, res, next,
+    randomPhotos => res.render('authorization/registration', {
+        photos: randomPhotos,
+        error: req.flash(flashConstants.ERROR),
+        message: req.flash(flashConstants.MESSAGE)
+    }));
 
 exports.emailVerification = (req, res, next) =>
     nev.confirmTempUser(req.params.id, (err, user) => {

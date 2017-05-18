@@ -1,11 +1,7 @@
 <section class="photo-cards">
-    <section class="photo-cards__item">
-        <img class="photo-cards__photo" src="{{ _photo1 }}">
-    </section>
-    <section class="photo-cards__item">
-        <img class="photo-cards__photo" src="{{ _photo2 }}">
-    </section>
-    <section class="photo-cards__item">
-        <img class="photo-cards__photo" src="{{ _photo3 }}">
-    </section>
+    {{#each _photos}}
+        <section class="photo-cards__item">
+            <img class="photo-cards__photo" src="{{ this }}">
+        </section>
+    {{/each}}
 </section>
