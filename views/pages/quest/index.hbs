@@ -43,7 +43,9 @@
                     <section class="comments__card">
                         <img alt="{{author.name}}" class="comments__avatar" src="{{author.avatar}}">
                         <section class="comments__content">
-                            <header class="comments__author">{{author.name}}</header>
+                            <header class="comments__author">
+                                <a class="comments__author-link" title="{{author.name}}" href="{{urlsUsersProfile author._id}}">{{author.name}}</a>
+                            </header>
                             <article class="comments__text">
                                 {{{text}}}
                             </article>
