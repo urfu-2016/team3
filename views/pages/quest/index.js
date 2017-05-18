@@ -43,7 +43,7 @@ const commentRequest = () => {
 const csrf = document.querySelector('input[name=\'_csrf\']');
 
 const edit = () => {
-    const sendQueryEdit = (fieldName, value) => {
+    const sendEditQuery = (fieldName, value) => {
         const questId = window.location.href.split('/').pop();
         const url = window.location.origin + questUrls.edit(questId);
         const body = {};
@@ -78,7 +78,7 @@ const edit = () => {
             headerQuest.removeChild(titleQuest);
             headerQuest.insertBefore(blockInputTitle, editTitle);
         } else {
-            sendQueryEdit('name', inputTitle.value)
+            sendEditQuery('name', inputTitle.value)
                 .then(response => {
                     if (response.status === 200) {
                         titleQuest.innerText = inputTitle.value;
@@ -108,7 +108,7 @@ const edit = () => {
             textSectionQuest.removeChild(textQuest);
             textSectionQuest.insertBefore(editorElement, editDescription);
         } else {
-            sendQueryEdit('description', editor.text())
+            sendEditQuery('description', editor.text())
                 .then(response => {
                     if (response.status === 200) {
                         textQuest.innerHTML = editor.text();
