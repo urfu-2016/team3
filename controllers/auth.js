@@ -23,6 +23,7 @@ const DEFAULT_RANDOM_PHOTOS = [
 ];
 
 const renderAuthorizationPage = (req, res, next, cb) =>
+    /* eslint max-params: [2, 4] */
     Photo.count().exec()
         .then(count => {
             const random = Math.floor(Math.random() * (Math.max(count - RANDOM_PHOTOS_COUNT, 0)));
@@ -43,7 +44,7 @@ exports.loginPage = (req, res, next) => renderAuthorizationPage(req, res, next,
         message: req.flash(flashConstants.MESSAGE)
     }));
 
-exports.registerPage = (req, res) => renderAuthorizationPage(req, res, next,
+exports.registerPage = (req, res, next) => renderAuthorizationPage(req, res, next,
     randomPhotos => res.render('authorization/registration', {
         photos: randomPhotos,
         error: req.flash(flashConstants.ERROR),
