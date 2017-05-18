@@ -3,6 +3,7 @@
 const passport = require('passport');
 const HttpStatus = require('http-status');
 const User = require('../models/user');
+const Quest = require('../models/quest');
 const urls = require('../utils/url-generator');
 const nev = require('../configs/nev');
 const extractDomain = require('../utils/extract-domain');
@@ -35,7 +36,7 @@ exports.emailVerification = (req, res, next) =>
             if (req.user) {
                 // TODO: don't forget to call req.flash('message') in /profile handler
                 req.flash(flashConstants.MESSAGE, 'You successfully verified your account');
-                res.redirect(urls.users.profile());
+                res.redirect(urls.users.profile(req.user._id));
             } else {
                 req.flash(flashConstants.MESSAGE, 'You successfully verified your account. Sign in, please');
                 res.redirect(urls.users.login());
@@ -95,9 +96,27 @@ exports.registration = (req, res, next) => {
     });
 };
 
-exports.logout = function (req, res) {
+exports.logout = (req, res) => {
     req.logout();
     res.redirect(urls.common.main());
+};
+
+exports.show = (req, res, next) => {
+    User.findById(req.params.id)
+        .exec()
+        .then(profile => {
+            if (!profile) {
+                throw createError(`There is no user with id ${req.params.id}`, HttpStatus.NOT_FOUND);
+            }
+            return profile;
+        })
+        .then(profile => Quest.find({author: profile})
+            .then(quests => {
+                profile.quests = quests.filter(quest => quest.published || quest.isAccessibleToUser(req.user)).map(quest => Object.assign(quest, {author: profile}));
+                res.render('profile', profile);
+            })
+        )
+        .catch(next);
 };
 
 exports.loginLocal = passport.authenticate('local', AUTHORIZATION_STRATEGY_OPTIONS);

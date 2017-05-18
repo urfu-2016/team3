@@ -1,0 +1,70 @@
+@import '../../blocks/index'
+@import '../../blocks/header'
+
+.profile
+  display flex
+  flex-direction column
+
+  &__wrap
+    flex-grow 1
+
+  &__card
+    margin-top 20px
+
+  &__header
+    display flex
+    flex-direction column
+    align-items center
+
+  &__avatar
+    width 150px
+    height 150px
+    object-fit cover
+    border-radius 50%
+    box-shadow $box-shadow
+
+    @media (min-width 560px)
+      width 200px
+      height 200px
+
+  &__name
+    font-size 2rem
+
+  &__info,
+  &__quests
+    display flex
+    justify-content space-around
+    flex-wrap wrap
+
+  &__info-item
+    display flex
+    flex-direction column
+    align-items center
+    width 50%
+
+    @media (min-width: 560px)
+      width auto
+
+  &__info-header
+    font-size 1.2rem
+    color lightness($color-text-secondary, 70%)
+    border-bottom 2px solid $color-text-secondary
+    padding 8px 16px
+
+  &__info-content
+    font-size 2rem
+    padding 16px 0
+
+  &__quest-card
+    width 100%
+    min-width 300px
+    box-shadow $box-shadow
+
+    & a
+      text-decoration none
+      color #fff
+
+    @media (min-width 560px)
+      width 30%
+
+@import '../../blocks/description'

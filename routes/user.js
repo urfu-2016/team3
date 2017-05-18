@@ -6,7 +6,7 @@ const recaptcha = require('express-recaptcha');
 const userUrls = require('../utils/url-generator').users;
 
 module.exports = app => {
-    app.get(userUrls.profile(), isAuth, (req, res) => res.send('Here will be user profile page'));
+    app.get(userUrls.profile(), auth.show);
 
     app.route(userUrls.login())
         .get(auth.loginPage)

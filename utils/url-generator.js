@@ -23,7 +23,8 @@ const self = module.exports = { // eslint-disable-line no-multi-assign
         search: () => `${self.quests.root()}/search`
     },
     users: {
-        profile: () => '/profile',
+        root: () => '/users',
+        profile: id => `${self.users.root()}/${extractParameter(id)}`,
         login: () => '/login',
         loginVK: () => `${self.users.login()}/vk`,
         loginTwitter: () => `${self.users.login()}/twitter`,
