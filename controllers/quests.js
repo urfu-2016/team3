@@ -165,7 +165,8 @@ exports.edit = (req, res, next) =>
         })
         .then(() => {
             res.sendStatus(HttpStatus.OK);
-        });
+        })
+        .catch(next);
 
 exports.like = (req, res, next) =>
     Quest.findById(req.params.id)
