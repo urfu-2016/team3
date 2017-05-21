@@ -22,9 +22,17 @@
                 </form>
             {{/if}}
             {{#unless user.isAuthor}}
-                <div class="quest-description__subscribe">
-                    {{> floating_button/default _icon='add' }}
-                </div>
+                {{#unless user.isPassingCurrentQuest}}
+                    <div class="quest-description__subscribe">
+                        {{> floating_button/default _icon='add' }}
+                    </div>
+                {{else}}
+                    {{#unless user.isLikedCurrentQuest}}
+                        <div class="quest-description__like">
+                            {{> floating_button/default _icon='favorite' }}
+                        </div>
+                    {{/unless}}
+                {{/unless}}
             {{/unless}}
         </section>
     </section>
