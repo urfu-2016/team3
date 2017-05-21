@@ -15,17 +15,27 @@
             _author_link=_author_link
         }}
         <section class="quest-description__buttons-section">
-            {{#if quest.isAccessibleToCurrentUser}}
-                <form class="quest-description__remove" action="{{urlsQuestsRemove quest._id}}" method="post">
-                    {{{csrfHiddenInput}}}
-                    {{> floating_button/default _icon='delete' }}
-                </form>
+            {{#if user}}
+                {{#if quest.isAccessibleToCurrentUser}}
+                    <form class="quest-description__remove" action="{{urlsQuestsRemove quest._id}}" method="post">
+                        {{{csrfHiddenInput}}}
+                        {{> floating_button/default _icon='delete' }}
+                    </form>
+                {{/if}}
+                {{#unless user.isAuthor}}
+                    {{#unless user.isPassingCurrentQuest}}
+                        <div class="quest-description__subscribe">
+                            {{> floating_button/default _icon='add' }}
+                        </div>
+                    {{else}}
+                        {{#unless user.isLikedCurrentQuest}}
+                            <div class="quest-description__like">
+                                {{> floating_button/default _icon='favorite' }}
+                            </div>
+                        {{/unless}}
+                    {{/unless}}
+                {{/unless}}
             {{/if}}
-            {{#unless user.isAuthor}}
-                <div class="quest-description__subscribe">
-                    {{> floating_button/default _icon='add' }}
-                </div>
-            {{/unless}}
         </section>
     </section>
 </section>

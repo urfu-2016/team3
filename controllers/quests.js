@@ -62,6 +62,8 @@ exports.show = (req, res, next) =>
             if (req.user) {
                 req.user.isAuthor = quest.author.id === req.user.id;
                 quest.isAccessibleToCurrentUser = quest.isAccessibleToUser(req.user);
+                req.user.isPassingCurrentQuest = req.user.isQuestPassed(quest) || req.user.isPassingQuest(quest);
+                req.user.isLikedCurrentQuest = req.user.isQuestLiked(quest);
             }
             quest.photos.forEach(photo => {
                 const photoStatus = req.user &&
@@ -164,4 +166,61 @@ exports.edit = (req, res, next) =>
         .then(() => {
             res.sendStatus(HttpStatus.OK);
         })
+        .catch(next);
+
+exports.like = (req, res, next) =>
+    Quest.findById(req.params.id)
+        .exec()
+        .then(quest => {
+            if (!quest) {
+                throw createError(`There is no quest with id ${req.params.id}`, HttpStatus.NOT_FOUND);
+            }
+            if (!quest.published) {
+                throw createError(`Quest with id: ${req.params.id} is not published yet`, HttpStatus.FORBIDDEN);
+            }
+            if (quest.author.equals(req.user._id)) {
+                throw createError('You could not like your own quest', HttpStatus.FORBIDDEN);
+            }
+            if (req.user.isQuestLiked(quest)) {
+                throw createError(`You already like quest with is ${req.params.id}`, HttpStatus.FORBIDDEN);
+            }
+
+            req.user.likedQuests.push(quest);
+            quest.likesCount++;
+
+            return Promise.all([
+                req.user.save(),
+                quest.save()
+            ]);
+        })
+        .then(() => res.sendStatus(HttpStatus.OK))
+        .catch(next);
+
+exports.follow = (req, res, next) =>
+    Quest.findById(req.params.id)
+        .exec()
+        .then(quest => {
+            if (!quest) {
+                throw createError(`There is no quest with id ${req.params.id}`, HttpStatus.NOT_FOUND);
+            }
+            if (!quest.published) {
+                throw createError(`Quest with id: ${req.params.id} is not published yet`, HttpStatus.FORBIDDEN);
+            }
+            if (quest.author.equals(req.user._id)) {
+                throw createError('You could not play in your own quest', HttpStatus.FORBIDDEN);
+            }
+            if (req.user.isPassingQuest(quest) || req.user.isQuestPassed(quest)) {
+                throw createError(`You already passing or passed the quest with is ${req.params.id}`,
+                    HttpStatus.FORBIDDEN);
+            }
+
+            req.user.passingQuests.push(quest);
+            quest.passesCount++;
+
+            return Promise.all([
+                req.user.save(),
+                quest.save()
+            ]);
+        })
+        .then(() => res.sendStatus(HttpStatus.OK))
         .catch(next);

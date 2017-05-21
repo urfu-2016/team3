@@ -23,6 +23,14 @@ module.exports = schema => {
         return this.passedQuests.some(passedQuest => passedQuest.equals(quest) || passedQuest.equals(quest._id));
     };
 
+    schema.methods.isPassingQuest = function (quest) {
+        return this.passingQuests.some(passingQuest => passingQuest.equals(quest) || passingQuest.equals(quest._id));
+    };
+
+    schema.methods.isQuestLiked = function (quest) {
+        return this.likedQuests.some(likedQuest => likedQuest.equals(quest) || likedQuest.equals(quest._id));
+    };
+
     schema.virtual('isLocked').get(function () {
         return Boolean(this.lockUntil && this.lockUntil > Date.now());
     });
